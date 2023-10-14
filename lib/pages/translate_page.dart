@@ -197,7 +197,7 @@ class _TranslatePageState extends State<TranslatePage> {
                   ),
                   Row(
                     children: [
-                      const SizedBox(width: 4),
+                      const SizedBox(width: 8),
                       Image.asset(
                         serviceLogoMap()[service]!,
                         width: 18,
