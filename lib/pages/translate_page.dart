@@ -185,8 +185,12 @@ class _TranslatePageState extends State<TranslatePage> {
                       isDense: true,
                     ),
                     style: TextStyle(
-                      color: ["翻译失败，请检查网络状态和接口设置", "请先设置 API 接口", "不支持的语言"]
-                              .contains(_outputControllers[service]!.text)
+                      color: [
+                        "翻译失败，请检查网络状态",
+                        "翻译失败，请检查网络状态和接口设置",
+                        "请先设置 API 接口",
+                        "不支持的语言",
+                      ].contains(_outputControllers[service]!.text)
                           ? Colors.red
                           : null,
                     ),
@@ -413,7 +417,7 @@ class _TranslatePageState extends State<TranslatePage> {
             _isOnTranslation["baidu"] = false;
           });
           await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["baidu"]!.text = "翻译失败，请检查网络状态和翻译接口";
+          _outputControllers["baidu"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
         break;
       case "caiyun":
@@ -444,7 +448,7 @@ class _TranslatePageState extends State<TranslatePage> {
             _isOnTranslation["caiyun"] = false;
           });
           await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["caiyun"]!.text = "翻译失败，请检查网络状态和翻译接口";
+          _outputControllers["caiyun"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
         break;
       case "niutrans":
@@ -480,7 +484,7 @@ class _TranslatePageState extends State<TranslatePage> {
             _isOnTranslation["niutrans"] = false;
           });
           await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["niutrans"]!.text = "翻译失败，请检查网络状态";
+          _outputControllers["niutrans"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
       case "volcengine":
         try {
