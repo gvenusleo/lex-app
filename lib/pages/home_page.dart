@@ -21,35 +21,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
   Widget? _selectedPage;
 
-  /// 系统托盘点击事件
-  @override
-  Future<void> onTrayMenuItemClick(MenuItem menuItem) async {
-    switch (menuItem.key) {
-      // 显示翻译页面
-      case "show_translate":
-        await _setTranslateWindow(
-          () => setState(() {
-            _selectedPage = TranslatePage(
-              key: UniqueKey(),
-            );
-          }),
-        );
-        break;
-      // 显示设置页面
-      case "show_settings":
-        await _saveTranslateWindow();
-        setState(() {
-          _selectedPage = const SettingsPage();
-        });
-        await _setSettingWindow();
-        break;
-      // 退出应用
-      case "exit_app":
-        windowManager.close();
-        break;
-    }
-  }
-
   @override
   void initState() {
     windowManager.addListener(this);
@@ -143,6 +114,47 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         ),
       ),
     );
+  }
+
+  /// 系统托盘点击事件
+  @override
+  void onTrayIconMouseDown() {
+    trayManager.popUpContextMenu();
+  }
+
+  /// 系统托盘点击事件
+  @override
+  void onTrayIconRightMouseDown() async {
+    await trayManager.popUpContextMenu();
+  }
+
+  /// 系统托盘点击事件
+  @override
+  Future<void> onTrayMenuItemClick(MenuItem menuItem) async {
+    switch (menuItem.key) {
+      // 显示翻译页面
+      case "show_translate":
+        await _setTranslateWindow(
+          () => setState(() {
+            _selectedPage = TranslatePage(
+              key: UniqueKey(),
+            );
+          }),
+        );
+        break;
+      // 显示设置页面
+      case "show_settings":
+        await _saveTranslateWindow();
+        setState(() {
+          _selectedPage = const SettingsPage();
+        });
+        await _setSettingWindow();
+        break;
+      // 退出应用
+      case "exit_app":
+        windowManager.close();
+        break;
+    }
   }
 
   /// 注册系统快捷键
