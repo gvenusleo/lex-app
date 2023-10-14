@@ -1,0 +1,31 @@
+display_name: 质感翻译
+package_name: metranslate
+maintainer:
+  name: liuyuxin
+  email: gvenusleo@gmail.com
+priority: optional
+section: x11
+installed_size: 6604
+essential: false
+icon: assets/logo.png
+
+dependencies:
+  - libkeybinder-3.0-0
+  - libayatana-appindicator3-dev
+
+postinstall_scripts:
+  - echo "---------------- Welcom to MeTranslate ----------------\n  @author  liuyuxin\n  @email   gvenusleo@gmail.com\n  @website https://liuyu.xin\n  @github  https://github.com/gvenusleo/MeTranslate\n-----------------------------------------------------"
+postuninstall_scripts:
+  - echo "--------------------- MeTranslate ---------------------\n  @author  liuyuxin\n  @email   gvenusleo@gmail.com\n  @website https://liuyu.xin\n  @github  https://github.com/gvenusleo/MeTranslate\n-----------------------------------------------------"
+
+keywords:
+  - Translate
+  - Linux
+  - Application
+
+generic_name: Translate Application
+
+categories:
+  - Utility
+
+startup_notify: true

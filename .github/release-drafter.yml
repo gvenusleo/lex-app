@@ -1,0 +1,9 @@
+template: |
+  ### 更新日志
+
+  $CHANGES
+
+footer: |
+  ### 贡献者
+
+  $CONTRIBUTORS
