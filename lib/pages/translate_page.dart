@@ -750,6 +750,9 @@ class _TranslatePageState extends State<TranslatePage> {
                           }
                           Future.wait(futures).then((_) => _autoCopyFunc());
                         });
+                        if (prefs.getBool("rememberToLanguage") ?? true) {
+                          prefs.setString("toLanguage", _toLanguage);
+                        }
                       }
                       Navigator.pop(context);
                     },
@@ -792,6 +795,9 @@ class _TranslatePageState extends State<TranslatePage> {
         futures.add(_translateFunc(service));
       }
       Future.wait(futures).then((_) => _autoCopyFunc());
+      if (prefs.getBool("rememberToLanguage") ?? true) {
+        prefs.setString("toLanguage", _toLanguage);
+      }
     }
   }
 

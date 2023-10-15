@@ -1,3 +1,4 @@
+import 'package:metranslate/global.dart';
 import 'package:metranslate/utils/translate_service/baidu.dart';
 import 'package:metranslate/utils/translate_service/caiyun.dart';
 import 'package:metranslate/utils/translate_service/deepl_free.dart';
@@ -9,12 +10,12 @@ import 'package:metranslate/utils/translate_service/youdao.dart';
 
 /// 初始化模型原语言
 String initFromLanguage() {
-  return "自动";
+  return prefs.getString("fromLanguage") ?? "自动";
 }
 
 /// 初始化模型目标语言
 String initToLanguage() {
-  return "中文";
+  return prefs.getString("toLanguage") ?? "中文";
 }
 
 /// 获取所有受支持语言及其受支持翻译服务
