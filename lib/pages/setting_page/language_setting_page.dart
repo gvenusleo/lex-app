@@ -60,33 +60,41 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
           const SizedBox(width: 8),
         ],
       ),
-      body: ListView.builder(
-        itemCount: _showLanguages.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return buildSearchWidget();
-          }
-          return CheckboxListTile(
-              value: _enabledLanguages
-                  .contains(_showLanguages.keys.toList()[index - 1]),
-              title: Text(_showLanguages.keys.toList()[index - 1]),
-              subtitle: Text(
-                  _showLanguages[_showLanguages.keys.toList()[index - 1]]!
-                      .join("、")),
-              onChanged: (value) {
-                if (value == null) return;
-                setState(() {
-                  if (value) {
-                    _enabledLanguages
-                        .add(_showLanguages.keys.toList()[index - 1]);
-                  } else {
-                    _enabledLanguages
-                        .remove(_showLanguages.keys.toList()[index - 1]);
-                  }
-                  prefs.setStringList("enabledLanguages", _enabledLanguages);
-                });
-              });
-        },
+      body: Column(
+        children: [
+          buildSearchWidget(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _showLanguages.length,
+              itemBuilder: (context, index) {
+                return CheckboxListTile(
+                  value: _enabledLanguages
+                      .contains(_showLanguages.keys.toList()[index]),
+                  title: Text(_showLanguages.keys.toList()[index]),
+                  subtitle: Text(
+                      _showLanguages[_showLanguages.keys.toList()[index]]!
+                          .join("、")),
+                  onChanged: (value) {
+                    if (value == null) return;
+                    setState(
+                      () {
+                        if (value) {
+                          _enabledLanguages
+                              .add(_showLanguages.keys.toList()[index]);
+                        } else {
+                          _enabledLanguages
+                              .remove(_showLanguages.keys.toList()[index]);
+                        }
+                        prefs.setStringList(
+                            "enabledLanguages", _enabledLanguages);
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -105,7 +113,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
           ? Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 18,
-                vertical: 4,
+                vertical: 12,
               ),
               child: TextField(
                 autofocus: true,
