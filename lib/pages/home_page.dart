@@ -196,7 +196,17 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
             }),
           );
         } catch (e) {
-          return;
+          if (prefs.getBool("windowFollowCursor") ?? false) {
+            if (!mounted) return;
+            context.read<WindowProvider>().changeWindowPosition(
+                  await screenRetriever.getCursorScreenPoint(),
+                );
+          }
+          _setTranslateWindow(
+            () => setState(() {
+              _selectedPage = TranslatePage(key: UniqueKey());
+            }),
+          );
         }
       },
     );
