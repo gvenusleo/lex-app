@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:metranslate/global.dart";
+import "package:metranslate/widgets/list_tile_group_title.dart";
 
 /// 翻译设置页面
 class TranslateSettingPage extends StatefulWidget {
@@ -67,6 +68,7 @@ class _TranslateSettingPageState extends State<TranslateSettingPage> {
       body: ListView(
         padding: const EdgeInsets.only(bottom: 18),
         children: [
+          const ListTileGroupTitle(title: "语言设置"),
           ListTile(
             leading: const Icon(Icons.east_outlined),
             title: const Text("原文语言"),
@@ -99,6 +101,7 @@ class _TranslateSettingPageState extends State<TranslateSettingPage> {
             title: const Text("记住目标语言"),
             subtitle: const Text("切换目标语言时自动记忆"),
           ),
+          const ListTileGroupTitle(title: "功能设置"),
           ListTile(
             leading: const Icon(Icons.copy_outlined),
             title: const Text("自动复制"),
