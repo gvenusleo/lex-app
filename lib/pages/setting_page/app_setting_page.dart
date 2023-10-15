@@ -24,6 +24,7 @@ class _AppSettingPageState extends State<AppSettingPage> {
   late double _windowOpacity;
   // 窗口是非跟随鼠标
   late bool _windowFllowCursor;
+  late bool _useRoundedWindow;
   // 是否开机自启动
   bool _launchAtStartup = false;
   // 启动时隐藏窗口
@@ -38,6 +39,7 @@ class _AppSettingPageState extends State<AppSettingPage> {
     });
     _windowOpacity = prefs.getDouble("windowOpacity") ?? 1.0;
     _windowFllowCursor = prefs.getBool("windowFollowCursor") ?? false;
+    _useRoundedWindow = prefs.getBool("useRoundedWindow") ?? true;
     _hideWindowAtStartup = prefs.getBool("hideWindowAtStartup") ?? false;
     super.initState();
   }
@@ -71,9 +73,6 @@ class _AppSettingPageState extends State<AppSettingPage> {
             title: const Text("使用系统主题颜色"),
             subtitle: const Text("应用主题颜色跟随系统"),
           ),
-          // 下面的 ListTile 因为在 trailing 中使用了 SizedBox
-          // 会有一定机会触发报错, 但是不影响使用
-          // 暂无解决方法
           ListTile(
             leading: const Icon(Icons.opacity_outlined),
             title: const Text("窗口透明度"),
@@ -108,6 +107,18 @@ class _AppSettingPageState extends State<AppSettingPage> {
             secondary: const Icon(Icons.window_outlined),
             title: const Text("窗口跟随鼠标"),
             subtitle: const Text("划词翻译时窗口跟随鼠标"),
+          ),
+          SwitchListTile(
+            value: _useRoundedWindow,
+            onChanged: (value) async {
+              setState(() {
+                _useRoundedWindow = value;
+              });
+              prefs.setBool("useRoundedWindow", value);
+            },
+            secondary: const Icon(Icons.rounded_corner_rounded),
+            title: const Text("使用圆角窗口"),
+            subtitle: const Text("重启应用后生效"),
           ),
           SwitchListTile(
             value: _launchAtStartup,

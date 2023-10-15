@@ -49,7 +49,9 @@ class MyApp extends StatelessWidget {
         home: const HomePage(),
         builder: (context, child) {
           return ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(
+              prefs.getBool("useRoundedWindow") ?? true ? 12 : 0,
+            ),
             child: child,
           );
         },
