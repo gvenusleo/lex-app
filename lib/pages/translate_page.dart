@@ -32,9 +32,13 @@ class TranslatePage extends StatefulWidget {
 }
 
 class _TranslatePageState extends State<TranslatePage> {
+  // 输入框控制器
   final _inputController = TextEditingController();
+  // 输出框控制器
   late Map<String, TextEditingController> _outputControllers;
-
+  // 输出框文字颜色
+  late Map<String, Color?> _outputTextColor;
+  // 翻译语言
   final List<String> _languages = prefs.getStringList("enabledLanguages") ??
       [
         "自动",
@@ -49,10 +53,13 @@ class _TranslatePageState extends State<TranslatePage> {
         "葡萄牙语",
         "繁体中文",
       ];
-
+  // 翻译服务
   late List<String> _useService;
+  // 是否正在翻译
   late Map<String, bool> _isOnTranslation;
+  // 原文语言
   String _fromLanguage = initFromLanguage();
+  // 目标语言
   String _toLanguage = initToLanguage();
 
   @override
@@ -68,6 +75,9 @@ class _TranslatePageState extends State<TranslatePage> {
       _useService.map(
         (e) => MapEntry(e, TextEditingController()),
       ),
+    );
+    _outputTextColor = Map.fromEntries(
+      _useService.map((e) => MapEntry(e, null)),
     );
     _isOnTranslation = Map.fromEntries(
       _useService.map((e) => MapEntry(e, false)),
@@ -198,14 +208,7 @@ class _TranslatePageState extends State<TranslatePage> {
                       isDense: true,
                     ),
                     style: TextStyle(
-                      color: [
-                        "翻译失败，请检查网络状态",
-                        "翻译失败，请检查网络状态和接口设置",
-                        "请先设置 API 接口",
-                        "不支持的语言",
-                      ].contains(_outputControllers[service]!.text)
-                          ? Colors.red
-                          : null,
+                      color: _outputTextColor[service],
                     ),
                   ),
                   Row(
@@ -260,9 +263,13 @@ class _TranslatePageState extends State<TranslatePage> {
     }
     if (!checkAPI(service)) {
       _outputControllers[service]!.text = "请先设置 API 接口";
+      setState(() {
+        _outputTextColor[service] = Colors.red;
+      });
       return;
     }
     setState(() {
+      _outputTextColor[service] = null;
       _isOnTranslation[service] = true;
     });
     _outputAnimationFunc(service);
@@ -299,6 +306,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["deeplFree"]!.text = "翻译失败，请检查网络状态";
+          setState(() {
+            _outputTextColor["deeplFree"] = Colors.red;
+          });
         }
       case "google":
         try {
@@ -332,6 +342,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["google"]!.text = "翻译失败，请检查网络状态";
+          setState(() {
+            _outputTextColor["google"] = Colors.red;
+          });
         }
       case "yandex":
         try {
@@ -365,6 +378,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["yandex"]!.text = "翻译失败，请检查网络状态";
+          setState(() {
+            _outputTextColor["yandex"] = Colors.red;
+          });
         }
       case "volcengineFree":
         try {
@@ -398,6 +414,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["volcengineFree"]!.text = "翻译失败，请检查网络状态";
+          setState(() {
+            _outputTextColor["volcengineFree"] = Colors.red;
+          });
         }
       case "baidu":
         try {
@@ -431,6 +450,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["baidu"]!.text = "翻译失败，请检查网络状态和接口设置";
+          setState(() {
+            _outputTextColor["baidu"] = Colors.red;
+          });
         }
         break;
       case "caiyun":
@@ -462,6 +484,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["caiyun"]!.text = "翻译失败，请检查网络状态和接口设置";
+          setState(() {
+            _outputTextColor["caiyun"] = Colors.red;
+          });
         }
         break;
       case "niutrans":
@@ -498,6 +523,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["niutrans"]!.text = "翻译失败，请检查网络状态和接口设置";
+          setState(() {
+            _outputTextColor["niutrans"] = Colors.red;
+          });
         }
       case "volcengine":
         try {
@@ -532,6 +560,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["volcengine"]!.text = "翻译失败，请检查网络状态和接口设置";
+          setState(() {
+            _outputTextColor["volcengine"] = Colors.red;
+          });
         }
       case "youdao":
         try {
@@ -565,6 +596,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["youdao"]!.text = "翻译失败，请检查网络状态和接口设置";
+          setState(() {
+            _outputTextColor["youdao"] = Colors.red;
+          });
         }
       case "minimax":
         try {
@@ -595,6 +629,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["minimax"]!.text = "翻译失败，请检查网络状态和接口设置";
+          setState(() {
+            _outputTextColor["minimax"] = Colors.red;
+          });
         }
       case "zhipuai":
         try {
@@ -625,6 +662,9 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["zhipuai"]!.text = "翻译失败，请检查网络状态和接口设置";
+          setState(() {
+            _outputTextColor["zhipuai"] = Colors.red;
+          });
         }
     }
   }
