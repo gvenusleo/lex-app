@@ -1,9 +1,9 @@
 <div align="center">
   <h1>
-    <image src="assets/logo.svg" alt="MeTranslate" width=40/>
-    &nbsp;质感翻译
+    <image src="assets/logo.svg" alt="MeTranslate" width=80/>
+    </br>质感翻译
   </h1>
-  <p>使用 Flutter 开发的划词翻译软件</p>
+  <p>划词翻译软件，使用 Flutter 开发，支持多个翻译模型</p>
   <p>
     <a href="https://github.com/gvenusleo/MeTranslate/blob/main/LICENSE">
       <img src="https://img.shields.io/github/license/gvenusleo/MeTranslate?style=flat-square" alt="License">
@@ -20,7 +20,7 @@
 - 目前仅在 Linux 上进行开发和测试
 - 理论上也适用于 Windows 和 MacOS（没试过，不知道）
 - 支持自定义快捷键和全局字体
-- 支持动态翻译、自动复制和删除换行
+- 支持自动复制和删除换行
 - 支持设置代理
 
 ## 翻译服务
@@ -45,6 +45,10 @@
 - 质感翻译的灵感来源于：[pot](https://github.com/pot-app/pot-desktop)
 - 感谢 [LeanFlutter](https://github.com/leanflutter) 提供的一系列桌面端 Flutter packages
 
+## 更新日志
+
+[CHANGELOG](./CHANGELOG.md)
+
 ## License
 
-[GNU GPL-3.0](https://github.com/gvenusleo/MeTranslate/blob/main/LICENSE)
+[GNU GPL-3.0](./LICENSE)
