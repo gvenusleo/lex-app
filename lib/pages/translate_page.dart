@@ -35,7 +35,20 @@ class _TranslatePageState extends State<TranslatePage> {
   final _inputController = TextEditingController();
   late Map<String, TextEditingController> _outputControllers;
 
-  final List<String> _languages = languages();
+  final List<String> _languages = prefs.getStringList("enabledLanguages") ??
+      [
+        "自动",
+        "中文",
+        "英语",
+        "日语",
+        "韩语",
+        "法语",
+        "德语",
+        "俄语",
+        "意大利语",
+        "葡萄牙语",
+        "繁体中文",
+      ];
 
   late List<String> _useService;
   late Map<String, bool> _isOnTranslation;

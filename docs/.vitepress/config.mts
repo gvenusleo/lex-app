@@ -58,6 +58,7 @@ export default defineConfig({
             { text: "全局字体", link: "/guide/font_setting" },
             { text: "翻译服务", link: "/guide/service" },
             { text: "翻译设置", link: "/guide/translate_setting" },
+            { text: "内置语言", link: "/guide/language_setting" },
             { text: "热键设置", link: "/guide/hotkey_setting" },
             { text: "历史记录", link: "/guide/history" },
           ],

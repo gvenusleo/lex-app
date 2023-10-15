@@ -3,6 +3,7 @@ import "package:metranslate/pages/setting_page/history_page.dart";
 import "package:metranslate/pages/setting_page/about_page.dart";
 import "package:metranslate/pages/setting_page/app_setting_page.dart";
 import "package:metranslate/pages/setting_page/hot_key_setting_page.dart";
+import "package:metranslate/pages/setting_page/language_setting_page.dart";
 import 'package:metranslate/pages/setting_page/service_setting_page.dart';
 import "package:metranslate/pages/setting_page/font_setting_page.dart";
 import "package:metranslate/pages/setting_page/translate_setting_page.dart";
@@ -33,7 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 180,
                   child: ListView(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 24,
+                      vertical: 18,
                       horizontal: 12,
                     ),
                     children: [
@@ -87,6 +88,18 @@ class _SettingsPageState extends State<SettingsPage> {
                           setState(() {
                             _selectedItem = "翻译设置";
                             _selectedPage = const TranslateSettingPage();
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      SettingGroupCard(
+                        icon: const Icon(Icons.language_outlined),
+                        title: "内置语言",
+                        selected: _selectedItem == "内置语言",
+                        onTap: () {
+                          setState(() {
+                            _selectedItem = "内置语言";
+                            _selectedPage = const LanguageSettingPage();
                           });
                         },
                       ),
