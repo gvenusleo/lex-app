@@ -12,6 +12,8 @@
       <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/gvenusleo/MeTranslate?style=flat-square">
     </a>
   </p>
+  <img src="./assets/app1.png" width="360">
+  <img src="./assets/app2.png" width="360">
 </div>
 
 ## 说明
