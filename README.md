@@ -12,8 +12,11 @@
       <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/gvenusleo/MeTranslate?style=flat-square">
     </a>
   </p>
-  <img src="./assets/app.png" width="360">
 </div>
+
+|              浅色模式               |              深色模式              |
+| :---------------------------------: | :--------------------------------: |
+| ![浅色模式](./assets/app-light.png) | ![深色模式](./assets/app-dark.png) |
 
 ## 说明
 
