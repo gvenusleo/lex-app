@@ -281,7 +281,7 @@
   resolved "https://registry.npmmirror.com/@types/linkify-it/-/linkify-it-3.0.3.tgz#15a0712296c5041733c79efe233ba17ae5a7587b"
   integrity sha512-pTjcqY9E4nOI55Wgpz7eiI8+LzdYnw3qxXCfHyBDdPbYvbyLgWLJGh8EdPvqawwMK1Uo1794AUkkR38Fr0g+2g==
 
-"@types/markdown-it@^13.0.1":
+"@types/markdown-it@^13.0.2":
   version "13.0.2"
   resolved "https://registry.npmmirror.com/@types/markdown-it/-/markdown-it-13.0.2.tgz#1557e77789fc86e93fd4b8f0f8f8535ec97a8518"
   integrity sha512-Tla7hH9oeXHOlJyBFdoqV61xWE9FZf/y2g+gFVwQ2vE1/eBzjUno5JCd3Hdb5oATve5OF6xNjZ/4VIZhVVx+hA==
@@ -341,10 +341,10 @@
     "@vue/compiler-dom" "3.3.4"
     "@vue/shared" "3.3.4"
 
-"@vue/devtools-api@^6.5.0":
-  version "6.5.0"
-  resolved "https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.5.0.tgz#98b99425edee70b4c992692628fa1ea2c1e57d07"
-  integrity sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==
+"@vue/devtools-api@^6.5.1":
+  version "6.5.1"
+  resolved "https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.5.1.tgz#7f71f31e40973eeee65b9a64382b13593fdbd697"
+  integrity sha512-+KpckaAQyfbvshdDW5xQylLni1asvNSGme1JFs8I1+/H5pHEhqUKMEQD/qn3Nx5+/nycBq11qAEi8lk+LXI2dA==
 
 "@vue/reactivity-transform@3.3.4":
   version "3.3.4"
@@ -394,7 +394,7 @@
   resolved "https://registry.npmmirror.com/@vue/shared/-/shared-3.3.4.tgz#06e83c5027f464eef861c329be81454bc8b70780"
   integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
 
-"@vueuse/core@10.5.0", "@vueuse/core@^10.4.1":
+"@vueuse/core@10.5.0", "@vueuse/core@^10.5.0":
   version "10.5.0"
   resolved "https://registry.npmmirror.com/@vueuse/core/-/core-10.5.0.tgz#04d1e6d26592bb997bb755a4830ea7583c3e8612"
   integrity sha512-z/tI2eSvxwLRjOhDm0h/SXAjNm8N5ld6/SC/JQs6o6kpJ6Ya50LnEL8g5hoYu005i28L0zqB5L5yAl8Jl26K3A==
@@ -404,7 +404,7 @@
     "@vueuse/shared" "10.5.0"
     vue-demi ">=0.14.6"
 
-"@vueuse/integrations@^10.4.1":
+"@vueuse/integrations@^10.5.0":
   version "10.5.0"
   resolved "https://registry.npmmirror.com/@vueuse/integrations/-/integrations-10.5.0.tgz#38f00bd5a1cd0160645f0c75efd5d9579061e3d6"
   integrity sha512-fm5sXLCK0Ww3rRnzqnCQRmfjDURaI4xMsx+T+cec0ngQqHx/JgUtm8G0vRjwtonIeTBsH1Q8L3SucE+7K7upJQ==
@@ -488,10 +488,10 @@ estree-walker@^2.0.2:
   resolved "https://registry.npmmirror.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
   integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
 
-focus-trap@^7.5.2:
-  version "7.5.3"
-  resolved "https://registry.npmmirror.com/focus-trap/-/focus-trap-7.5.3.tgz#fbb39af6ef2e19aa10707e28583fdccf91a4243d"
-  integrity sha512-7UsT/eSJcTPF0aZp73u7hBRTABz26knRRTJfoTGFCQD5mUImLIIOwWWCrtoQdmWa7dykBi6H+Cp5i3S/kvsMeA==
+focus-trap@^7.5.4:
+  version "7.5.4"
+  resolved "https://registry.npmmirror.com/focus-trap/-/focus-trap-7.5.4.tgz#6c4e342fe1dae6add9c2aa332a6e7a0bbd495ba2"
+  integrity sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==
   dependencies:
     tabbable "^6.2.0"
 
@@ -553,10 +553,10 @@ rollup@^3.27.1:
   optionalDependencies:
     fsevents "~2.3.2"
 
-shiki@^0.14.4:
-  version "0.14.4"
-  resolved "https://registry.npmmirror.com/shiki/-/shiki-0.14.4.tgz#2454969b466a5f75067d0f2fa0d7426d32881b20"
-  integrity sha512-IXCRip2IQzKwxArNNq1S+On4KPML3Yyn8Zzs/xRgcgOWIr8ntIK3IKzjFPfjy/7kt9ZMjc+FItfqHRBg8b6tNQ==
+shiki@^0.14.5:
+  version "0.14.5"
+  resolved "https://registry.npmmirror.com/shiki/-/shiki-0.14.5.tgz#375dd214e57eccb04f0daf35a32aa615861deb93"
+  integrity sha512-1gCAYOcmCFONmErGTrS1fjzJLA7MGZmKzrBNX7apqSwhyITJg2O102uFzXUeBxNnEkDA9vHIKLyeKq0V083vIw==
   dependencies:
     ansi-sequence-parser "^1.1.0"
     jsonc-parser "^3.2.0"
@@ -573,7 +573,7 @@ tabbable@^6.2.0:
   resolved "https://registry.npmmirror.com/tabbable/-/tabbable-6.2.0.tgz#732fb62bc0175cfcec257330be187dcfba1f3b97"
   integrity sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==
 
-vite@^4.4.9:
+vite@^4.4.11:
   version "4.4.11"
   resolved "https://registry.npmmirror.com/vite/-/vite-4.4.11.tgz#babdb055b08c69cfc4c468072a2e6c9ca62102b0"
   integrity sha512-ksNZJlkcU9b0lBwAGZGGaZHCMqHsc8OpgtoYhsQ4/I2v5cnpmmmqe5pM4nv/4Hn6G/2GhTdj0DhZh2e+Er1q5A==
@@ -584,22 +584,22 @@ vite@^4.4.9:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitepress@^1.0.0-rc.20:
-  version "1.0.0-rc.20"
-  resolved "https://registry.npmmirror.com/vitepress/-/vitepress-1.0.0-rc.20.tgz#a5570f929c52cef010da26039cf9122c11e160a1"
-  integrity sha512-CykMUJ8JLxLcGWek0ew3wln4RYbsOd1+0YzXITTpajggpynm2S331TNkJVOkHrMRc6GYe3y4pS40GfgcW0ZwAw==
+vitepress@^1.0.0-rc.22:
+  version "1.0.0-rc.22"
+  resolved "https://registry.npmmirror.com/vitepress/-/vitepress-1.0.0-rc.22.tgz#9855edc0991a57cf88561e790b0b35ddc447fbf0"
+  integrity sha512-n7le5iikCFgWMuX7sKfzDGJGlrsYQ5trG3S97BghNz2alOTr4Xp+GrB6ShwogUTX9gNgeNmrACjokhW55LNeBA==
   dependencies:
     "@docsearch/css" "^3.5.2"
     "@docsearch/js" "^3.5.2"
-    "@types/markdown-it" "^13.0.1"
-    "@vue/devtools-api" "^6.5.0"
-    "@vueuse/core" "^10.4.1"
-    "@vueuse/integrations" "^10.4.1"
-    focus-trap "^7.5.2"
+    "@types/markdown-it" "^13.0.2"
+    "@vue/devtools-api" "^6.5.1"
+    "@vueuse/core" "^10.5.0"
+    "@vueuse/integrations" "^10.5.0"
+    focus-trap "^7.5.4"
     mark.js "8.11.1"
     minisearch "^6.1.0"
-    shiki "^0.14.4"
-    vite "^4.4.9"
+    shiki "^0.14.5"
+    vite "^4.4.11"
     vue "^3.3.4"
 
 vscode-oniguruma@^1.7.0:
