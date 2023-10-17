@@ -9,7 +9,7 @@ Future<String> translateByCaiyun(String text, String from, String to) async {
     from = caiyunSupportLanguage()[from]!;
     to = caiyunSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   final String token = (prefs.getString("caiyunToken") ?? "").trim();
   const String url = "http://api.interpreter.caiyunai.com/v1/translator";

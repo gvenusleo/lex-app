@@ -13,7 +13,7 @@ Future<String> translateByVolcengine(
     from = volcengineSupportLanguage()[from]!;
     to = volcengineSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   final Map<String, dynamic> data = {
     "SourceLanguage": from,

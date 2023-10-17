@@ -12,7 +12,7 @@ Future<String> translateByYoudao(String text, String from, String to) async {
     from = youdaoSupportLanguage()[from]!;
     to = youdaoSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   const String url = "https://openapi.youdao.com/api";
   final String appKey = (prefs.getString("youdaoAppKey") ?? "").trim();

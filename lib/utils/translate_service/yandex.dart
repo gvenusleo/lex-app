@@ -8,7 +8,7 @@ Future<String> translateByYandex(String text, String from, String to) async {
     from = yandexSupportLanguage()[from]!;
     to = yandexSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   const String url = "https://translate.yandex.net/api/v1/tr.json/translate";
   const Map<String, String> headers = {

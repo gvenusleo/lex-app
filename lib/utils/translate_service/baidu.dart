@@ -12,7 +12,7 @@ Future<String> translateByBaidu(String text, String from, String to) async {
     from = baiduSupportLanguage()[from]!;
     to = baiduSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   const String url = "https://fanyi-api.baidu.com/api/trans/vip/translate";
   final String appID = (prefs.getString("baiduAppID") ?? "").trim();

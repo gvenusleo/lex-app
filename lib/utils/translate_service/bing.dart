@@ -7,7 +7,7 @@ Future<String> translateByBing(String text, String from, String to) async {
     from = bingSupportLanguage()[from]!;
     to = bingSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   const String tokenUrl = "https://edge.microsoft.com/translate/auth";
   const Map<String, String> tokenHeaders = {

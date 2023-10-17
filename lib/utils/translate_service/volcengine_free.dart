@@ -13,7 +13,7 @@ Future<String> translateByVolcengineFree(
     from = volcengineFreeSupportLanguage()[from]!;
     to = volcengineFreeSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   const String url = "https://translate.volcengine.com/crx/translate/v1/";
   const Map<String, String> headers = {

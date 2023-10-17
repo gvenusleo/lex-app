@@ -10,7 +10,7 @@ Future<String> translateByDeeplFree(String text, String from, String to) async {
     from = deeplFreeSupportLanguage()[from]!;
     to = deeplFreeSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   const String url = "https://www2.deepl.com/jsonrpc";
   final int rand = getRandom();

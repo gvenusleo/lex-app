@@ -288,28 +288,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["bing"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "bing"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["bing"] = Colors.red;
+              });
+              _outputControllers["bing"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["bing"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "bing"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["bing"] = false;
+            _outputTextColor["bing"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["bing"]!.text = "翻译失败，请检查网络状态";
-          setState(() {
-            _outputTextColor["bing"] = Colors.red;
-          });
         }
       case "deeplFree":
         try {
@@ -324,28 +330,33 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["deeplFree"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "deeplFree"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["deeplFree"] = Colors.red;
+              });
+              _outputControllers["deeplFree"]!.text = result.split(":").last;
+            } else {
+              _outputControllers["deeplFree"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "deeplFree"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["deeplFree"] = false;
+            _outputTextColor["deeplFree"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["deeplFree"]!.text = "翻译失败，请检查网络状态";
-          setState(() {
-            _outputTextColor["deeplFree"] = Colors.red;
-          });
         }
       case "google":
         try {
@@ -360,28 +371,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["google"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "google"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["google"] = Colors.red;
+              });
+              _outputControllers["google"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["google"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "google"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["google"] = false;
+            _outputTextColor["google"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["google"]!.text = "翻译失败，请检查网络状态";
-          setState(() {
-            _outputTextColor["google"] = Colors.red;
-          });
         }
       case "yandex":
         try {
@@ -396,28 +413,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["yandex"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "yandex"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["yandex"] = Colors.red;
+              });
+              _outputControllers["yandex"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["yandex"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "yandex"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["yandex"] = false;
+            _outputTextColor["yandex"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["yandex"]!.text = "翻译失败，请检查网络状态";
-          setState(() {
-            _outputTextColor["yandex"] = Colors.red;
-          });
         }
       case "volcengineFree":
         try {
@@ -432,28 +455,35 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["volcengineFree"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "volcengineFree"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["volcengineFree"] = Colors.red;
+              });
+              _outputControllers["volcengineFree"]!.text =
+                  result.split(":").last;
+              return;
+            } else {
+              _outputControllers["volcengineFree"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "volcengineFree"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["volcengineFree"] = false;
+            _outputTextColor["volcengineFree"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["volcengineFree"]!.text = "翻译失败，请检查网络状态";
-          setState(() {
-            _outputTextColor["volcengineFree"] = Colors.red;
-          });
         }
       case "baidu":
         try {
@@ -468,28 +498,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["baidu"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "baidu"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["baidu"] = Colors.red;
+              });
+              _outputControllers["baidu"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["baidu"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "baidu"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["baidu"] = false;
+            _outputTextColor["baidu"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["baidu"]!.text = "翻译失败，请检查网络状态和接口设置";
-          setState(() {
-            _outputTextColor["baidu"] = Colors.red;
-          });
         }
         break;
       case "caiyun":
@@ -502,28 +538,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["caiyun"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "caiyun"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["caiyun"] = Colors.red;
+              });
+              _outputControllers["caiyun"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["caiyun"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "caiyun"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["caiyun"] = false;
+            _outputTextColor["caiyun"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["caiyun"]!.text = "翻译失败，请检查网络状态和接口设置";
-          setState(() {
-            _outputTextColor["caiyun"] = Colors.red;
-          });
         }
         break;
       case "niutrans":
@@ -539,30 +581,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            final String resultStr = result;
-            _outputControllers["niutrans"]!.text = resultStr;
-
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = resultStr
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "niutrans"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["niutrans"] = Colors.red;
+              });
+              _outputControllers["niutrans"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["niutrans"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "niutrans"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["niutrans"] = false;
+            _outputTextColor["niutrans"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["niutrans"]!.text = "翻译失败，请检查网络状态和接口设置";
-          setState(() {
-            _outputTextColor["niutrans"] = Colors.red;
-          });
         }
       case "volcengine":
         try {
@@ -577,29 +623,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["volcengine"]!.text = result;
-
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "volcengine"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["volcengine"] = Colors.red;
+              });
+              _outputControllers["volcengine"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["volcengine"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "volcengine"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["volcengine"] = false;
+            _outputTextColor["volcengine"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["volcengine"]!.text = "翻译失败，请检查网络状态和接口设置";
-          setState(() {
-            _outputTextColor["volcengine"] = Colors.red;
-          });
         }
       case "youdao":
         try {
@@ -614,28 +665,34 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            _outputControllers["youdao"]!.text = result;
-            // 保存历史记录
-            final HistoryItem item = HistoryItem()
-              ..text = text
-              ..result = result
-              ..from = _fromLanguage
-              ..to = _toLanguage
-              ..service = "youdao"
-              ..time = DateTime.now();
-            await isar.writeTxn(() async {
-              await isar.historyItems.put(item);
-            });
+            if (result == "error:不支持的语言") {
+              setState(() {
+                _outputTextColor["youdao"] = Colors.red;
+              });
+              _outputControllers["youdao"]!.text = result.split(":").last;
+              return;
+            } else {
+              _outputControllers["youdao"]!.text = result;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = result
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "youdao"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
           }
         } catch (e) {
           setState(() {
             _isOnTranslation["youdao"] = false;
+            _outputTextColor["youdao"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["youdao"]!.text = "翻译失败，请检查网络状态和接口设置";
-          setState(() {
-            _outputTextColor["youdao"] = Colors.red;
-          });
         }
       case "minimax":
         try {
@@ -663,12 +720,10 @@ class _TranslatePageState extends State<TranslatePage> {
         } catch (e) {
           setState(() {
             _isOnTranslation["minimax"] = false;
+            _outputTextColor["minimax"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["minimax"]!.text = "翻译失败，请检查网络状态和接口设置";
-          setState(() {
-            _outputTextColor["minimax"] = Colors.red;
-          });
         }
       case "zhipuai":
         try {
@@ -696,12 +751,10 @@ class _TranslatePageState extends State<TranslatePage> {
         } catch (e) {
           setState(() {
             _isOnTranslation["zhipuai"] = false;
+            _outputTextColor["zhipuai"] = Colors.red;
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["zhipuai"]!.text = "翻译失败，请检查网络状态和接口设置";
-          setState(() {
-            _outputTextColor["zhipuai"] = Colors.red;
-          });
         }
     }
   }

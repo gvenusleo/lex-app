@@ -7,7 +7,7 @@ Future<String> translateByGoogle(String text, String from, String to) async {
     from = googleSupportLanguage()[from]!;
     to = googleSupportLanguage()[to]!;
   } catch (_) {
-    return "不支持的语言";
+    return "error:不支持的语言";
   }
   const String url =
       "https://translate.google.com/translate_a/single?dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t";
