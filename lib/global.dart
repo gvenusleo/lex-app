@@ -13,7 +13,7 @@ import "package:tray_manager/tray_manager.dart";
 import "package:window_manager/window_manager.dart";
 
 /// 应用版本号
-String version = "v0.1.1";
+String version = "v0.1.2";
 
 /// 持久化存储
 late SharedPreferences prefs;
