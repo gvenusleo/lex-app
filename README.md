@@ -12,8 +12,7 @@
       <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/gvenusleo/MeTranslate?style=flat-square">
     </a>
   </p>
-  <img src="./assets/app1.png" width="360">
-  <img src="./assets/app2.png" width="360">
+  <img src="./assets/app.png" width="360">
 </div>
 
 ## 说明
@@ -27,20 +26,11 @@
 
 ## 翻译服务
 
-- 无需配置
-  - DeepL 翻译
-  - Google 翻译
-  - Yandex 翻译
-  - 火山翻译 Free
-- 需要配置
-  - 百度翻译
-  - 彩云小译
-  - 小牛翻译
-  - 火山翻译
-  - 有道翻译
-- AI 大模型
-  - MiniMax
-  - 智谱 AI
+| 分类      | 翻译服务                                                       |
+| --------- | -------------------------------------------------------------- |
+| 无需配置  | Bing 翻译、DeepL 翻译、Google 翻译、Yandex 翻译、火山翻译 Free |
+| 需要 API  | 百度翻译、彩云小译、小牛翻译、火山翻译、有道翻译               |
+| AI 大模型 | MiniMax、智谱 AI                                               |
 
 ## 致谢
 

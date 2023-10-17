@@ -1,6 +1,7 @@
 /// 翻译模型名称
 Map<String, String> serviceMap() {
   return {
+    "bing": "Bing 翻译",
     "deeplFree": "DeepL 翻译",
     "google": "Google 翻译",
     "yandex": "Yandex 翻译",
@@ -18,6 +19,7 @@ Map<String, String> serviceMap() {
 /// 模型 Logo 路径
 Map<String, String> serviceLogoMap() {
   return {
+    "bing": "assets/service/bing.png",
     "deeplFree": "assets/service/deepl.png",
     "google": "assets/service/google.png",
     "yandex": "assets/service/yandex.png",

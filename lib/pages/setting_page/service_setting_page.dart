@@ -37,31 +37,30 @@ class _ServiceSettingPageState extends State<ServiceSettingPage> {
         children: [
           const ListTileGroupTitle(title: "无需配置"),
           // Bing 翻译
-          // ListTile(
-          //   leading: Image.asset(
-          //     "assets/service/bing.png",
-          //     width: 40,
-          //     height: 40,
-          //   ),
-          //   title: const Text("Bing 翻译"),
-          //   subtitle: const Text("可能会失效"),
-          //   trailing: Checkbox(
-          //     value: _useService == "bing",
-          //     onChanged: (value) {
-          //       setState(() {
-          //         _useService = value ? "bing" : "";
-          //       });
-          //       prefs.setString("useService", _useService);
-          //     },
-          //   ),
-          // onTap: () async {
-          //   try {
-          //     print(await translateByBing("hello", "en", "zh-Hans"));
-          //   } catch (e) {
-          //     print(e);
-          //   }
-          // },
-          // ),
+          ListTile(
+            leading: Image.asset(
+              "assets/service/bing.png",
+              width: 40,
+              height: 40,
+            ),
+            title: const Text("Bing 翻译"),
+            subtitle: const Text("开箱即用"),
+            trailing: Checkbox(
+              value: _useService.contains("bing"),
+              onChanged: (value) {
+                if (_useService.contains("bing")) {
+                  setState(() {
+                    _useService.remove("bing");
+                  });
+                } else {
+                  setState(() {
+                    _useService.add("bing");
+                  });
+                }
+                prefs.setStringList("useService", _useService);
+              },
+            ),
+          ),
           // Deepl 翻译
           ListTile(
             leading: Image.asset(

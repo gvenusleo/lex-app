@@ -6,6 +6,7 @@ import 'package:metranslate/utils/check_api.dart';
 import 'package:metranslate/utils/languages.dart';
 import 'package:metranslate/utils/service_map.dart';
 import 'package:metranslate/utils/translate_service/baidu.dart';
+import 'package:metranslate/utils/translate_service/bing.dart';
 import 'package:metranslate/utils/translate_service/caiyun.dart';
 import 'package:metranslate/utils/translate_service/deepl_free.dart';
 import 'package:metranslate/utils/translate_service/google.dart';
@@ -274,6 +275,42 @@ class _TranslatePageState extends State<TranslatePage> {
     });
     _outputAnimationFunc(service);
     switch (service) {
+      case "bing":
+        try {
+          // 通过 Bing 翻译
+          String result = await translateByBing(
+            text,
+            _fromLanguage,
+            _toLanguage,
+          );
+          setState(() {
+            _isOnTranslation["bing"] = false;
+          });
+          await Future.delayed(const Duration(milliseconds: 250));
+          if (result.isNotEmpty) {
+            _outputControllers["bing"]!.text = result;
+            // 保存历史记录
+            final HistoryItem item = HistoryItem()
+              ..text = text
+              ..result = result
+              ..from = _fromLanguage
+              ..to = _toLanguage
+              ..service = "bing"
+              ..time = DateTime.now();
+            await isar.writeTxn(() async {
+              await isar.historyItems.put(item);
+            });
+          }
+        } catch (e) {
+          setState(() {
+            _isOnTranslation["bing"] = false;
+          });
+          await Future.delayed(const Duration(milliseconds: 250));
+          _outputControllers["bing"]!.text = "翻译失败，请检查网络状态";
+          setState(() {
+            _outputTextColor["bing"] = Colors.red;
+          });
+        }
       case "deeplFree":
         try {
           // 通过 DeepL Free 翻译

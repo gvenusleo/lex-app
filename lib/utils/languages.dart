@@ -1,5 +1,6 @@
 import 'package:metranslate/global.dart';
 import 'package:metranslate/utils/translate_service/baidu.dart';
+import 'package:metranslate/utils/translate_service/bing.dart';
 import 'package:metranslate/utils/translate_service/caiyun.dart';
 import 'package:metranslate/utils/translate_service/deepl_free.dart';
 import 'package:metranslate/utils/translate_service/google.dart';
@@ -23,6 +24,13 @@ Map<String, List<String>> allLanguages() {
   Map<String, List<String>> result = {};
   for (String language in baiduSupportLanguage().keys) {
     result[language] = ["百度翻译"];
+  }
+  for (String language in bingSupportLanguage().keys) {
+    if (result[language] == null) {
+      result[language] = ["Bing 翻译"];
+    } else {
+      result[language]!.add("Bing 翻译");
+    }
   }
   for (String language in caiyunSupportLanguage().keys) {
     if (result[language] == null) {

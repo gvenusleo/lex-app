@@ -2,8 +2,13 @@ import "package:dio/dio.dart";
 import "package:metranslate/utils/init_dio.dart";
 
 /// Bing 翻译
-/// 存在 Bug, 无法翻译， 暂不启用
 Future<String> translateByBing(String text, String from, String to) async {
+  try {
+    from = bingSupportLanguage()[from]!;
+    to = bingSupportLanguage()[to]!;
+  } catch (_) {
+    return "不支持的语言";
+  }
   const String tokenUrl = "https://edge.microsoft.com/translate/auth";
   const Map<String, String> tokenHeaders = {
     "User-Agent":
@@ -20,7 +25,6 @@ Future<String> translateByBing(String text, String from, String to) async {
     ),
   );
   final String token = tokenResponse.data;
-  // print(token);
 
   const String url =
       "https://api-edge.cognitive.microsofttranslator.com/translate";
@@ -50,12 +54,9 @@ Future<String> translateByBing(String text, String from, String to) async {
     "api-version": "3.0",
     "includeSentenceLength": "true",
   };
-  final Map<String, dynamic> data = {
-    "type": "Json",
-    "payload": [
-      {"Text": text}
-    ]
-  };
+  final List data = [
+    {"Text": text}
+  ];
 
   final Response response = await dio.post(
     url,
@@ -63,7 +64,34 @@ Future<String> translateByBing(String text, String from, String to) async {
     data: data,
     options: Options(headers: headers),
   );
-  // print(response);
+  return response.data[0]["translations"][0]["text"];
+}
 
-  return response.data;
+/// Bing 翻译支持语言
+Map<String, String> bingSupportLanguage() {
+  return {
+    "自动": "",
+    "中文": 'zh-Hans',
+    "繁体中文": 'zh-Hant',
+    "粤语": 'yue',
+    "英语": 'en',
+    "日语": 'ja',
+    "韩语": 'ko',
+    "法语": 'fr',
+    "西班牙语": 'es',
+    "俄语": 'ru',
+    "德语": 'de',
+    "意大利语": 'it',
+    "土耳其语": 'tr',
+    "葡萄牙语": 'pt',
+    "越南语": 'vi',
+    "印尼语": 'id',
+    "泰语": 'th',
+    "马来语": 'ms',
+    "阿拉伯语": 'ar',
+    "印地语": 'hi',
+    "蒙古语(西里尔)": 'mn-Cyrl',
+    "蒙古语": 'mn-Mong',
+    "高棉语": 'km',
+  };
 }

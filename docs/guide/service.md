@@ -6,6 +6,12 @@
 
 ## 无需配置
 
+### Bing 翻译
+
+官方网站：https://bing.com/translator
+
+说明：调用免费的 Bing 翻译接口，无需申请 API 。
+
 ### DeepL 翻译
 
 官方网站：https://deepl.com
