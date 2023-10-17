@@ -57,5 +57,5 @@ Future<String> translateByMiniMax(String text, String to) async {
     data: data,
     options: Options(headers: headers),
   );
-  return response.data["reply"] ?? "";
+  return response.data["reply"];
 }
