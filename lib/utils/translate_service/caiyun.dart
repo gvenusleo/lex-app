@@ -11,7 +11,7 @@ Future<String> translateByCaiyun(String text, String from, String to) async {
   } catch (_) {
     return "不支持的语言";
   }
-  final String token = prefs.getString("caiyunToken") ?? "";
+  final String token = (prefs.getString("caiyunToken") ?? "").trim();
   const String url = "http://api.interpreter.caiyunai.com/v1/translator";
   final String direction = "${from}2$to";
   final Map<String, String> query = {

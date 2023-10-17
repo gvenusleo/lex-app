@@ -14,7 +14,7 @@ Future<String> translateByNiutrans(String text, String from, String to) async {
     return "不支持的语言";
   }
   const String url = "https://api.niutrans.com/NiuTransServer/translation";
-  final String apiKey = prefs.getString("niutransApiKey") ?? "";
+  final String apiKey = (prefs.getString("niutransApiKey") ?? "").trim();
   final Map<String, String> data = {
     "from": from,
     "to": to,

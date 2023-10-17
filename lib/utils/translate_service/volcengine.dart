@@ -61,9 +61,10 @@ String getAuthorization(
   String dataHash,
   String xDate,
 ) {
-  final String accessKeyID = prefs.getString("volcengineAccessKeyID") ?? "";
+  final String accessKeyID =
+      (prefs.getString("volcengineAccessKeyID") ?? "").trim();
   final String secretAccessKey =
-      prefs.getString("volcengineSecretAccessKey") ?? "";
+      (prefs.getString("volcengineSecretAccessKey") ?? "").trim();
 
   const String host = "translate.volcengineapi.com";
   const String path = "/";

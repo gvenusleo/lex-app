@@ -15,8 +15,8 @@ Future<String> translateByBaidu(String text, String from, String to) async {
     return "不支持的语言";
   }
   const String url = "https://fanyi-api.baidu.com/api/trans/vip/translate";
-  final String appID = prefs.getString("baiduAppID") ?? "";
-  final String appKey = prefs.getString("baiduAppKey") ?? "";
+  final String appID = (prefs.getString("baiduAppID") ?? "").trim();
+  final String appKey = (prefs.getString("baiduAppKey") ?? "").trim();
   final String salt = DateTime.now().millisecondsSinceEpoch.toString();
   final String sign = getMd5(appID + text + salt.toString() + appKey);
   final Map<String, String> query = {

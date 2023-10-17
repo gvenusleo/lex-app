@@ -8,7 +8,7 @@ import 'package:metranslate/utils/init_dio.dart';
 /// 使用智谱 AI 翻译
 /// https://open.bigmodel.cn/dev/api#http
 Future<String> translateByZhipuai(String text, String to) async {
-  final String apiKey = prefs.getString("zhipuaiApiKey") ?? "";
+  final String apiKey = (prefs.getString("zhipuaiApiKey") ?? "").trim();
   final String model = prefs.getString("zhipuModel") ?? "chatglm_std";
   final double temperature = prefs.getDouble("zhipuaiTemperature") ?? 0.8;
   final List<String> prompts = prefs.getStringList("zhipuaiPrompts") ??

@@ -15,8 +15,8 @@ Future<String> translateByYoudao(String text, String from, String to) async {
     return "不支持的语言";
   }
   const String url = "https://openapi.youdao.com/api";
-  final String appKey = prefs.getString("youdaoAppKey") ?? "";
-  final String appID = prefs.getString("youdaoAppID") ?? "";
+  final String appKey = (prefs.getString("youdaoAppKey") ?? "").trim();
+  final String appID = (prefs.getString("youdaoAppID") ?? "").trim();
   final String salt = DateTime.now().millisecondsSinceEpoch.toString();
   final String curtime =
       (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
