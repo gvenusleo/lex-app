@@ -20,6 +20,7 @@ class ServiceSettingPage extends StatefulWidget {
 class _ServiceSettingPageState extends State<ServiceSettingPage> {
   final List<String> _useService = prefs.getStringList("useService") ??
       [
+        "bing",
         "deeplFree",
         "google",
         "yandex",

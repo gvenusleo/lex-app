@@ -67,6 +67,7 @@ class _TranslatePageState extends State<TranslatePage> {
   void initState() {
     _useService = prefs.getStringList("useService") ??
         [
+          "bing",
           "deeplFree",
           "google",
           "yandex",
