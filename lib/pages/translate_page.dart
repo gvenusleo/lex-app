@@ -32,7 +32,8 @@ class TranslatePage extends StatefulWidget {
   State<TranslatePage> createState() => _TranslatePageState();
 }
 
-class _TranslatePageState extends State<TranslatePage> {
+class _TranslatePageState extends State<TranslatePage>
+    with TickerProviderStateMixin {
   // 输入框控制器
   final _inputController = TextEditingController();
   // 输出框控制器
@@ -97,163 +98,197 @@ class _TranslatePageState extends State<TranslatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          // 输入框
-          Card(
-            margin: const EdgeInsets.fromLTRB(8, 0, 8, 4),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _inputController,
-                  minLines: 1,
-                  maxLines: 100,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 8),
-                    isDense: true,
-                  ),
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                  onSubmitted: (value) {
-                    List<Future> futures = [];
-                    for (String service in _useService) {
-                      futures.add(_translateFunc(service));
-                    }
-                    Future.wait(futures).then((_) => _autoCopyFunc());
-                  },
-                  textInputAction: TextInputAction.done,
-                ),
-                Row(
-                  children: [
-                    const SizedBox(width: 4),
-                    IconButton(
-                      onPressed: () {
-                        _inputController.clear();
-                      },
-                      icon: const Icon(Icons.backspace_outlined, size: 20),
-                      padding: const EdgeInsets.all(0),
-                      visualDensity: VisualDensity.compact,
-                      // tooltip: "清空",
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        Clipboard.getData("text/plain").then((value) {
-                          if (value != null) {
-                            _inputController.text = value.text!;
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.paste_outlined, size: 20),
-                      padding: const EdgeInsets.all(0),
-                      visualDensity: VisualDensity.compact,
-                      // tooltip: "粘贴",
-                    ),
-                    const Spacer(),
-                    FilledButton.tonal(
-                      onPressed: () {
-                        List<Future> futures = [];
-                        for (String service in _useService) {
-                          futures.add(_translateFunc(service));
-                        }
-                        Future.wait(futures).then((_) => _autoCopyFunc());
-                      },
-                      child: const Text("翻译"),
-                    ),
-                    const SizedBox(width: 4),
-                  ],
-                ),
-                const SizedBox(height: 4),
-              ],
-            ),
-          ),
-          // 翻译语言
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
+      children: [
+        // 输入框
+        Card(
+          margin: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+          child: Column(
             children: [
-              TextButton(
-                onPressed: () {
-                  selectLanguageFunc("from", _fromLanguage);
+              TextField(
+                controller: _inputController,
+                minLines: 1,
+                maxLines: 100,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 8),
+                  isDense: true,
+                ),
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+                onSubmitted: (value) {
+                  List<Future> futures = [];
+                  for (String service in _useService) {
+                    futures.add(_translateFunc(service));
+                  }
+                  Future.wait(futures).then((_) => _autoCopyFunc());
                 },
-                child: Text(_fromLanguage),
+                textInputAction: TextInputAction.done,
               ),
-              IconButton(
-                onPressed: _swapLanguageFunc,
-                icon: const Icon(Icons.swap_horiz_outlined),
-                padding: const EdgeInsets.all(0),
-                visualDensity: VisualDensity.compact,
-                // tooltip: "交换语言",
-              ),
-              TextButton(
-                onPressed: () async {
-                  selectLanguageFunc("to", _toLanguage);
-                },
-                child: Text(_toLanguage),
-              ),
-            ],
-          ),
-          // 输出框
-          for (String service in _useService)
-            Card(
-              margin: const EdgeInsets.fromLTRB(8, 4, 8, 8),
-              child: Column(
+              Row(
                 children: [
-                  TextField(
-                    controller: _outputControllers[service],
-                    minLines: 1,
-                    maxLines: 100,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 8),
-                      isDense: true,
-                    ),
-                    style: TextStyle(
-                      color: _outputTextColor[service],
-                    ),
+                  const SizedBox(width: 4),
+                  IconButton(
+                    onPressed: () {
+                      _inputController.clear();
+                    },
+                    icon: const Icon(Icons.backspace_outlined, size: 20),
+                    padding: const EdgeInsets.all(0),
+                    visualDensity: VisualDensity.compact,
+                    // tooltip: "清空",
                   ),
-                  Row(
-                    children: [
-                      const SizedBox(width: 8),
-                      Image.asset(
-                        serviceLogoMap()[service]!,
-                        width: 18,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        serviceMap()[service]!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          _outputControllers[service]!.clear();
-                        },
-                        icon: const Icon(Icons.backspace_outlined, size: 20),
-                        padding: const EdgeInsets.all(0),
-                        visualDensity: VisualDensity.compact,
-                        // tooltip: "清空",
-                      ),
-                      IconButton(
-                        onPressed: () => _copyResultFunc(service),
-                        icon: const Icon(Icons.copy_outlined, size: 20),
-                        padding: const EdgeInsets.all(0),
-                        visualDensity: VisualDensity.compact,
-                        // tooltip: "复制",
-                      ),
-                      const SizedBox(width: 4),
-                    ],
+                  IconButton(
+                    onPressed: () {
+                      Clipboard.getData("text/plain").then((value) {
+                        if (value != null) {
+                          _inputController.text = value.text!;
+                        }
+                      });
+                    },
+                    icon: const Icon(Icons.paste_outlined, size: 20),
+                    padding: const EdgeInsets.all(0),
+                    visualDensity: VisualDensity.compact,
+                    // tooltip: "粘贴",
                   ),
-                  const SizedBox(height: 4),
+                  const Spacer(),
+                  FilledButton.tonal(
+                    onPressed: () {
+                      List<Future> futures = [];
+                      for (String service in _useService) {
+                        futures.add(_translateFunc(service));
+                      }
+                      Future.wait(futures).then((_) => _autoCopyFunc());
+                    },
+                    child: const Text("翻译"),
+                  ),
+                  const SizedBox(width: 4),
                 ],
               ),
+              const SizedBox(height: 4),
+            ],
+          ),
+        ),
+        // 翻译语言
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            TextButton(
+              onPressed: () {
+                selectLanguageFunc("from", _fromLanguage);
+              },
+              child: Text(_fromLanguage),
             ),
-        ],
-      ),
+            IconButton(
+              onPressed: _swapLanguageFunc,
+              icon: const Icon(Icons.swap_horiz_outlined),
+              padding: const EdgeInsets.all(0),
+              visualDensity: VisualDensity.compact,
+              // tooltip: "交换语言",
+            ),
+            TextButton(
+              onPressed: () async {
+                selectLanguageFunc("to", _toLanguage);
+              },
+              child: Text(_toLanguage),
+            ),
+          ],
+        ),
+        // 输出框
+        Expanded(
+          child: ReorderableListView.builder(
+            itemCount: _useService.length,
+            buildDefaultDragHandles: false,
+            itemBuilder: (context, index) {
+              return Card(
+                key: ValueKey(_useService[index]),
+                margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _outputControllers[_useService[index]],
+                      minLines: 1,
+                      maxLines: 100,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 8),
+                        isDense: true,
+                      ),
+                      style: TextStyle(
+                        color: _outputTextColor[_useService[index]],
+                      ),
+                    ),
+                    ReorderableDragStartListener(
+                      index: index,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const SizedBox(width: 8),
+                              Image.asset(
+                                serviceLogoMap()[_useService[index]]!,
+                                width: 18,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                serviceMap()[_useService[index]]!,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  color: Colors.transparent,
+                                  height: 24,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  _outputControllers[_useService[index]]!
+                                      .clear();
+                                },
+                                icon: const Icon(Icons.backspace_outlined,
+                                    size: 20),
+                                padding: const EdgeInsets.all(0),
+                                visualDensity: VisualDensity.compact,
+                                // tooltip: "清空",
+                              ),
+                              IconButton(
+                                onPressed: () =>
+                                    _copyResultFunc(_useService[index]),
+                                icon: const Icon(Icons.copy_outlined, size: 20),
+                                padding: const EdgeInsets.all(0),
+                                visualDensity: VisualDensity.compact,
+                                // tooltip: "复制",
+                              ),
+                              const SizedBox(width: 4),
+                            ],
+                          ),
+                          Container(
+                            height: 4,
+                            color: Colors.transparent,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (oldIndex < newIndex) {
+                  newIndex -= 1;
+                }
+                final String item = _useService.removeAt(oldIndex);
+                _useService.insert(newIndex, item);
+              });
+              prefs.setStringList("useService", _useService);
+            },
+          ),
+        ),
+      ],
     );
   }
 
