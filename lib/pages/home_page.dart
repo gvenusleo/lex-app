@@ -171,17 +171,6 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
     await hotKeyManager.register(
       hotKey,
       keyDownHandler: (hotKey) async {
-        if (prefs.getBool("windowFollowCursor") ?? false) {
-          if (!mounted) return;
-          context.read<WindowProvider>().changeWindowPosition(
-                await screenRetriever.getCursorScreenPoint(),
-              );
-        }
-        _setTranslateWindow(
-          () => setState(() {
-            _selectedPage = TranslatePage(key: UniqueKey());
-          }),
-        );
         try {
           String? selectedText;
           ExtractedData? selectedData = await ScreenTextExtractor.instance
@@ -192,8 +181,32 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
               selectedText = selectedText.replaceAll("\n", " ").trim();
             }
           }
+          if (prefs.getBool("windowFollowCursor") ?? false) {
+            if (!mounted) return;
+            context.read<WindowProvider>().changeWindowPosition(
+                  await screenRetriever.getCursorScreenPoint(),
+                );
+          }
+          _setTranslateWindow(
+            () => setState(() {
+              _selectedPage = TranslatePage(
+                key: UniqueKey(),
+                selectedText: selectedText,
+              );
+            }),
+          );
         } catch (e) {
-          return;
+          if (prefs.getBool("windowFollowCursor") ?? false) {
+            if (!mounted) return;
+            context.read<WindowProvider>().changeWindowPosition(
+                  await screenRetriever.getCursorScreenPoint(),
+                );
+          }
+          _setTranslateWindow(
+            () => setState(() {
+              _selectedPage = TranslatePage(key: UniqueKey());
+            }),
+          );
         }
       },
     );

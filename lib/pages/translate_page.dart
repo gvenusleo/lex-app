@@ -32,8 +32,7 @@ class TranslatePage extends StatefulWidget {
   State<TranslatePage> createState() => _TranslatePageState();
 }
 
-class _TranslatePageState extends State<TranslatePage>
-    with TickerProviderStateMixin {
+class _TranslatePageState extends State<TranslatePage> {
   // 输入框控制器
   final _inputController = TextEditingController();
   // 输出框控制器
