@@ -22,6 +22,7 @@ Dio initDio() {
         client.findProxy = (uri) {
           return "PROXY $proxyAddress";
         };
+        client.userAgent = 'curl/7.77.0';
         return client;
       },
     );
