@@ -1,26 +1,4 @@
-<script setup>
-import {
-  VPTeamPage,
-  VPTeamPageTitle,
-  VPTeamMembers
-} from 'vitepress/theme'
-
-const members = [
-  {
-    avatar: 'https://www.github.com/gvenusleo.png',
-    name: 'liuyuxin',
-    title: 'Creator & Developer',
-    links: [
-      { icon: 'github', link: 'https://github.com/gvenusleo' },
-      { icon: 'twitter', link: 'https://twitter.com/liuyu_xin' }
-    ]
-  },
-]
-</script>
-
 # 关于作者
-
-<center><VPTeamMembers size="medium" :members="members" /></center>
 
 ## 一个简短介绍
 
