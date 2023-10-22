@@ -39,21 +39,6 @@ class _TranslatePageState extends State<TranslatePage> {
   late Map<String, TextEditingController> _outputControllers;
   // 输出框文字颜色
   late Map<String, Color?> _outputTextColor;
-  // 翻译语言
-  final List<String> _languages = prefs.getStringList("enabledLanguages") ??
-      [
-        "自动",
-        "中文",
-        "英语",
-        "日语",
-        "韩语",
-        "法语",
-        "德语",
-        "俄语",
-        "意大利语",
-        "葡萄牙语",
-        "繁体中文",
-      ];
   // 翻译服务
   late List<String> _useService;
   // 是否正在翻译
@@ -824,6 +809,22 @@ class _TranslatePageState extends State<TranslatePage> {
 
   /// 选择语言
   Future<void> selectLanguageFunc(String mode, String init) async {
+    final List<String> languages = prefs.getStringList("enabledLanguages") ??
+        [
+          "中文",
+          "英语",
+          "日语",
+          "韩语",
+          "法语",
+          "德语",
+          "俄语",
+          "意大利语",
+          "葡萄牙语",
+          "繁体中文",
+        ];
+    if (mode == "from") {
+      languages.insert(0, "自动");
+    }
     showDialog(
       context: context,
       builder: (context) {
@@ -834,7 +835,7 @@ class _TranslatePageState extends State<TranslatePage> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: _languages
+            children: languages
                 .map(
                   (e) => RadioListTile(
                     value: e,
@@ -878,8 +879,7 @@ class _TranslatePageState extends State<TranslatePage> {
                     },
                   ),
                 )
-                .toList()
-                .sublist(mode == "from" && _languages.first == "自动" ? 0 : 1),
+                .toList(),
           ),
           actions: [
             OutlinedButton(
