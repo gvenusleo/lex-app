@@ -18,3 +18,9 @@ install-linux-deb: build-linux-deb
     @echo "------------------------------"
     @echo "Installing for Linux......"
     @sudo dpkg -i ./dist/{{VERSION}}/metranslate-{{VERSION}}-linux.deb
+
+# Update yarn packages
+update-yarn:
+    @echo "------------------------------"
+    @echo "Updating yarn packages......"
+    @yarn upgrade-interactive --latest
