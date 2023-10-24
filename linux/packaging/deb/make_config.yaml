@@ -19,11 +19,10 @@ postuninstall_scripts:
   - echo "--------------------- MeTranslate ---------------------\n  @author  liuyuxin\n  @email   gvenusleo@gmail.com\n  @website https://liuyu.xin\n  @github  https://github.com/gvenusleo/MeTranslate\n-----------------------------------------------------"
 
 keywords:
-  - Translate
-  - Linux
+  - Translatiion
   - Application
 
-generic_name: Translate Application
+generic_name: Translation Application
 
 categories:
   - Utility
