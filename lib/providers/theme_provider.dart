@@ -6,7 +6,7 @@ class ThemeProvider extends ChangeNotifier {
   // 主题背景
   int themeMode = prefs.getInt("themeMode") ?? 0;
   // 全局字体
-  String fontFamily = prefs.getString("fontFamily") ?? "默认字体";
+  String fontFamily = prefs.getString("fontFamily") ?? "Sarasa-UI-SC";
   // 使用系统主题颜色
   bool useSystemThemeColor = prefs.getBool("useSystemThemeColor") ?? true;
 

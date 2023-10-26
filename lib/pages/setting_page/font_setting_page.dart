@@ -49,11 +49,11 @@ class _FontSettingPageState extends State<FontSettingPage> {
               itemBuilder: (context, index) {
                 if (index == 0) {
                   return RadioListTile(
-                    value: "默认字体",
+                    value: "Sarasa-UI-SC",
                     groupValue: context.watch<ThemeProvider>().fontFamily,
                     title: const Text(
                       "默认字体",
-                      style: TextStyle(fontFamily: "默认字体"),
+                      style: TextStyle(fontFamily: "Sarasa-UI-SC"),
                     ),
                     onChanged: (value) {
                       if (value != null) {
@@ -80,7 +80,9 @@ class _FontSettingPageState extends State<FontSettingPage> {
                       /* 删除字体 */
                       if (context.read<ThemeProvider>().fontFamily ==
                           _fonts[index - 1]) {
-                        context.read<ThemeProvider>().changeFontFamily("默认字体");
+                        context
+                            .read<ThemeProvider>()
+                            .changeFontFamily("Sarasa-UI-SC");
                       }
                       await deleteFont(_fonts[index - 1]);
                       _readFonts();

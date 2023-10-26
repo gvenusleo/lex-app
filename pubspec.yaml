@@ -49,3 +49,7 @@ flutter:
     - assets/logo.png
     - assets/logo.ico
     - assets/service/
+  fonts:
+    - family: Sarasa-UI-SC
+      fonts:
+        - asset: assets/sarasa-ui-sc.ttf
