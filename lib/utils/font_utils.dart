@@ -21,8 +21,8 @@ Future<List<String>> readAllFont() async {
 
 /// 读取主题字体文件，注册到系统中
 Future<void> readThemeFont() async {
-  final String themeFontName = prefs.getString("fontFamily") ?? "默认字体";
-  if (themeFontName != "默认字体") {
+  final String themeFontName = prefs.getString("fontFamily") ?? "Sarasa-UI-SC";
+  if (themeFontName != "Sarasa-UI-SC") {
     final fontFileDir = await getFontDir();
     readFont(
         "${fontFileDir.path}${getDirSeparator()}$themeFontName", themeFontName);
