@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:metranslate/global.dart";
@@ -18,6 +19,7 @@ import 'package:metranslate/utils/translate_service/volcengine_free.dart';
 import 'package:metranslate/utils/translate_service/yandex.dart';
 import 'package:metranslate/utils/translate_service/youdao.dart';
 import 'package:metranslate/utils/translate_service/zhipuai.dart';
+import 'package:metranslate/widgets/loading_skeleton.dart';
 
 /// 翻译页面
 class TranslatePage extends StatefulWidget {
@@ -36,18 +38,16 @@ class TranslatePage extends StatefulWidget {
 class _TranslatePageState extends State<TranslatePage> {
   // 输入框控制器
   final _inputController = TextEditingController();
-  // 输出框控制器
-  late Map<String, TextEditingController> _outputControllers;
-  // 输出框文字颜色
-  late Map<String, Color?> _outputTextColor;
+  // 翻译输出
+  late Map<String, Widget> _outputs;
   // 翻译服务
   late List<String> _useService;
-  // 是否正在翻译
-  late Map<String, bool> _isOnTranslation;
   // 原文语言
   String _fromLanguage = initFromLanguage();
   // 目标语言
   String _toLanguage = initToLanguage();
+  // 翻译结果
+  final Map<String, String> _result = {};
 
   @override
   void initState() {
@@ -59,17 +59,11 @@ class _TranslatePageState extends State<TranslatePage> {
           "yandex",
           "volcengineFree",
         ];
-    _outputControllers = Map.fromEntries(
-      _useService.map(
-        (e) => MapEntry(e, TextEditingController()),
-      ),
-    );
-    _outputTextColor = Map.fromEntries(
-      _useService.map((e) => MapEntry(e, null)),
-    );
-    _isOnTranslation = Map.fromEntries(
-      _useService.map((e) => MapEntry(e, false)),
-    );
+    _outputs = Map.fromEntries(_useService.map((e) => MapEntry(
+        e,
+        RichText(
+          text: const TextSpan(text: ""),
+        ))));
     if (widget.selectedText != null) {
       _inputController.text = widget.selectedText!;
       List<Future> futures = [];
@@ -103,9 +97,7 @@ class _TranslatePageState extends State<TranslatePage> {
                     contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 8),
                     isDense: true,
                   ),
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                   onSubmitted: (value) {
                     List<Future> futures = [];
                     for (String service in _useService) {
@@ -191,17 +183,11 @@ class _TranslatePageState extends State<TranslatePage> {
           margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
           child: Column(
             children: [
-              TextField(
-                controller: _outputControllers[_useService[index]],
-                minLines: 1,
-                maxLines: 100,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 8),
-                  isDense: true,
-                ),
-                style: TextStyle(
-                  color: _outputTextColor[_useService[index]],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: _outputs[_useService[index]]!,
                 ),
               ),
               ReorderableDragStartListener(
@@ -228,15 +214,6 @@ class _TranslatePageState extends State<TranslatePage> {
                             color: Colors.transparent,
                             height: 24,
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            _outputControllers[_useService[index]]!.clear();
-                          },
-                          icon: const Icon(Icons.backspace_outlined, size: 20),
-                          padding: const EdgeInsets.all(0),
-                          visualDensity: VisualDensity.compact,
-                          // tooltip: "清空",
                         ),
                         IconButton(
                           onPressed: () => _copyResultFunc(_useService[index]),
@@ -279,39 +256,57 @@ class _TranslatePageState extends State<TranslatePage> {
       return;
     }
     if (!checkAPI(service)) {
-      _outputControllers[service]!.text = "请先设置 API 接口";
-      setState(() {
-        _outputTextColor[service] = Colors.red;
-      });
+      setState(
+        () {
+          _outputs[service] = SelectableText.rich(
+            const TextSpan(
+              text: "请先设置 API 接口",
+            ),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Colors.red,
+                ),
+          );
+        },
+      );
       return;
     }
-    setState(() {
-      _outputTextColor[service] = null;
-      _isOnTranslation[service] = true;
-    });
-    _outputAnimationFunc(service);
     switch (service) {
       case "bing":
         try {
           // 通过 Bing 翻译
+          setState(() {
+            _outputs["bing"] = const LoadingSkeleton();
+          });
           String result = await translateByBing(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["bing"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
-              setState(() {
-                _outputTextColor["bing"] = Colors.red;
-              });
-              _outputControllers["bing"]!.text = result.split(":").last;
+            if (result.startsWith("error:")) {
+              setState(
+                () {
+                  _outputs["bing"] = SelectableText.rich(
+                    TextSpan(
+                      text: result.split(":").last,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: Colors.red,
+                          ),
+                    ),
+                  );
+                },
+              );
               return;
             } else {
-              _outputControllers["bing"]!.text = result;
+              setState(() {
+                _outputs["bing"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["bing"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -327,32 +322,50 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["bing"] = false;
-            _outputTextColor["bing"] = Colors.red;
+            _outputs["bing"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["bing"]!.text = "翻译失败，请检查网络状态";
         }
       case "deeplFree":
         try {
           // 通过 DeepL Free 翻译
+          setState(() {
+            _outputs["deeplFree"] = const LoadingSkeleton();
+          });
           String result = await translateByDeeplFree(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["deeplFree"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["deeplFree"] = Colors.red;
+                _outputs["deeplFree"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["deeplFree"]!.text = result.split(":").last;
+              return;
             } else {
-              _outputControllers["deeplFree"]!.text = result;
+              setState(() {
+                _outputs["deeplFree"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["deeplFree"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -368,33 +381,50 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["deeplFree"] = false;
-            _outputTextColor["deeplFree"] = Colors.red;
+            _outputs["deeplFree"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["deeplFree"]!.text = "翻译失败，请检查网络状态";
         }
       case "google":
         try {
           // 通过 Google 翻译
+          setState(() {
+            _outputs["google"] = const LoadingSkeleton();
+          });
           String result = await translateByGoogle(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["google"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["google"] = Colors.red;
+                _outputs["google"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["google"]!.text = result.split(":").last;
               return;
             } else {
-              _outputControllers["google"]!.text = result;
+              setState(() {
+                _outputs["google"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["google"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -410,33 +440,50 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["google"] = false;
-            _outputTextColor["google"] = Colors.red;
+            _outputs["google"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["google"]!.text = "翻译失败，请检查网络状态";
         }
       case "yandex":
         try {
           // 通过 Yandex 翻译
+          setState(() {
+            _outputs["yandex"] = const LoadingSkeleton();
+          });
           final String result = await translateByYandex(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["yandex"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["yandex"] = Colors.red;
+                _outputs["yandex"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["yandex"]!.text = result.split(":").last;
               return;
             } else {
-              _outputControllers["yandex"]!.text = result;
+              setState(() {
+                _outputs["yandex"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["yandex"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -452,34 +499,50 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["yandex"] = false;
-            _outputTextColor["yandex"] = Colors.red;
+            _outputs["yandex"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["yandex"]!.text = "翻译失败，请检查网络状态";
         }
       case "volcengineFree":
         try {
           // 通过火山翻译 Free 翻译
+          setState(() {
+            _outputs["volcengineFree"] = const LoadingSkeleton();
+          });
           final String result = await translateByVolcengineFree(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["volcengineFree"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["volcengineFree"] = Colors.red;
+                _outputs["volcengineFree"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["volcengineFree"]!.text =
-                  result.split(":").last;
               return;
             } else {
-              _outputControllers["volcengineFree"]!.text = result;
+              setState(() {
+                _outputs["volcengineFree"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["volcengineFree"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -495,38 +558,156 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["volcengineFree"] = false;
-            _outputTextColor["volcengineFree"] = Colors.red;
+            _outputs["volcengineFree"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["volcengineFree"]!.text = "翻译失败，请检查网络状态";
         }
       case "cambridge_dict":
         try {
           // 通过剑桥词典翻译
+          setState(() {
+            _outputs["cambridge_dict"] = const LoadingSkeleton();
+          });
+          setState(() {
+            _outputs["cambridge_dict"] = const LoadingSkeleton();
+          });
           final Map result = await translateByCambridgeDict(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["cambridge_dict"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
             if (result.keys.first == "error") {
               setState(() {
-                _outputTextColor["cambridge_dict"] = Colors.red;
+                _outputs["cambridge_dict"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.values.first,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["cambridge_dict"]!.text = result.values.first;
               return;
             } else {
               List<Map<String, dynamic>> translation = result["translation"];
               String translationString = "";
               for (Map<String, dynamic> item in translation) {
-                translationString += item["pos"] + item["tran"].join("，");
+                translationString +=
+                    item["pos"] + item["tran"].join("，") + "\n";
               }
-              _outputControllers["cambridge_dict"]!.text = translationString;
+              setState(() {
+                _outputs["cambridge_dict"] = SelectableText.rich(
+                  TextSpan(
+                    children: [
+                      for (Map<String, dynamic> item in translation) ...[
+                        TextSpan(
+                          text: item["pos"] + "    ",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                        TextSpan(
+                          text: item["tran"].join("。") + "\n",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        TextSpan(
+                          text: "\n",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(height: 0.1),
+                        ),
+                      ],
+                      WidgetSpan(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "US  ${result["pronunciation"]["us"]["ipa"]}  ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                try {
+                                  final player = AudioPlayer();
+                                  player.play(
+                                    UrlSource(
+                                      result["pronunciation"]["us"]["mp3"],
+                                    ),
+                                  );
+                                } catch (_) {
+                                  return;
+                                }
+                              },
+                              icon: const Icon(Icons.volume_up_outlined,
+                                  size: 20),
+                              padding: const EdgeInsets.all(0),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const TextSpan(text: "\n"),
+                      WidgetSpan(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "UK  ${result["pronunciation"]["uk"]["ipa"]}  ",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                try {
+                                  final player = AudioPlayer();
+                                  player.play(
+                                    UrlSource(
+                                      result["pronunciation"]["uk"]["mp3"],
+                                    ),
+                                  );
+                                } catch (_) {
+                                  return;
+                                }
+                              },
+                              icon: const Icon(Icons.volume_up_outlined,
+                                  size: 20),
+                              padding: const EdgeInsets.all(0),
+                              visualDensity: VisualDensity.compact,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["cambridge_dict"] = translationString;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -542,33 +723,50 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["cambridge_dict"] = false;
-            _outputTextColor["cambridge_dict"] = Colors.red;
+            _outputs["cambridge_dict"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["cambridge_dict"]!.text = "翻译失败，请检查网络状态";
         }
       case "baidu":
         try {
           // 通过百度翻译
+          setState(() {
+            _outputs["baidu"] = const LoadingSkeleton();
+          });
           String result = await translateByBaidu(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["baidu"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["baidu"] = Colors.red;
+                _outputs["baidu"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["baidu"]!.text = result.split(":").last;
               return;
             } else {
-              _outputControllers["baidu"]!.text = result;
+              setState(() {
+                _outputs["baidu"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["baidu"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -584,31 +782,48 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["baidu"] = false;
-            _outputTextColor["baidu"] = Colors.red;
+            _outputs["baidu"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态和接口设置",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["baidu"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
         break;
       case "caiyun":
         try {
           // 通过彩云小译翻译
+          setState(() {
+            _outputs["caiyun"] = const LoadingSkeleton();
+          });
           String result =
               await translateByCaiyun(text, _fromLanguage, _toLanguage);
-          setState(() {
-            _isOnTranslation["caiyun"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["caiyun"] = Colors.red;
+                _outputs["caiyun"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["caiyun"]!.text = result.split(":").last;
               return;
             } else {
-              _outputControllers["caiyun"]!.text = result;
+              setState(() {
+                _outputs["caiyun"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["caiyun"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -624,34 +839,51 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["caiyun"] = false;
-            _outputTextColor["caiyun"] = Colors.red;
+            _outputs["caiyun"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态和接口设置",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["caiyun"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
         break;
       case "niutrans":
         try {
           // 通过「小牛翻译」翻译
+          setState(() {
+            _outputs["niutrans"] = const LoadingSkeleton();
+          });
           final String result = await translateByNiutrans(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["niutrans"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["niutrans"] = Colors.red;
+                _outputs["niutrans"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["niutrans"]!.text = result.split(":").last;
               return;
             } else {
-              _outputControllers["niutrans"]!.text = result;
+              setState(() {
+                _outputs["niutrans"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["niutrans"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -667,33 +899,50 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["niutrans"] = false;
-            _outputTextColor["niutrans"] = Colors.red;
+            _outputs["niutrans"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态和接口设置",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["niutrans"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
       case "volcengine":
         try {
           // 使用「火山翻译」翻译
+          setState(() {
+            _outputs["volcengine"] = const LoadingSkeleton();
+          });
           final String result = await translateByVolcengine(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["volcengine"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["volcengine"] = Colors.red;
+                _outputs["volcengine"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["volcengine"]!.text = result.split(":").last;
               return;
             } else {
-              _outputControllers["volcengine"]!.text = result;
+              setState(() {
+                _outputs["volcengine"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["volcengine"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -709,33 +958,50 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["volcengine"] = false;
-            _outputTextColor["volcengine"] = Colors.red;
+            _outputs["volcengine"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态和接口设置",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["volcengine"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
       case "youdao":
         try {
           // 使用「有道翻译」翻译
+          setState(() {
+            _outputs["youdao"] = const LoadingSkeleton();
+          });
           final String result = await translateByYoudao(
             text,
             _fromLanguage,
             _toLanguage,
           );
-          setState(() {
-            _isOnTranslation["youdao"] = false;
-          });
-          await Future.delayed(const Duration(milliseconds: 250));
           if (result.isNotEmpty) {
-            if (result == "error:不支持的语言") {
+            if (result.startsWith("error:")) {
               setState(() {
-                _outputTextColor["youdao"] = Colors.red;
+                _outputs["youdao"] = SelectableText.rich(
+                  TextSpan(
+                    text: result.split(":").last,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Colors.red,
+                      ),
+                );
               });
-              _outputControllers["youdao"]!.text = result.split(":").last;
               return;
             } else {
-              _outputControllers["youdao"]!.text = result;
+              setState(() {
+                _outputs["youdao"] = SelectableText.rich(
+                  TextSpan(
+                    text: result,
+                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                );
+                _result["youdao"] = result;
+              });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
                 ..text = text
@@ -751,24 +1017,35 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _isOnTranslation["youdao"] = false;
-            _outputTextColor["youdao"] = Colors.red;
+            _outputs["youdao"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态和接口设置",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["youdao"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
       case "minimax":
         try {
           // 通过 MiniMax 翻译
+          setState(() {
+            _outputs["minimax"] = const LoadingSkeleton();
+          });
           String result = await translateByMiniMax(
             text,
             _toLanguage,
           );
           setState(() {
-            _isOnTranslation["minimax"] = false;
+            _outputs["minimax"] = SelectableText.rich(
+              TextSpan(
+                text: result,
+              ),
+              style: Theme.of(context).textTheme.bodyLarge,
+            );
+            _result["minimax"] = result;
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["minimax"]!.text = result;
           // 保存历史记录
           final HistoryItem item = HistoryItem()
             ..text = text
@@ -782,24 +1059,35 @@ class _TranslatePageState extends State<TranslatePage> {
           });
         } catch (e) {
           setState(() {
-            _isOnTranslation["minimax"] = false;
-            _outputTextColor["minimax"] = Colors.red;
+            _outputs["minimax"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态和接口设置",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["minimax"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
       case "zhipuai":
         try {
           // 通过智谱 AI 翻译
+          setState(() {
+            _outputs["zhipu"] = const LoadingSkeleton();
+          });
           String result = await translateByZhipuai(
             text,
             _toLanguage,
           );
           setState(() {
-            _isOnTranslation["zhipuai"] = false;
+            _outputs["zhipuai"] = SelectableText.rich(
+              TextSpan(
+                text: result,
+              ),
+              style: Theme.of(context).textTheme.bodyLarge,
+            );
+            _result["zhipuai"] = result;
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["zhipuai"]!.text = result;
           // 保存历史记录
           final HistoryItem item = HistoryItem()
             ..text = text
@@ -813,45 +1101,16 @@ class _TranslatePageState extends State<TranslatePage> {
           });
         } catch (e) {
           setState(() {
-            _isOnTranslation["zhipuai"] = false;
-            _outputTextColor["zhipuai"] = Colors.red;
+            _outputs["zhipuai"] = SelectableText.rich(
+              const TextSpan(
+                text: "翻译失败，请检查网络状态和接口设置",
+              ),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.red,
+                  ),
+            );
           });
-          await Future.delayed(const Duration(milliseconds: 250));
-          _outputControllers["zhipuai"]!.text = "翻译失败，请检查网络状态和接口设置";
         }
-    }
-  }
-
-  /// 自动复制
-  Future<void> _autoCopyFunc() async {
-    switch (prefs.getString("autoCopy")) {
-      case "close":
-        return;
-      case "source":
-        Clipboard.setData(
-          ClipboardData(text: _inputController.text),
-        );
-        return;
-      case "result":
-        String result = "";
-        for (String service in _useService) {
-          result +=
-              "${serviceMap()[service]!}：${_outputControllers[service]!.text}\n\n";
-        }
-        Clipboard.setData(
-          ClipboardData(text: result),
-        );
-        return;
-      case "both":
-        String result = "原文：${_inputController.text}";
-        for (String service in _useService) {
-          result +=
-              "${serviceMap()[service]!}：${_outputControllers[service]!.text}\n\n";
-        }
-        Clipboard.setData(
-          ClipboardData(text: result),
-        );
-        return;
     }
   }
 
@@ -971,23 +1230,44 @@ class _TranslatePageState extends State<TranslatePage> {
 
   /// 复制翻译结果
   Future<void> _copyResultFunc(String service) async {
-    if (_outputControllers[service]!.text.isEmpty) return;
+    if (_result[service] == null) return;
     Clipboard.setData(
-      ClipboardData(text: _outputControllers[service]!.text),
+      ClipboardData(text: _result[service]!),
     );
   }
 
-  /// 翻译过程中输出框显示动画
-  Future<void> _outputAnimationFunc(String service) async {
-    _outputControllers[service]!.clear();
-    while (_isOnTranslation[service]!) {
-      await Future.delayed(const Duration(milliseconds: 250));
-      if (!mounted) return;
-      if (_outputControllers[service]!.text.endsWith("......")) {
-        _outputControllers[service]!.clear();
-      } else {
-        _outputControllers[service]!.text += ".";
-      }
+  /// 自动复制
+  Future<void> _autoCopyFunc() async {
+    switch (prefs.getString("autoCopy")) {
+      case "close":
+        return;
+      case "source":
+        Clipboard.setData(
+          ClipboardData(text: _inputController.text),
+        );
+        return;
+      case "result":
+        String result = "";
+        for (String service in _useService) {
+          if (_result[service] != null) {
+            result += "${serviceMap()[service]!}：${_result[service]!}\n\n";
+          }
+        }
+        Clipboard.setData(
+          ClipboardData(text: result),
+        );
+        return;
+      case "both":
+        String result = "原文：${_inputController.text}\n\n";
+        for (String service in _useService) {
+          if (_result[service] != null) {
+            result += "${serviceMap()[service]!}：${_result[service]!}\n\n";
+          }
+        }
+        Clipboard.setData(
+          ClipboardData(text: result),
+        );
+        return;
     }
   }
 }

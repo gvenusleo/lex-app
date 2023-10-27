@@ -9,11 +9,14 @@ Future<Map> translateByCambridgeDict(
   String from,
   String to,
 ) async {
+  if (!["自动", "英语"].contains(from) || to != "中文") {
+    return {"error": "不支持的语言：$from → $to"};
+  }
   try {
     from = cambridgeDictSupportLanguage()[from]!;
     to = cambridgeDictSupportLanguage()[to]!;
   } catch (_) {
-    return {"error": "不支持的语言"};
+    return {"error": "不支持的语言：$from → $to"};
   }
   const String url = "https://dictionary.cambridge.org/search/direct/";
   const Map<String, String> headers = {
@@ -38,20 +41,12 @@ Future<Map> translateByCambridgeDict(
       "uk": getCambridgeDictPronunciation(html, 'uk'),
       "us": getCambridgeDictPronunciation(html, 'us'),
     },
-    "translation": getCambridgeDictTranslation(html),
+    "translation": getCambridgeDictTranslation(html, to),
   };
-
+  if (result["translation"].isEmpty) {
+    return {"error": "仅支持单词查询：英语 → 中文"};
+  }
   return result;
-}
-
-/// 剑桥词典支持的语言
-Map<String, String> cambridgeDictSupportLanguage() {
-  return {
-    // "自动": "auto",
-    "英语": "english",
-    "中文": "chinese-simplified",
-    "繁体中文": "chinese-traditional",
-  };
 }
 
 /// 获取发音
@@ -82,7 +77,8 @@ Map<String, String> getCambridgeDictPronunciation(Document html, String type) {
 }
 
 /// 获取翻译结果, 按照词性分类
-List<Map<String, dynamic>> getCambridgeDictTranslation(Document html) {
+List<Map<String, dynamic>> getCambridgeDictTranslation(
+    Document html, String to) {
   List<Map<String, dynamic>> result = [];
   final List<Element> entryBodys = html.querySelectorAll('.entry-body__el');
   for (Element entryBody in entryBodys) {
@@ -101,7 +97,11 @@ List<Map<String, dynamic>> getCambridgeDictTranslation(Document html) {
         if (children.isNotEmpty) {
           for (Element tran in children) {
             if (tran.localName == "span") {
-              item['tran']!.add(tran.text);
+              item['tran']!.add(
+                to == "chinese-simplified"
+                    ? tran.text.replaceAll(";", "；")
+                    : tran.text,
+              );
             }
           }
         }
@@ -110,4 +110,14 @@ List<Map<String, dynamic>> getCambridgeDictTranslation(Document html) {
     result.add(item);
   }
   return result;
+}
+
+/// 剑桥词典支持的语言
+Map<String, String> cambridgeDictSupportLanguage() {
+  return {
+    "自动": "english",
+    "英语": "english",
+    "中文": "chinese-simplified",
+    "繁体中文": "chinese-traditional",
+  };
 }

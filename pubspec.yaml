@@ -8,6 +8,7 @@ environment:
   sdk: ">=3.1.2 <4.0.0"
 
 dependencies:
+  audioplayers: ^5.2.0
   bitsdojo_window: ^0.1.5
   # bitsdojo_window 没有在 lib/ 中使用
   # 在 linux/my_application.cc 中使用
