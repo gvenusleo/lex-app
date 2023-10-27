@@ -22,6 +22,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   hotkey_manager: ^0.1.8
+  html: ^0.15.4
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   launch_at_startup: ^0.2.2

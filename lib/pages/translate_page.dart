@@ -8,6 +8,7 @@ import 'package:metranslate/utils/service_map.dart';
 import 'package:metranslate/utils/translate_service/baidu.dart';
 import 'package:metranslate/utils/translate_service/bing.dart';
 import 'package:metranslate/utils/translate_service/caiyun.dart';
+import 'package:metranslate/utils/translate_service/cambridge_dict.dart';
 import 'package:metranslate/utils/translate_service/deepl_free.dart';
 import 'package:metranslate/utils/translate_service/google.dart';
 import 'package:metranslate/utils/translate_service/minimax.dart';
@@ -499,6 +500,53 @@ class _TranslatePageState extends State<TranslatePage> {
           });
           await Future.delayed(const Duration(milliseconds: 250));
           _outputControllers["volcengineFree"]!.text = "翻译失败，请检查网络状态";
+        }
+      case "cambridge_dict":
+        try {
+          // 通过剑桥词典翻译
+          final Map result = await translateByCambridgeDict(
+            text,
+            _fromLanguage,
+            _toLanguage,
+          );
+          setState(() {
+            _isOnTranslation["cambridge_dict"] = false;
+          });
+          await Future.delayed(const Duration(milliseconds: 250));
+          if (result.isNotEmpty) {
+            if (result.keys.first == "error") {
+              setState(() {
+                _outputTextColor["cambridge_dict"] = Colors.red;
+              });
+              _outputControllers["cambridge_dict"]!.text = result.values.first;
+              return;
+            } else {
+              List<Map<String, dynamic>> translation = result["translation"];
+              String translationString = "";
+              for (Map<String, dynamic> item in translation) {
+                translationString += item["pos"] + item["tran"].join("，");
+              }
+              _outputControllers["cambridge_dict"]!.text = translationString;
+              // 保存历史记录
+              final HistoryItem item = HistoryItem()
+                ..text = text
+                ..result = translationString
+                ..from = _fromLanguage
+                ..to = _toLanguage
+                ..service = "cambridge_dict"
+                ..time = DateTime.now();
+              await isar.writeTxn(() async {
+                await isar.historyItems.put(item);
+              });
+            }
+          }
+        } catch (e) {
+          setState(() {
+            _isOnTranslation["cambridge_dict"] = false;
+            _outputTextColor["cambridge_dict"] = Colors.red;
+          });
+          await Future.delayed(const Duration(milliseconds: 250));
+          _outputControllers["cambridge_dict"]!.text = "翻译失败，请检查网络状态";
         }
       case "baidu":
         try {

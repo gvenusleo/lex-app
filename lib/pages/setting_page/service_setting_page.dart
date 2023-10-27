@@ -137,7 +137,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage> {
               },
             ),
           ),
-          // 火山翻译
+          // 火山翻译 Free
           ListTile(
             leading: Image.asset(
               "assets/service/volcengine.png",
@@ -156,6 +156,31 @@ class _ServiceSettingPageState extends State<ServiceSettingPage> {
                 } else {
                   setState(() {
                     _useService.add("volcengineFree");
+                  });
+                }
+                prefs.setStringList("useService", _useService);
+              },
+            ),
+          ),
+          // 火山翻译 Free
+          ListTile(
+            leading: Image.asset(
+              "assets/service/cambridge_dict.png",
+              width: 40,
+              height: 40,
+            ),
+            title: const Text("剑桥词典"),
+            subtitle: const Text("开箱即用"),
+            trailing: Checkbox(
+              value: _useService.contains("cambridge_dict"),
+              onChanged: (value) {
+                if (_useService.contains("cambridge_dict")) {
+                  setState(() {
+                    _useService.remove("cambridge_dict");
+                  });
+                } else {
+                  setState(() {
+                    _useService.add("cambridge_dict");
                   });
                 }
                 prefs.setStringList("useService", _useService);
