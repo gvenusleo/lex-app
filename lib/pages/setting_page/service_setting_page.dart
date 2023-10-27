@@ -172,15 +172,15 @@ class _ServiceSettingPageState extends State<ServiceSettingPage> {
             title: const Text("剑桥词典"),
             subtitle: const Text("开箱即用"),
             trailing: Checkbox(
-              value: _useService.contains("cambridge_dict"),
+              value: _useService.contains("cambridgeDict"),
               onChanged: (value) {
-                if (_useService.contains("cambridge_dict")) {
+                if (_useService.contains("cambridgeDict")) {
                   setState(() {
-                    _useService.remove("cambridge_dict");
+                    _useService.remove("cambridgeDict");
                   });
                 } else {
                   setState(() {
-                    _useService.add("cambridge_dict");
+                    _useService.add("cambridgeDict");
                   });
                 }
                 prefs.setStringList("useService", _useService);

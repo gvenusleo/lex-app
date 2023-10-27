@@ -568,14 +568,14 @@ class _TranslatePageState extends State<TranslatePage> {
             );
           });
         }
-      case "cambridge_dict":
+      case "cambridgeDict":
         try {
           // 通过剑桥词典翻译
           setState(() {
-            _outputs["cambridge_dict"] = const LoadingSkeleton();
+            _outputs["cambridgeDict"] = const LoadingSkeleton();
           });
           setState(() {
-            _outputs["cambridge_dict"] = const LoadingSkeleton();
+            _outputs["cambridgeDict"] = const LoadingSkeleton();
           });
           final Map result = await translateByCambridgeDict(
             text,
@@ -585,7 +585,7 @@ class _TranslatePageState extends State<TranslatePage> {
           if (result.isNotEmpty) {
             if (result.keys.first == "error") {
               setState(() {
-                _outputs["cambridge_dict"] = SelectableText.rich(
+                _outputs["cambridgeDict"] = SelectableText.rich(
                   TextSpan(
                     text: result.values.first,
                   ),
@@ -603,7 +603,7 @@ class _TranslatePageState extends State<TranslatePage> {
                     item["pos"] + item["tran"].join("，") + "\n";
               }
               setState(() {
-                _outputs["cambridge_dict"] = SelectableText.rich(
+                _outputs["cambridgeDict"] = SelectableText.rich(
                   TextSpan(
                     children: [
                       for (Map<String, dynamic> item in translation) ...[
@@ -706,7 +706,7 @@ class _TranslatePageState extends State<TranslatePage> {
                   ),
                   style: Theme.of(context).textTheme.bodyLarge,
                 );
-                _result["cambridge_dict"] = translationString;
+                _result["cambridgeDict"] = translationString;
               });
               // 保存历史记录
               final HistoryItem item = HistoryItem()
@@ -714,7 +714,7 @@ class _TranslatePageState extends State<TranslatePage> {
                 ..result = translationString
                 ..from = _fromLanguage
                 ..to = _toLanguage
-                ..service = "cambridge_dict"
+                ..service = "cambridgeDict"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
                 await isar.historyItems.put(item);
@@ -723,7 +723,7 @@ class _TranslatePageState extends State<TranslatePage> {
           }
         } catch (e) {
           setState(() {
-            _outputs["cambridge_dict"] = SelectableText.rich(
+            _outputs["cambridgeDict"] = SelectableText.rich(
               const TextSpan(
                 text: "翻译失败，请检查网络状态",
               ),

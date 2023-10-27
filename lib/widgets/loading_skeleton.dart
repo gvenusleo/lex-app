@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
+/// 翻译时输出框骨架
+/// https://github.com/guozhigq/flutter_v2ex/blob/main/lib/components/common/skeleton.dart
 class LoadingSkeleton extends StatefulWidget {
   const LoadingSkeleton({super.key});
 
@@ -10,7 +12,7 @@ class LoadingSkeleton extends StatefulWidget {
 class _LoadingSkeletonState extends State<LoadingSkeleton> {
   @override
   Widget build(BuildContext context) {
-    var shimmerGradient = LinearGradient(
+    final shimmerGradient = LinearGradient(
       colors: [
         Colors.transparent,
         Theme.of(context).colorScheme.background.withAlpha(30),
