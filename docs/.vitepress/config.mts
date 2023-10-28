@@ -79,7 +79,9 @@ export default defineConfig({
       ],
     },
 
-    socialLinks: [{ icon: "github", link: "https://github.com/gvenusleo/lex" }],
+    socialLinks: [
+      { icon: "github", link: "https://github.com/gvenusleo/lex-app" },
+    ],
 
     footer: {
       message: "Released under the GUN GPL-3.0 License.",
