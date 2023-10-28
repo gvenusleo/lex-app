@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:metranslate/global.dart";
+import "package:lex/global.dart";
 import "package:window_manager/window_manager.dart";
 
 /// 翻译窗口状态管理

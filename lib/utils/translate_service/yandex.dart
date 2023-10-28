@@ -1,5 +1,5 @@
 import "package:dio/dio.dart";
-import "package:metranslate/utils/init_dio.dart";
+import "package:lex/utils/init_dio.dart";
 import "package:uuid/uuid.dart";
 
 /// Yandex 翻译

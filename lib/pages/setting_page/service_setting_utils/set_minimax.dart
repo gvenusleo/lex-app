@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:metranslate/global.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import "package:flutter/material.dart";
+import "package:lex/global.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 /// 设置 MiniMax groupID 和 ApiKey
 Future<void> setMiniMax(BuildContext context) async {

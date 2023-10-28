@@ -1,14 +1,14 @@
-import "package:metranslate/global.dart";
-import "package:metranslate/utils/translate_service/baidu.dart";
-import "package:metranslate/utils/translate_service/bing.dart";
-import "package:metranslate/utils/translate_service/caiyun.dart";
-import "package:metranslate/utils/translate_service/cambridge_dict.dart";
-import "package:metranslate/utils/translate_service/deepl_free.dart";
-import "package:metranslate/utils/translate_service/google.dart";
-import "package:metranslate/utils/translate_service/niutrans.dart";
-import "package:metranslate/utils/translate_service/volcengine.dart";
-import "package:metranslate/utils/translate_service/yandex.dart";
-import "package:metranslate/utils/translate_service/youdao.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/translate_service/baidu.dart";
+import "package:lex/utils/translate_service/bing.dart";
+import "package:lex/utils/translate_service/caiyun.dart";
+import "package:lex/utils/translate_service/cambridge_dict.dart";
+import "package:lex/utils/translate_service/deepl_free.dart";
+import "package:lex/utils/translate_service/google.dart";
+import "package:lex/utils/translate_service/niutrans.dart";
+import "package:lex/utils/translate_service/volcengine.dart";
+import "package:lex/utils/translate_service/yandex.dart";
+import "package:lex/utils/translate_service/youdao.dart";
 
 /// 初始化模型原语言
 String initFromLanguage() {

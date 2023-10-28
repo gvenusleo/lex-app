@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
-import 'package:metranslate/global.dart';
-import 'package:metranslate/utils/init_dio.dart';
+import "package:dio/dio.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// 使用 MiniMax 翻译
 /// https://api.minimax.chat/document/guides/chat-pro?id=64b79fa3e74cddc5215939f4

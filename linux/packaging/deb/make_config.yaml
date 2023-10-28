@@ -1,5 +1,5 @@
-display_name: 质感翻译
-package_name: metranslate
+display_name: Lex
+package_name: lex
 maintainer:
   name: liuyuxin
   email: gvenusleo@gmail.com
@@ -14,15 +14,16 @@ dependencies:
   - libayatana-appindicator3-dev
 
 postinstall_scripts:
-  - echo "---------------- Welcom to MeTranslate ----------------\n  @author  liuyuxin\n  @email   gvenusleo@gmail.com\n  @website https://liuyu.xin\n  @github  https://github.com/gvenusleo/MeTranslate\n-----------------------------------------------------"
+  - echo "------------------- Welcom to Lex -------------------\n  @website   https://pot-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"
 postuninstall_scripts:
-  - echo "--------------------- MeTranslate ---------------------\n  @author  liuyuxin\n  @email   gvenusleo@gmail.com\n  @website https://liuyu.xin\n  @github  https://github.com/gvenusleo/MeTranslate\n-----------------------------------------------------"
+  - echo "------------------------ Lex ------------------------\n  @website   https://pot-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"
 
 keywords:
   - Translatiion
+  - OCR
   - Application
 
-generic_name: Translation Application
+generic_name: Translation & OCR Application
 
 categories:
   - Utility

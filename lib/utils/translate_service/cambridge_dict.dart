@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
-import 'package:metranslate/utils/init_dio.dart';
+import "package:dio/dio.dart";
+import "package:html/dom.dart";
+import "package:html/parser.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// 剑桥词典
 Future<Map> translateByCambridgeDict(

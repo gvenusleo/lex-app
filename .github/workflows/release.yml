@@ -116,7 +116,7 @@ jobs:
         id: find_deb
         run: |
           VERSION=${{ needs.build.outputs.version }}
-          DEB_PATH=$(find dist -name "metranslate-$VERSION*-linux.deb")
+          DEB_PATH=$(find dist -name "lex-$VERSION*-linux.deb")
           echo "deb_path=$DEB_PATH" >> $GITHUB_OUTPUT
 
       - name: Check if deb file exists
@@ -161,13 +161,13 @@ jobs:
         run: flutter build windows
 
       - name: Zip compiled files
-        run: Compress-Archive -Path build/windows/runner/Release/* -DestinationPath metranslate.zip
+        run: Compress-Archive -Path build/windows/runner/Release/* -DestinationPath lex.zip
 
       - name: Upload zip
         uses: actions/upload-artifact@v3
         with:
           name: windows-zip-result
-          path: metranslate.zip
+          path: lex.zip
 
   release:
     needs: [build, build_tar, build_deb, build_windows_zip]
@@ -205,7 +205,7 @@ jobs:
         with:
           upload_url: ${{ steps.draft_release.outputs.upload_url }}
           asset_path: result.tar.gz
-          asset_name: metranslate-${{ needs.build.outputs.version }}-linux-x86-64.tar.gz
+          asset_name: lex-${{ needs.build.outputs.version }}-linux-x86-64.tar.gz
           asset_content_type: application/gzip
 
       # DEB
@@ -225,7 +225,7 @@ jobs:
         with:
           upload_url: ${{ steps.draft_release.outputs.upload_url }}
           asset_path: result.deb
-          asset_name: metranslate-${{ needs.build.outputs.version }}-linux-x86-64.deb
+          asset_name: lex-${{ needs.build.outputs.version }}-linux-x86-64.deb
           asset_content_type: application/vnd.debian.binary-package
 
           # WINDOWS ZIP
@@ -245,5 +245,5 @@ jobs:
         with:
           upload_url: ${{ steps.draft_release.outputs.upload_url }}
           asset_path: result.zip
-          asset_name: metranslate-${{ needs.build.outputs.version }}-windows-x86-64.zip
+          asset_name: lex-${{ needs.build.outputs.version }}-windows-x86-64.zip
           asset_content_type: application/zip

@@ -1,8 +1,8 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:metranslate/utils/dir_utils.dart';
-import 'package:process_run/process_run.dart';
-import 'package:screen_capturer/screen_capturer.dart';
+import "package:lex/utils/dir_utils.dart";
+import "package:process_run/process_run.dart";
+import "package:screen_capturer/screen_capturer.dart";
 
 /// 使用 Tesseract 进行文字识别
 Future<String> ocrByTesseract({String language = "中文"}) async {

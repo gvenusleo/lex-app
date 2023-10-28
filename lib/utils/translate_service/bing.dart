@@ -1,5 +1,5 @@
 import "package:dio/dio.dart";
-import "package:metranslate/utils/init_dio.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// Bing 翻译
 Future<String> translateByBing(String text, String from, String to) async {

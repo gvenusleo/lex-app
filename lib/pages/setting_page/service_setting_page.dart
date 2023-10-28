@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
-import "package:metranslate/global.dart";
-import 'package:metranslate/pages/setting_page/service_setting_utils/set_zhipuai.dart';
-import 'package:metranslate/pages/setting_page/service_setting_utils/set_baidu.dart';
-import 'package:metranslate/pages/setting_page/service_setting_utils/set_caiyun.dart';
-import 'package:metranslate/pages/setting_page/service_setting_utils/set_minimax.dart';
-import 'package:metranslate/pages/setting_page/service_setting_utils/set_niutrans.dart';
-import 'package:metranslate/pages/setting_page/service_setting_utils/set_volcengine.dart';
-import 'package:metranslate/pages/setting_page/service_setting_utils/set_youdao.dart';
-import "package:metranslate/widgets/list_tile_group_title.dart";
+import "package:lex/global.dart";
+import "package:lex/pages/setting_page/service_setting_utils/set_zhipuai.dart";
+import "package:lex/pages/setting_page/service_setting_utils/set_baidu.dart";
+import "package:lex/pages/setting_page/service_setting_utils/set_caiyun.dart";
+import "package:lex/pages/setting_page/service_setting_utils/set_minimax.dart";
+import "package:lex/pages/setting_page/service_setting_utils/set_niutrans.dart";
+import "package:lex/pages/setting_page/service_setting_utils/set_volcengine.dart";
+import "package:lex/pages/setting_page/service_setting_utils/set_youdao.dart";
+import "package:lex/widgets/list_tile_group_title.dart";
 
 /// 翻译模型设置页面
 class ServiceSettingPage extends StatefulWidget {

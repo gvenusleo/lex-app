@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import "package:launch_at_startup/launch_at_startup.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/providers/theme_provider.dart";
-import "package:metranslate/widgets/list_tile_group_title.dart";
+import "package:lex/global.dart";
+import "package:lex/providers/theme_provider.dart";
+import "package:lex/widgets/list_tile_group_title.dart";
 import "package:provider/provider.dart";
 import "package:window_manager/window_manager.dart";
 

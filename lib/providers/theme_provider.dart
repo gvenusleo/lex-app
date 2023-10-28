@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:metranslate/global.dart";
+import "package:lex/global.dart";
 
 /// 主题状态监听
 class ThemeProvider extends ChangeNotifier {

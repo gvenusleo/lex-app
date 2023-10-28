@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import "package:metranslate/providers/theme_provider.dart";
+import "package:lex/providers/theme_provider.dart";
 import "package:provider/provider.dart";
 
 /// 亮色主题

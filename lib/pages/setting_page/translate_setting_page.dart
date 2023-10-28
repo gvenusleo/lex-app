@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/widgets/list_tile_group_title.dart";
+import "package:lex/global.dart";
+import "package:lex/widgets/list_tile_group_title.dart";
 
 /// 翻译设置页面
 class TranslateSettingPage extends StatefulWidget {

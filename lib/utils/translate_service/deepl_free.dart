@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'dart:math';
+import "dart:convert";
+import "dart:math";
 
-import 'package:dio/dio.dart';
-import 'package:metranslate/utils/init_dio.dart';
+import "package:dio/dio.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// Deepl Free 翻译
 Future<String> translateByDeeplFree(String text, String from, String to) async {

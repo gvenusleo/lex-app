@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import "package:hotkey_manager/hotkey_manager.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/pages/setting_page/settings_page.dart";
-import "package:metranslate/pages/translate_page.dart";
-import "package:metranslate/providers/window_provider.dart";
+import "package:lex/global.dart";
+import "package:lex/pages/setting_page/settings_page.dart";
+import "package:lex/pages/translate_page.dart";
+import "package:lex/providers/window_provider.dart";
 import "package:provider/provider.dart";
 import "package:screen_retriever/screen_retriever.dart";
 import "package:screen_text_extractor/screen_text_extractor.dart";

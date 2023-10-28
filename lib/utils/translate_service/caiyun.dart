@@ -1,6 +1,6 @@
 import "package:dio/dio.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/utils/init_dio.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// 彩云小译
 /// https://docs.caiyunapp.com/blog/2018/09/03/lingocloud-api/

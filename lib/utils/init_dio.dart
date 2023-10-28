@@ -2,7 +2,7 @@ import "dart:io";
 
 import "package:dio/dio.dart";
 import "package:dio/io.dart";
-import "package:metranslate/global.dart";
+import "package:lex/global.dart";
 
 /// 初始化 Dio (可能使用代理)
 Dio initDio() {

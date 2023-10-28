@@ -2,8 +2,8 @@ import "dart:convert";
 
 import "package:crypto/crypto.dart";
 import "package:dio/dio.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/utils/init_dio.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// 有道翻译
 /// https://ai.youdao.com/DOCSIRMA/html/trans/api/wbfy/index.html

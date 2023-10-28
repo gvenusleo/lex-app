@@ -17,7 +17,7 @@ build-linux-deb:
 install-linux-deb: build-linux-deb
     @echo "------------------------------"
     @echo "Installing for Linux......"
-    @sudo dpkg -i ./dist/{{VERSION}}/metranslate-{{VERSION}}-linux.deb
+    @sudo dpkg -i ./dist/{{VERSION}}/lex-{{VERSION}}-linux.deb
 
 # Update yarn packages
 update-yarn:

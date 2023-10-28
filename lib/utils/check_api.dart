@@ -1,4 +1,4 @@
-import 'package:metranslate/global.dart';
+import "package:lex/global.dart";
 
 /// 检查翻译服务 API 是否设置
 bool checkAPI(String service) {

@@ -1,15 +1,15 @@
 <div align="center">
   <h1>
-    <image src="assets/logo.svg" alt="MeTranslate" width=80/>
-    </br>质感翻译
+    <image src="assets/logo.svg" alt="lex-app" width=80/>
+    </br>Lex
   </h1>
-  <p>划词翻译软件，使用 Flutter 开发，支持多个翻译模型</p>
+  <p>跨平台划词翻译和 OCR 软件</p>
   <p>
-    <a href="https://github.com/gvenusleo/MeTranslate/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/gvenusleo/MeTranslate?style=flat-square" alt="License">
+    <a href="https://github.com/gvenusleo/lex-app/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/gvenusleo/lex-app?style=flat-square" alt="License">
     </a>
-    <a href="https://github.com/gvenusleo/MeTranslate/releases">
-      <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/gvenusleo/MeTranslate?style=flat-square">
+    <a href="https://github.com/gvenusleo/lex-app/releases">
+      <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/gvenusleo/lex-app?style=flat-square">
     </a>
   </p>
 </div>

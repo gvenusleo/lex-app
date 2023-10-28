@@ -3,7 +3,7 @@ import { defineConfig } from "vitepress";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: "zh-CN",
-  title: "质感翻译",
+  title: "Lex",
   // titleTemplate: false,
   description: "快速、方便的跨平台划词翻译软件，支持多个翻译服务和 AI 大模型",
   appearance: true,
@@ -26,7 +26,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.svg",
-    siteTitle: "质感翻译",
+    siteTitle: "Lex",
 
     outline: {
       level: [2, 3],
@@ -79,9 +79,7 @@ export default defineConfig({
       ],
     },
 
-    socialLinks: [
-      { icon: "github", link: "https://github.com/gvenusleo/MeTranslate" },
-    ],
+    socialLinks: [{ icon: "github", link: "https://github.com/gvenusleo/lex" }],
 
     footer: {
       message: "Released under the GUN GPL-3.0 License.",

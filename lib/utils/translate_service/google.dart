@@ -1,5 +1,5 @@
 import "package:dio/dio.dart";
-import "package:metranslate/utils/init_dio.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// Google 翻译
 Future<String> translateByGoogle(String text, String from, String to) async {

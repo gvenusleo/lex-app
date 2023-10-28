@@ -21,9 +21,9 @@
 
 ## 致谢
 
-- 质感翻译的灵感来源于：[pot](https://github.com/pot-app/pot-desktop)
+- Lex 的灵感来源于：[pot](https://github.com/pot-app/pot-desktop)
 - 感谢 [LeanFlutter](https://github.com/leanflutter) 提供的一系列桌面端 Flutter packages
 
 ## License
 
-[GNU GPL-3.0](https://github.com/gvenusleo/MeTranslate/blob/main/LICENSE)
+[GNU GPL-3.0](https://github.com/gvenusleo/lex-app/blob/main/LICENSE)

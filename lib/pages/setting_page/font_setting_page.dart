@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:metranslate/providers/theme_provider.dart";
-import "package:metranslate/utils/font_utils.dart";
+import "package:lex/providers/theme_provider.dart";
+import "package:lex/utils/font_utils.dart";
 import "package:provider/provider.dart";
 
 /// 全局字体设置页面

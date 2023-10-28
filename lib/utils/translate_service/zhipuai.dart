@@ -1,9 +1,9 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:crypto/crypto.dart';
-import 'package:dio/dio.dart';
-import 'package:metranslate/global.dart';
-import 'package:metranslate/utils/init_dio.dart';
+import "package:crypto/crypto.dart";
+import "package:dio/dio.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// 使用智谱 AI 翻译
 /// https://open.bigmodel.cn/dev/api#http
@@ -73,6 +73,6 @@ String getJwt(String apiKey) {
   final encodedPayload = base64Encode(utf8.encode(jsonEncode(payload)));
   final hmacSha256 = Hmac(sha256, utf8.encode(secret));
   final signature = base64Encode(
-      hmacSha256.convert(utf8.encode('$encodedHeader.$encodedPayload')).bytes);
-  return '$encodedHeader.$encodedPayload.$signature';
+      hmacSha256.convert(utf8.encode("$encodedHeader.$encodedPayload")).bytes);
+  return "$encodedHeader.$encodedPayload.$signature";
 }

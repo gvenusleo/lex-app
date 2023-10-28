@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:hotkey_manager/hotkey_manager.dart';
-import 'package:metranslate/global.dart';
-import 'package:metranslate/widgets/virtual_key_view.dart';
+import "package:flutter/material.dart";
+import "package:hotkey_manager/hotkey_manager.dart";
+import "package:lex/global.dart";
+import "package:lex/widgets/virtual_key_view.dart";
 
 class HotKeySettingPage extends StatefulWidget {
   const HotKeySettingPage({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:metranslate/global.dart';
-import 'package:metranslate/utils/languages.dart';
-import 'package:metranslate/widgets/list_tile_group_title.dart';
+import "package:flutter/material.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/languages.dart";
+import "package:lex/widgets/list_tile_group_title.dart";
 
 class LanguageSettingPage extends StatefulWidget {
   const LanguageSettingPage({Key? key}) : super(key: key);

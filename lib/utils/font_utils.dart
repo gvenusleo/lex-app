@@ -2,8 +2,8 @@ import "dart:io";
 
 import "package:file_picker/file_picker.dart";
 import "package:flutter/services.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/utils/dir_utils.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/dir_utils.dart";
 
 /// 读取所有字体文件，注册到系统中
 /// 返回字体名称列表

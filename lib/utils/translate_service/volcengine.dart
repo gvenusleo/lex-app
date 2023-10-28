@@ -2,8 +2,8 @@ import "dart:convert";
 
 import "package:crypto/crypto.dart";
 import "package:dio/dio.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/utils/init_dio.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/init_dio.dart";
 
 /// 火山翻译
 /// https://www.volcengine.com/docs/4640/65067

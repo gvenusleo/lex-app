@@ -1,11 +1,11 @@
 import "package:dynamic_color/dynamic_color.dart";
 import "package:flutter/material.dart";
 import "package:flutter_localizations/flutter_localizations.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/pages/home_page.dart";
-import "package:metranslate/providers/theme_provider.dart";
-import "package:metranslate/providers/window_provider.dart";
-import "package:metranslate/theme/theme.dart";
+import "package:lex/global.dart";
+import "package:lex/pages/home_page.dart";
+import "package:lex/providers/theme_provider.dart";
+import "package:lex/providers/window_provider.dart";
+import "package:lex/theme/theme.dart";
 import "package:provider/provider.dart";
 
 Future<void> main() async {

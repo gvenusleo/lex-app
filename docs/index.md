@@ -4,7 +4,7 @@ layout: home
 titleTemplate: 快速、方便的跨平台划词翻译软件
 
 hero:
-  name: "质感翻译"
+  name: "Lex"
   # text: "v0.1.0"
   tagline: 快速、方便的跨平台划词翻译软件</br>支持多个翻译服务和 AI 大模型
   actions:
@@ -16,7 +16,7 @@ hero:
       link: /guide/install
   image:
     src: /logo.svg
-    alt: MeTranslate
+    alt: Lex-logo
 features:
   - icon: 💻
     title: 跨平台

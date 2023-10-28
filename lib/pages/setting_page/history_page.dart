@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:isar/isar.dart";
-import "package:metranslate/global.dart";
-import "package:metranslate/modules/history_item.dart";
-import 'package:metranslate/utils/service_map.dart';
+import "package:lex/global.dart";
+import "package:lex/modules/history_item.dart";
+import "package:lex/utils/service_map.dart";
 
 /// 历史记录页面
 class HistoryPage extends StatefulWidget {

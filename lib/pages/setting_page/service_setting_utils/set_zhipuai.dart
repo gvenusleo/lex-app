@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:metranslate/global.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import "package:flutter/material.dart";
+import "package:lex/global.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 /// 设置智谱 AI API Key
 Future<void> setZhipuai(BuildContext context) async {

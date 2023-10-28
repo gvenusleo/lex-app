@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "metranslate" "\0"
+            VALUE "CompanyName", "cn.pot-app" "\0"
+            VALUE "FileDescription", "lex" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "metranslate" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "metranslate.exe" "\0"
-            VALUE "ProductName", "metranslate" "\0"
+            VALUE "InternalName", "lex" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 cn.lex-app. All rights reserved." "\0"
+            VALUE "OriginalFilename", "lex.exe" "\0"
+            VALUE "ProductName", "lex" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
