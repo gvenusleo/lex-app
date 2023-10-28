@@ -26,3 +26,14 @@ Future<Directory> getFontDir() async {
   }
   return fontDir;
 }
+
+/// 获取 OCR 截图文件目录
+Future<Directory> getOcrDir() async {
+  final Directory appWorkDir = await getWorkDir();
+  final String ocrPath = "${appWorkDir.path}${getDirSeparator()}ocr";
+  final Directory ocrDir = Directory(ocrPath);
+  if (!ocrDir.existsSync()) {
+    ocrDir.createSync(recursive: true);
+  }
+  return ocrDir;
+}

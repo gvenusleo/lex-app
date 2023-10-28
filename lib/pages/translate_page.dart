@@ -5,6 +5,7 @@ import "package:metranslate/global.dart";
 import "package:metranslate/modules/history_item.dart";
 import 'package:metranslate/utils/check_api.dart';
 import 'package:metranslate/utils/languages.dart';
+import 'package:metranslate/utils/ocr_service/tesseract.dart';
 import 'package:metranslate/utils/service_map.dart';
 import 'package:metranslate/utils/translate_service/baidu.dart';
 import 'package:metranslate/utils/translate_service/bing.dart';
@@ -111,13 +112,17 @@ class _TranslatePageState extends State<TranslatePage> {
                   children: [
                     const SizedBox(width: 4),
                     IconButton(
-                      onPressed: () {
-                        _inputController.clear();
+                      onPressed: () async {
+                        try {
+                          String ocrResult = await ocrByTesseract();
+                          _inputController.text = ocrResult;
+                        } catch (_) {
+                          return;
+                        }
                       },
-                      icon: const Icon(Icons.backspace_outlined, size: 20),
+                      icon: const Icon(Icons.crop_free_outlined, size: 20),
                       padding: const EdgeInsets.all(0),
                       visualDensity: VisualDensity.compact,
-                      // tooltip: "清空",
                     ),
                     IconButton(
                       onPressed: () {
@@ -131,6 +136,15 @@ class _TranslatePageState extends State<TranslatePage> {
                       padding: const EdgeInsets.all(0),
                       visualDensity: VisualDensity.compact,
                       // tooltip: "粘贴",
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _inputController.clear();
+                      },
+                      icon: const Icon(Icons.backspace_outlined, size: 20),
+                      padding: const EdgeInsets.all(0),
+                      visualDensity: VisualDensity.compact,
+                      // tooltip: "清空",
                     ),
                     const Spacer(),
                     FilledButton.tonal(
