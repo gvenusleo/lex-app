@@ -40,7 +40,7 @@ class _TranslatePageState extends State<TranslatePage> {
   // 输入框控制器
   final _inputController = TextEditingController();
   // 翻译输出
-  late Map<String, Widget> _outputs;
+  late Map<String, Widget?> _outputs;
   // 翻译服务
   late List<String> _useService;
   // 原文语言
@@ -60,11 +60,7 @@ class _TranslatePageState extends State<TranslatePage> {
           "yandex",
           "volcengineFree",
         ];
-    _outputs = Map.fromEntries(_useService.map((e) => MapEntry(
-        e,
-        RichText(
-          text: const TextSpan(text: ""),
-        ))));
+    _outputs = Map.fromEntries(_useService.map((e) => MapEntry(e, null)));
     if (widget.selectedText != null) {
       _inputController.text = widget.selectedText!;
       List<Future> futures = [];
@@ -197,13 +193,15 @@ class _TranslatePageState extends State<TranslatePage> {
           margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: _outputs[_useService[index]]!,
-                ),
-              ),
+              _outputs[_useService[index]] == null
+                  ? const SizedBox(height: 4)
+                  : Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 6, 8, 0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: _outputs[_useService[index]]!,
+                      ),
+                    ),
               ReorderableDragStartListener(
                 index: index,
                 child: Column(

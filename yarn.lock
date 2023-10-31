@@ -299,6 +299,11 @@
   resolved "https://registry.npmmirror.com/@types/web-bluetooth/-/web-bluetooth-0.0.18.tgz#74bd1c8fd3a2058cb6fc76b188fcded50a83d866"
   integrity sha512-v/ZHEj9xh82usl8LMR3GarzFY1IrbXJw5L4QfQhokjRV91q+SelFqxQWSep1ucXEZ22+dSTwLFkXeur25sPIbw==
 
+"@vitejs/plugin-vue@4.3.1":
+  version "4.3.1"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/@vitejs/plugin-vue/-/plugin-vue-4.3.1.tgz#635cf512dd1d5c78adf9e24615696e4918cd9d88"
+  integrity sha512-tUBEtWcF7wFtII7ayNiLNDTCE1X1afySEo+XNVMNkFXaThENyCowIEX095QqbJZGTgoOcSVDJGlnde2NG4jtbQ==
+
 "@vue/compiler-core@3.3.6":
   version "3.3.6"
   resolved "https://registry.npmmirror.com/@vue/compiler-core/-/compiler-core-3.3.6.tgz#ffc14517e0a7269983b9a93994df9669e9e03506"
@@ -584,14 +589,15 @@ vite@^4.5.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitepress@^1.0.0-rc.23:
-  version "1.0.0-rc.23"
-  resolved "https://registry.npmmirror.com/vitepress/-/vitepress-1.0.0-rc.23.tgz#eb477d89951b59738a86ac5884dd2fe891d35aac"
-  integrity sha512-0YoBt8aFgbRt2JtYaCeTqq4W21q5lbGso+g1ZwkYYS35ExJxORssRJunhFuUcby8QeN4BP/88QDgsVSIVLAfXQ==
+vitepress@^1.0.0-rc.24:
+  version "1.0.0-rc.24"
+  resolved "https://mirrors.huaweicloud.com/repository/npm/vitepress/-/vitepress-1.0.0-rc.24.tgz#517b44d10e0cd3773f5e2f9799c2bde8e60f0505"
+  integrity sha512-RpnL8cnOGwiRlBbrYQUm9sYkJbtyOt/wYXk2diTcokY4yvks/5lq9LuSt+MURWB6ZqwpSNHvTmxgaSfLoG0/OA==
   dependencies:
     "@docsearch/css" "^3.5.2"
     "@docsearch/js" "^3.5.2"
     "@types/markdown-it" "^13.0.4"
+    "@vitejs/plugin-vue" "4.3.1"
     "@vue/devtools-api" "^6.5.1"
     "@vueuse/core" "^10.5.0"
     "@vueuse/integrations" "^10.5.0"
