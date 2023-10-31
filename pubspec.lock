@@ -720,7 +720,7 @@ packages:
   screen_capturer:
     dependency: "direct main"
     description:
-      path: "package/screen_capturer"
+      path: "packages/screen_capturer"
       relative: true
     source: path
     version: "0.1.7"
