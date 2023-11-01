@@ -23,7 +23,7 @@ Future<String> ocrByTesseract({String language = "中文"}) async {
   List<ProcessResult> result = await shell.run(
     "tesseract $imgPath - -l $language",
   );
-  return result.outText;
+  return result.outText.trim();
 }
 
 /// Tesseract 支持的语言
