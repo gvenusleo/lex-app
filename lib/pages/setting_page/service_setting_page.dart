@@ -73,6 +73,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
     );
   }
 
+  /// 翻译服务列表
   Widget buildTranslationServices() {
     return ListView(
       padding: const EdgeInsets.only(bottom: 18),
@@ -532,6 +533,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
     );
   }
 
+  /// 文字识别服务列表
   Widget buildOcrServices() {
     return ListView(
       padding: const EdgeInsets.only(bottom: 18),
@@ -553,15 +555,17 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
                   _enabledOcrServices.remove("tesseract");
                 });
               } else {
-                var shell = Shell();
-                List<ProcessResult> result = await shell.run(
-                  "tesseract --version",
-                );
-                if (result.errLines.isEmpty) {
+                try {
+                  var shell = Shell();
+                  await shell.run(
+                    "tesseract --version",
+                  );
                   setState(() {
                     _enabledOcrServices.add("tesseract");
                   });
-                } else {
+                  prefs.setStringList(
+                      "enabledOcrServices", _enabledOcrServices);
+                } catch (_) {
                   if (!mounted) return;
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -573,7 +577,6 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
                   );
                 }
               }
-              prefs.setStringList("enabledOcrServices", _enabledOcrServices);
             },
           ),
         ),
