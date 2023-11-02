@@ -39,6 +39,7 @@ class _HistoryPageState extends State<HistoryPage>
             : TabBar(
                 controller: _tabController,
                 isScrollable: true,
+                splashBorderRadius: BorderRadius.circular(8),
                 tabs: _history.keys
                     .map(
                       (e) => Tab(

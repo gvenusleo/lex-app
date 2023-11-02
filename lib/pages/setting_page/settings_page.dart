@@ -57,11 +57,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       const SizedBox(height: 8),
                       SettingGroupCard(
                         icon: const Icon(Icons.dashboard_outlined),
-                        title: "翻译服务",
-                        selected: _selectedItem == "翻译服务",
+                        title: "服务设置",
+                        selected: _selectedItem == "服务设置",
                         onTap: () {
                           setState(() {
-                            _selectedItem = "翻译服务";
+                            _selectedItem = "服务设置";
                             _selectedPage = const ServiceSettingPage();
                           });
                         },

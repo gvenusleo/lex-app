@@ -42,7 +42,7 @@ class _TranslatePageState extends State<TranslatePage> {
   // 翻译输出
   late Map<String, Widget?> _outputs;
   // 翻译服务
-  late List<String> _useService;
+  late List<String> _enabledTranslationServices;
   // 原文语言
   String _fromLanguage = initFromLanguage();
   // 目标语言
@@ -52,19 +52,21 @@ class _TranslatePageState extends State<TranslatePage> {
 
   @override
   void initState() {
-    _useService = prefs.getStringList("useService") ??
-        [
-          "bing",
-          "deeplFree",
-          "google",
-          "yandex",
-          "volcengineFree",
-        ];
-    _outputs = Map.fromEntries(_useService.map((e) => MapEntry(e, null)));
+    _enabledTranslationServices =
+        prefs.getStringList("enabledTranslationServices") ??
+            [
+              "bing",
+              "deeplFree",
+              "google",
+              "yandex",
+              "volcengineFree",
+            ];
+    _outputs = Map.fromEntries(
+        _enabledTranslationServices.map((e) => MapEntry(e, null)));
     if (widget.selectedText != null) {
       _inputController.text = widget.selectedText!;
       List<Future> futures = [];
-      for (String service in _useService) {
+      for (String service in _enabledTranslationServices) {
         futures.add(_translateFunc(service));
       }
       Future.wait(futures).then((_) => _autoCopyFunc());
@@ -75,7 +77,7 @@ class _TranslatePageState extends State<TranslatePage> {
   @override
   Widget build(BuildContext context) {
     return ReorderableListView.builder(
-      itemCount: _useService.length,
+      itemCount: _enabledTranslationServices.length,
       buildDefaultDragHandles: false,
       padding: const EdgeInsets.only(bottom: 4),
       header: Column(
@@ -97,7 +99,7 @@ class _TranslatePageState extends State<TranslatePage> {
                   style: Theme.of(context).textTheme.bodyLarge,
                   onSubmitted: (value) {
                     List<Future> futures = [];
-                    for (String service in _useService) {
+                    for (String service in _enabledTranslationServices) {
                       futures.add(_translateFunc(service));
                     }
                     Future.wait(futures).then((_) => _autoCopyFunc());
@@ -146,7 +148,7 @@ class _TranslatePageState extends State<TranslatePage> {
                     FilledButton.tonal(
                       onPressed: () {
                         List<Future> futures = [];
-                        for (String service in _useService) {
+                        for (String service in _enabledTranslationServices) {
                           futures.add(_translateFunc(service));
                         }
                         Future.wait(futures).then((_) => _autoCopyFunc());
@@ -189,17 +191,17 @@ class _TranslatePageState extends State<TranslatePage> {
       ),
       itemBuilder: (context, index) {
         return Card(
-          key: ValueKey(_useService[index]),
+          key: ValueKey(_enabledTranslationServices[index]),
           margin: const EdgeInsets.fromLTRB(8, 4, 8, 4),
           child: Column(
             children: [
-              _outputs[_useService[index]] == null
+              _outputs[_enabledTranslationServices[index]] == null
                   ? const SizedBox(height: 4)
                   : Padding(
                       padding: const EdgeInsets.fromLTRB(8, 6, 8, 0),
                       child: Align(
                         alignment: Alignment.topLeft,
-                        child: _outputs[_useService[index]]!,
+                        child: _outputs[_enabledTranslationServices[index]]!,
                       ),
                     ),
               ReorderableDragStartListener(
@@ -210,12 +212,12 @@ class _TranslatePageState extends State<TranslatePage> {
                       children: [
                         const SizedBox(width: 8),
                         Image.asset(
-                          serviceLogoMap()[_useService[index]]!,
+                          serviceLogoMap()[_enabledTranslationServices[index]]!,
                           width: 18,
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          serviceMap()[_useService[index]]!,
+                          serviceMap()[_enabledTranslationServices[index]]!,
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
@@ -228,7 +230,8 @@ class _TranslatePageState extends State<TranslatePage> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () => _copyResultFunc(_useService[index]),
+                          onPressed: () => _copyResultFunc(
+                              _enabledTranslationServices[index]),
                           icon: const Icon(Icons.copy_outlined, size: 20),
                           padding: const EdgeInsets.all(0),
                           visualDensity: VisualDensity.compact,
@@ -253,10 +256,11 @@ class _TranslatePageState extends State<TranslatePage> {
           if (oldIndex < newIndex) {
             newIndex -= 1;
           }
-          final String item = _useService.removeAt(oldIndex);
-          _useService.insert(newIndex, item);
+          final String item = _enabledTranslationServices.removeAt(oldIndex);
+          _enabledTranslationServices.insert(newIndex, item);
         });
-        prefs.setStringList("useService", _useService);
+        prefs.setStringList(
+            "enabledTranslationServices", _enabledTranslationServices);
       },
     );
   }
@@ -1185,7 +1189,7 @@ class _TranslatePageState extends State<TranslatePage> {
                             }
                           }
                           List<Future> futures = [];
-                          for (String service in _useService) {
+                          for (String service in _enabledTranslationServices) {
                             futures.add(_translateFunc(service));
                           }
                           Future.wait(futures).then((_) => _autoCopyFunc());
@@ -1230,7 +1234,7 @@ class _TranslatePageState extends State<TranslatePage> {
         _toLanguage = temp;
       });
       List<Future> futures = [];
-      for (String service in _useService) {
+      for (String service in _enabledTranslationServices) {
         futures.add(_translateFunc(service));
       }
       Future.wait(futures).then((_) => _autoCopyFunc());
@@ -1260,7 +1264,7 @@ class _TranslatePageState extends State<TranslatePage> {
         return;
       case "result":
         String result = "";
-        for (String service in _useService) {
+        for (String service in _enabledTranslationServices) {
           if (_result[service] != null) {
             result += "${serviceMap()[service]!}：${_result[service]!}\n\n";
           }
@@ -1271,7 +1275,7 @@ class _TranslatePageState extends State<TranslatePage> {
         return;
       case "both":
         String result = "原文：${_inputController.text}\n\n";
-        for (String service in _useService) {
+        for (String service in _enabledTranslationServices) {
           if (_result[service] != null) {
             result += "${serviceMap()[service]!}：${_result[service]!}\n\n";
           }
