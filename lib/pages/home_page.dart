@@ -3,7 +3,7 @@ import "package:hotkey_manager/hotkey_manager.dart";
 import "package:lex/global.dart";
 import "package:lex/pages/ocr_page.dart";
 import "package:lex/pages/setting_page/settings_page.dart";
-import "package:lex/pages/translate_page.dart";
+import 'package:lex/pages/translation_page.dart';
 import "package:lex/providers/window_provider.dart";
 import "package:lex/utils/capture.dart";
 import "package:provider/provider.dart";
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         prefs.setBool("firstRun", false);
       });
     } else {
-      _selectedPage = TranslatePage(
+      _selectedPage = TranslationPage(
         key: UniqueKey(),
       );
     }
@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
       case "show_translate":
         await _setTranslateWindow(
           () => setState(() {
-            _selectedPage = TranslatePage(
+            _selectedPage = TranslationPage(
               key: UniqueKey(),
             );
           }),
@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
           }
           _setTranslateWindow(
             () => setState(() {
-              _selectedPage = TranslatePage(
+              _selectedPage = TranslationPage(
                 key: UniqueKey(),
                 selectedText: selectedText,
               );
@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
           }
           _setTranslateWindow(
             () => setState(() {
-              _selectedPage = TranslatePage(key: UniqueKey());
+              _selectedPage = TranslationPage(key: UniqueKey());
             }),
           );
         }
@@ -267,7 +267,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
 
   /// 设置翻译窗口
   Future<void> _setTranslateWindow(Function() setPage) async {
-    if (_selectedPage is! TranslatePage) {
+    if (_selectedPage is! TranslationPage) {
       await windowManager.hide();
       setPage();
       await Future.delayed(const Duration(milliseconds: 100));
@@ -328,7 +328,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
 
   /// 保存当前窗口状态
   Future<void> _saveTranslateWindow() async {
-    if (_selectedPage is TranslatePage) {
+    if (_selectedPage is TranslationPage) {
       final Size size = await windowManager.getSize();
       final Offset position = await windowManager.getPosition();
       if (!mounted) return;

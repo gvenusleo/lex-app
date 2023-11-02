@@ -1,5 +1,3 @@
-import "dart:io";
-
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
 import "package:lex/pages/setting_page/service_setting_utils/set_zhipuai.dart";

@@ -8,25 +8,25 @@ import "package:lex/utils/check_api.dart";
 import "package:lex/utils/languages.dart";
 import "package:lex/utils/ocr_service/tesseract.dart";
 import "package:lex/utils/service_map.dart";
-import "package:lex/utils/translate_service/baidu.dart";
-import "package:lex/utils/translate_service/bing.dart";
-import "package:lex/utils/translate_service/caiyun.dart";
-import "package:lex/utils/translate_service/cambridge_dict.dart";
-import "package:lex/utils/translate_service/deepl_free.dart";
-import "package:lex/utils/translate_service/google.dart";
-import "package:lex/utils/translate_service/minimax.dart";
-import "package:lex/utils/translate_service/niutrans.dart";
-import "package:lex/utils/translate_service/volcengine.dart";
-import "package:lex/utils/translate_service/volcengine_free.dart";
-import "package:lex/utils/translate_service/yandex.dart";
-import "package:lex/utils/translate_service/youdao.dart";
-import "package:lex/utils/translate_service/zhipuai.dart";
+import 'package:lex/utils/translation_service/baidu.dart';
+import 'package:lex/utils/translation_service/bing.dart';
+import 'package:lex/utils/translation_service/caiyun.dart';
+import 'package:lex/utils/translation_service/cambridge_dict.dart';
+import 'package:lex/utils/translation_service/deepl_free.dart';
+import 'package:lex/utils/translation_service/google.dart';
+import 'package:lex/utils/translation_service/minimax.dart';
+import 'package:lex/utils/translation_service/niutrans.dart';
+import 'package:lex/utils/translation_service/volcengine.dart';
+import 'package:lex/utils/translation_service/volcengine_free.dart';
+import 'package:lex/utils/translation_service/yandex.dart';
+import 'package:lex/utils/translation_service/youdao.dart';
+import 'package:lex/utils/translation_service/zhipuai.dart';
 import "package:lex/widgets/loading_skeleton.dart";
 import "package:lex/widgets/selected_button.dart";
 
 /// 翻译页面
-class TranslatePage extends StatefulWidget {
-  const TranslatePage({
+class TranslationPage extends StatefulWidget {
+  const TranslationPage({
     Key? key,
     this.selectedText,
   }) : super(key: key);
@@ -35,10 +35,10 @@ class TranslatePage extends StatefulWidget {
   final String? selectedText;
 
   @override
-  State<TranslatePage> createState() => _TranslatePageState();
+  State<TranslationPage> createState() => _TranslationPageState();
 }
 
-class _TranslatePageState extends State<TranslatePage> {
+class _TranslationPageState extends State<TranslationPage> {
   // 输入框控制器
   final _inputController = TextEditingController();
   // 翻译输出

@@ -1,6 +1,6 @@
 import "package:dio/dio.dart";
 import "package:lex/utils/init_dio.dart";
-import "package:lex/utils/translate_service/volcengine.dart";
+import 'package:lex/utils/translation_service/volcengine.dart';
 
 /// 火山翻译 Free
 /// https://github.com/TechDecryptor/pot-app-translate-plugin-volcengine
