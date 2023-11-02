@@ -58,7 +58,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
               text: "翻译服务",
             ),
             Tab(
-              text: "OCR 服务",
+              text: "文字识别",
             ),
           ],
         ),

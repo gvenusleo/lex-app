@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
 import "package:hotkey_manager/hotkey_manager.dart";
 import "package:lex/global.dart";
+import "package:lex/pages/ocr_page.dart";
 import "package:lex/pages/setting_page/settings_page.dart";
 import "package:lex/pages/translate_page.dart";
 import "package:lex/providers/window_provider.dart";
+import "package:lex/utils/capture.dart";
 import "package:provider/provider.dart";
 import "package:screen_retriever/screen_retriever.dart";
 import "package:screen_text_extractor/screen_text_extractor.dart";
@@ -142,6 +144,10 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
           }),
         );
         break;
+      // 截图文字识别
+      case "ocr":
+        await ocrFunc();
+        break;
       // 显示设置页面
       case "show_settings":
         await _saveTranslateWindow();
@@ -159,12 +165,12 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
 
   /// 注册系统快捷键
   Future<void> _initHotKey() async {
-    List<String> hotKeyList =
-        prefs.getStringList("hotKeyList") ?? ["alt", "keyZ"];
+    List<String> translationHotKeyList =
+        prefs.getStringList("translationHotKeyList") ?? ["alt", "keyZ"];
     HotKey hotKey = HotKey.fromJson(
       {
-        "keyCode": hotKeyList[1],
-        "modifiers": hotKeyList[0].split("-"),
+        "keyCode": translationHotKeyList[1],
+        "modifiers": translationHotKeyList[0].split("-"),
       },
     );
     hotKey.scope = HotKeyScope.system;
@@ -177,7 +183,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
               .extract(mode: ExtractMode.screenSelection);
           if (selectedData != null) {
             selectedText = selectedData.text ?? "";
-            if (prefs.getBool("deleteLineBreak") ?? false) {
+            if (prefs.getBool("deleteTranslationLineBreak") ?? false) {
               selectedText = selectedText.replaceAll("\n", " ").trim();
             }
           }
@@ -210,6 +216,53 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         }
       },
     );
+    List<String> ocrHotKeyList =
+        prefs.getStringList("ocrHotKeyList") ?? ["alt", "keyX"];
+    hotKey = HotKey.fromJson(
+      {
+        "keyCode": ocrHotKeyList[1],
+        "modifiers": ocrHotKeyList[0].split("-"),
+      },
+    );
+    hotKey.scope = HotKeyScope.system;
+    await hotKeyManager.register(
+      hotKey,
+      keyDownHandler: (hotKey) async {
+        await ocrFunc();
+      },
+    );
+  }
+
+  /// 截图文字识别
+  Future<void> ocrFunc() async {
+    if ((prefs.getStringList("enabledOcrServices") ?? []).isEmpty) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("文字识别服务未启用"),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    try {
+      await windowManager.hide();
+      String? imgPath = await capture();
+      if (imgPath != null) {
+        await _setTranslateWindow(
+          () => setState(() {
+            _selectedPage = OcrPage(
+              key: UniqueKey(),
+              imagePath: imgPath,
+            );
+          }),
+        );
+        await _setOcrWindow();
+      }
+    } catch (e) {
+      return;
+    }
   }
 
   /// 设置翻译窗口
@@ -258,6 +311,19 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
     if (!mounted) return;
     await context.read<WindowProvider>().changeAlwaysOnTop(true);
     //await windowManager.setResizable(false);
+  }
+
+  /// 设置文字识别窗口
+  Future<void> _setOcrWindow() async {
+    await windowManager.hide();
+    await Future.delayed(const Duration(milliseconds: 100));
+    await windowManager.setSize(const Size(800, 400));
+    await Future.delayed(const Duration(milliseconds: 100));
+    await windowManager.center(animate: true);
+    await Future.delayed(const Duration(milliseconds: 100));
+    await windowManager.show();
+    if (!mounted) return;
+    await context.read<WindowProvider>().changeAlwaysOnTop(true);
   }
 
   /// 保存当前窗口状态

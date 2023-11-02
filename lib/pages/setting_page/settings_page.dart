@@ -4,8 +4,9 @@ import "package:lex/pages/setting_page/about_page.dart";
 import "package:lex/pages/setting_page/app_setting_page.dart";
 import "package:lex/pages/setting_page/hot_key_setting_page.dart";
 import "package:lex/pages/setting_page/language_setting_page.dart";
+import "package:lex/pages/setting_page/ocr_setting.dart";
 import "package:lex/pages/setting_page/service_setting_page.dart";
-import "package:lex/pages/setting_page/translate_setting_page.dart";
+import 'package:lex/pages/setting_page/translationg_setting_page.dart';
 import "package:lex/widgets/setting_group_card.dart";
 
 /// 设置页面主体
@@ -74,7 +75,19 @@ class _SettingsPageState extends State<SettingsPage> {
                         onTap: () {
                           setState(() {
                             _selectedItem = "翻译设置";
-                            _selectedPage = const TranslateSettingPage();
+                            _selectedPage = const TranslationSettingPage();
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      SettingGroupCard(
+                        icon: const Icon(Icons.crop_free_outlined),
+                        title: "文字识别",
+                        selected: _selectedItem == "文字识别",
+                        onTap: () {
+                          setState(() {
+                            _selectedItem = "文字识别";
+                            _selectedPage = const OcrSettingPage();
                           });
                         },
                       ),

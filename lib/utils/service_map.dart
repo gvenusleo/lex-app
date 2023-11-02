@@ -14,6 +14,7 @@ Map<String, String> serviceMap() {
     "youdao": "有道翻译",
     "minimax": "MiniMax",
     "zhipuai": "智谱 AI",
+    "tesseract": "Tesseract",
   };
 }
 
@@ -33,5 +34,6 @@ Map<String, String> serviceLogoMap() {
     "youdao": "assets/service/youdao.png",
     "minimax": "assets/service/minimax.png",
     "zhipuai": "assets/service/zhipuai.png",
+    "tesseract": "assets/service/tesseract.png",
   };
 }

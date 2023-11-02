@@ -3,15 +3,15 @@ import "package:lex/global.dart";
 import "package:lex/widgets/list_tile_group_title.dart";
 
 /// 翻译设置页面
-class TranslateSettingPage extends StatefulWidget {
-  const TranslateSettingPage({Key? key}) : super(key: key);
+class TranslationSettingPage extends StatefulWidget {
+  const TranslationSettingPage({Key? key}) : super(key: key);
 
   @override
-  State<TranslateSettingPage> createState() => _TranslateSettingPageState();
+  State<TranslationSettingPage> createState() => _TranslationSettingPageState();
 }
 
-class _TranslateSettingPageState extends State<TranslateSettingPage> {
-  final Map<String, String> _autoCopyModes = {
+class _TranslationSettingPageState extends State<TranslationSettingPage> {
+  final Map<String, String> _autoCopyTranslationsResultModes = {
     "close": "关闭",
     "source": "原文",
     "result": "译文",
@@ -41,20 +41,20 @@ class _TranslateSettingPageState extends State<TranslateSettingPage> {
   // 记住目标语言
   bool _rememberToLanguage = prefs.getBool("rememberToLanguage") ?? true;
   // 自动复制
-  String _autoCopy = prefs.getString("autoCopy") ?? "close";
+  String _autoCopyTranslationsResult =
+      prefs.getString("autoCopyTranslationsResult") ?? "close";
   // 删除换行
-  bool _deleteLineBreak = prefs.getBool("deleteLineBreak") ?? false;
+  bool _deleteTranslationLineBreak =
+      prefs.getBool("deleteTranslationLineBreak") ?? false;
   // 使用代理
-  late bool _useProxy;
+  bool _useProxy = prefs.getBool("useProxy") ?? false;
   // 代理地址
-  late String _proxyAddress;
+  final String _proxyAddress = prefs.getString("proxyAddress") ?? "";
 
   final TextEditingController _proxyAddressController = TextEditingController();
 
   @override
   void initState() {
-    _useProxy = prefs.getBool("useProxy") ?? false;
-    _proxyAddress = prefs.getString("proxyAddress") ?? "";
     _proxyAddressController.text = _proxyAddress;
     super.initState();
   }
@@ -107,17 +107,18 @@ class _TranslateSettingPageState extends State<TranslateSettingPage> {
             title: const Text("自动复制"),
             subtitle: const Text("设置翻译后复制的内容"),
             trailing: Text(
-              _autoCopyModes[_autoCopy] ?? "关闭",
+              _autoCopyTranslationsResultModes[_autoCopyTranslationsResult] ??
+                  "关闭",
               style: const TextStyle(fontSize: 16),
             ),
-            onTap: _setAutoCopyFunc,
+            onTap: _setautoCopyTranslationsResultFunc,
           ),
           SwitchListTile(
-            value: _deleteLineBreak,
+            value: _deleteTranslationLineBreak,
             onChanged: (value) {
-              prefs.setBool("deleteLineBreak", value);
+              prefs.setBool("deleteTranslationLineBreak", value);
               setState(() {
-                _deleteLineBreak = value;
+                _deleteTranslationLineBreak = value;
               });
             },
             secondary: const Icon(Icons.keyboard_return_outlined),
@@ -250,7 +251,7 @@ class _TranslateSettingPageState extends State<TranslateSettingPage> {
   }
 
   /// 设置自动复制
-  Future<void> _setAutoCopyFunc() async {
+  Future<void> _setautoCopyTranslationsResultFunc() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -261,19 +262,19 @@ class _TranslateSettingPageState extends State<TranslateSettingPage> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: _autoCopyModes
+            children: _autoCopyTranslationsResultModes
                 .map(
                   (key, value) => MapEntry(
                     key,
                     RadioListTile(
                       value: key,
-                      groupValue: _autoCopy,
+                      groupValue: _autoCopyTranslationsResult,
                       title: Text(value),
                       onChanged: (e) {
                         if (e != null) {
-                          prefs.setString("autoCopy", e);
+                          prefs.setString("autoCopyTranslationsResult", e);
                           setState(() {
-                            _autoCopy = e;
+                            _autoCopyTranslationsResult = e;
                           });
                         }
                         Navigator.pop(context);

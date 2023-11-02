@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:lex/global.dart";
 import "package:lex/modules/history_item.dart";
+import "package:lex/utils/capture.dart";
 import "package:lex/utils/check_api.dart";
 import "package:lex/utils/languages.dart";
 import "package:lex/utils/ocr_service/tesseract.dart";
@@ -21,6 +22,7 @@ import "package:lex/utils/translate_service/yandex.dart";
 import "package:lex/utils/translate_service/youdao.dart";
 import "package:lex/utils/translate_service/zhipuai.dart";
 import "package:lex/widgets/loading_skeleton.dart";
+import "package:lex/widgets/selected_button.dart";
 
 /// 翻译页面
 class TranslatePage extends StatefulWidget {
@@ -69,7 +71,7 @@ class _TranslatePageState extends State<TranslatePage> {
       for (String service in _enabledTranslationServices) {
         futures.add(_translateFunc(service));
       }
-      Future.wait(futures).then((_) => _autoCopyFunc());
+      Future.wait(futures).then((_) => _autoCopyTranslationsResultFunc());
     }
     super.initState();
   }
@@ -102,26 +104,32 @@ class _TranslatePageState extends State<TranslatePage> {
                     for (String service in _enabledTranslationServices) {
                       futures.add(_translateFunc(service));
                     }
-                    Future.wait(futures).then((_) => _autoCopyFunc());
+                    Future.wait(futures)
+                        .then((_) => _autoCopyTranslationsResultFunc());
                   },
                   textInputAction: TextInputAction.done,
                 ),
                 Row(
                   children: [
                     const SizedBox(width: 4),
-                    IconButton(
-                      onPressed: () async {
-                        try {
-                          String ocrResult = await ocrByTesseract();
-                          _inputController.text = ocrResult;
-                        } catch (_) {
-                          return;
-                        }
-                      },
-                      icon: const Icon(Icons.crop_free_outlined, size: 20),
-                      padding: const EdgeInsets.all(0),
-                      visualDensity: VisualDensity.compact,
-                    ),
+                    if ((prefs.getStringList("enabledOcrServices") ?? [])
+                        .isNotEmpty)
+                      IconButton(
+                        onPressed: () async {
+                          try {
+                            String? imgPath = await capture();
+                            if (imgPath != null) {
+                              String ocrResult = await ocrByTesseract(imgPath);
+                              _inputController.text = ocrResult;
+                            }
+                          } catch (_) {
+                            return;
+                          }
+                        },
+                        icon: const Icon(Icons.crop_free_outlined, size: 20),
+                        padding: const EdgeInsets.all(0),
+                        visualDensity: VisualDensity.compact,
+                      ),
                     IconButton(
                       onPressed: () {
                         Clipboard.getData("text/plain").then((value) {
@@ -151,7 +159,8 @@ class _TranslatePageState extends State<TranslatePage> {
                         for (String service in _enabledTranslationServices) {
                           futures.add(_translateFunc(service));
                         }
-                        Future.wait(futures).then((_) => _autoCopyFunc());
+                        Future.wait(futures)
+                            .then((_) => _autoCopyTranslationsResultFunc());
                       },
                       child: const Text("翻译"),
                     ),
@@ -166,10 +175,31 @@ class _TranslatePageState extends State<TranslatePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
-                onPressed: () {
-                  selectLanguageFunc("from", _fromLanguage);
-                },
+              SelectedButton(
+                items: [
+                  for (String lan in prefs.getStringList("enabledLanguages") ??
+                      [
+                        "中文",
+                        "英语",
+                        "日语",
+                        "韩语",
+                        "法语",
+                        "德语",
+                        "俄语",
+                        "意大利语",
+                        "葡萄牙语",
+                        "繁体中文",
+                      ]
+                    ..insert(0, "自动"))
+                    PopupMenuItem(
+                      child: Text(lan),
+                      onTap: () {
+                        setState(() {
+                          _fromLanguage = lan;
+                        });
+                      },
+                    ),
+                ],
                 child: Text(_fromLanguage),
               ),
               IconButton(
@@ -179,10 +209,31 @@ class _TranslatePageState extends State<TranslatePage> {
                 visualDensity: VisualDensity.compact,
                 // tooltip: "交换语言",
               ),
-              TextButton(
-                onPressed: () async {
-                  selectLanguageFunc("to", _toLanguage);
-                },
+              SelectedButton(
+                items: [
+                  for (String lan in prefs.getStringList("enabledLanguages") ??
+                      [
+                        "中文",
+                        "英语",
+                        "日语",
+                        "韩语",
+                        "法语",
+                        "德语",
+                        "俄语",
+                        "意大利语",
+                        "葡萄牙语",
+                        "繁体中文",
+                      ])
+                    PopupMenuItem(
+                      value: lan,
+                      child: Text(lan),
+                      onTap: () {
+                        setState(() {
+                          _toLanguage = lan;
+                        });
+                      },
+                    ),
+                ],
                 child: Text(_toLanguage),
               ),
             ],
@@ -1130,99 +1181,6 @@ class _TranslatePageState extends State<TranslatePage> {
     }
   }
 
-  /// 选择语言
-  Future<void> selectLanguageFunc(String mode, String init) async {
-    final List<String> languages = prefs.getStringList("enabledLanguages") ??
-        [
-          "中文",
-          "英语",
-          "日语",
-          "韩语",
-          "法语",
-          "德语",
-          "俄语",
-          "意大利语",
-          "葡萄牙语",
-          "繁体中文",
-        ];
-    if (mode == "from") {
-      languages.insert(0, "自动");
-    }
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          //icon: const Icon(Icons.language_outlined),
-          title: Text(mode == "from" ? "原文语言" : "目标语言"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: languages
-                .map(
-                  (e) => RadioListTile(
-                    value: e,
-                    groupValue: init,
-                    title: Text(e),
-                    onChanged: (value) {
-                      if (mode == "from") {
-                        setState(() {
-                          _fromLanguage = e;
-                          if (_fromLanguage == _toLanguage) {
-                            if (_fromLanguage == "英语") {
-                              _toLanguage = "中文";
-                            }
-                            if (_fromLanguage == "中文") {
-                              _toLanguage = "英语";
-                            }
-                          }
-                        });
-                      } else {
-                        setState(() {
-                          _toLanguage = e;
-                          if (_fromLanguage == _toLanguage) {
-                            if (_toLanguage == "英语") {
-                              _fromLanguage = "中文";
-                            }
-                            if (_toLanguage == "中文") {
-                              _fromLanguage = "英语";
-                            }
-                          }
-                          List<Future> futures = [];
-                          for (String service in _enabledTranslationServices) {
-                            futures.add(_translateFunc(service));
-                          }
-                          Future.wait(futures).then((_) => _autoCopyFunc());
-                        });
-                        if (prefs.getBool("rememberToLanguage") ?? true) {
-                          prefs.setString("toLanguage", _toLanguage);
-                        }
-                      }
-                      Navigator.pop(context);
-                    },
-                  ),
-                )
-                .toList(),
-          ),
-          actions: [
-            OutlinedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("取消"),
-            ),
-          ],
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 0,
-            vertical: 12,
-          ),
-          actionsPadding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-          scrollable: true,
-        );
-      },
-    );
-  }
-
   /// 交换原文语言与目标语言
   void _swapLanguageFunc() {
     if (_fromLanguage == "自动") {
@@ -1237,7 +1195,7 @@ class _TranslatePageState extends State<TranslatePage> {
       for (String service in _enabledTranslationServices) {
         futures.add(_translateFunc(service));
       }
-      Future.wait(futures).then((_) => _autoCopyFunc());
+      Future.wait(futures).then((_) => _autoCopyTranslationsResultFunc());
       if (prefs.getBool("rememberToLanguage") ?? true) {
         prefs.setString("toLanguage", _toLanguage);
       }
@@ -1253,8 +1211,8 @@ class _TranslatePageState extends State<TranslatePage> {
   }
 
   /// 自动复制
-  Future<void> _autoCopyFunc() async {
-    switch (prefs.getString("autoCopy")) {
+  Future<void> _autoCopyTranslationsResultFunc() async {
+    switch (prefs.getString("autoCopyTranslationsResult")) {
       case "close":
         return;
       case "source":
