@@ -55,7 +55,6 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: "应用设置", link: "/guide/app_setting" },
-            { text: "全局字体", link: "/guide/font_setting" },
             { text: "翻译服务", link: "/guide/service" },
             { text: "翻译设置", link: "/guide/translate_setting" },
             { text: "内置语言", link: "/guide/language_setting" },

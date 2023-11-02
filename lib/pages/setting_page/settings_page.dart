@@ -5,7 +5,6 @@ import "package:lex/pages/setting_page/app_setting_page.dart";
 import "package:lex/pages/setting_page/hot_key_setting_page.dart";
 import "package:lex/pages/setting_page/language_setting_page.dart";
 import "package:lex/pages/setting_page/service_setting_page.dart";
-import "package:lex/pages/setting_page/font_setting_page.dart";
 import "package:lex/pages/setting_page/translate_setting_page.dart";
 import "package:lex/widgets/setting_group_card.dart";
 
@@ -52,18 +51,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           setState(() {
                             _selectedItem = "应用设置";
                             _selectedPage = const AppSettingPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.text_fields_outlined),
-                        title: "全局字体",
-                        selected: _selectedItem == "全局字体",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "全局字体";
-                            _selectedPage = const FontSettingPage();
                           });
                         },
                       ),

@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:launch_at_startup/launch_at_startup.dart";
 import "package:lex/global.dart";
 import "package:lex/providers/theme_provider.dart";
+import "package:lex/utils/font_utils.dart";
 import "package:lex/widgets/list_tile_group_title.dart";
 import "package:provider/provider.dart";
 import "package:window_manager/window_manager.dart";
@@ -63,6 +64,18 @@ class _AppSettingPageState extends State<AppSettingPage> {
               style: const TextStyle(fontSize: 16),
             ),
             onTap: setThemeMode,
+          ),
+          ListTile(
+            leading: const Icon(Icons.font_download_outlined),
+            title: const Text("全局字体"),
+            subtitle: const Text("设置应用界面字体"),
+            trailing: Text(
+              context.watch<ThemeProvider>().fontFamily == "Sarasa-UI-SC"
+                  ? "默认字体"
+                  : context.watch<ThemeProvider>().fontFamily.split(".").first,
+              style: const TextStyle(fontSize: 16),
+            ),
+            onTap: setGlobalFont,
           ),
           SwitchListTile(
             value: context.watch<ThemeProvider>().useSystemThemeColor,
@@ -193,6 +206,110 @@ class _AppSettingPageState extends State<AppSettingPage> {
           ),
           scrollable: true,
         );
+      },
+    );
+  }
+
+  /// 设置全局字体
+  Future<void> setGlobalFont() async {
+    List<String> fonts = await readAllFont();
+    fonts.insert(0, "Sarasa-UI-SC");
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setFontState) {
+          return AlertDialog(
+            icon: const Icon(Icons.font_download_outlined),
+            title: const Text("全局字体"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ...fonts.map((e) {
+                  if (e == "Sarasa-UI-SC") {
+                    return RadioListTile(
+                      value: e,
+                      groupValue: context.watch<ThemeProvider>().fontFamily,
+                      onChanged: (value) {
+                        if (value != null) {
+                          context.read<ThemeProvider>().changeFontFamily(value);
+                          Navigator.pop(context);
+                        }
+                      },
+                      title: const Text("默认字体"),
+                    );
+                  }
+                  return RadioListTile(
+                    value: e,
+                    groupValue: context.watch<ThemeProvider>().fontFamily,
+                    onChanged: (value) {
+                      if (value != null) {
+                        context.read<ThemeProvider>().changeFontFamily(value);
+                        Navigator.pop(context);
+                      }
+                    },
+                    title: Text(
+                      e.split(".").first,
+                      style: TextStyle(fontFamily: e),
+                    ),
+                    secondary: IconButton(
+                      onPressed: () async {
+                        /* 删除字体 */
+                        if (context.read<ThemeProvider>().fontFamily == e) {
+                          context
+                              .read<ThemeProvider>()
+                              .changeFontFamily("Sarasa-UI-SC");
+                        }
+                        await deleteFont(e);
+                        setFontState(() {
+                          fonts.remove(e);
+                        });
+                      },
+                      icon: Icon(
+                        Icons.delete_outline,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                SizedBox(
+                  width: double.infinity,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                    child: FilledButton.tonalIcon(
+                      onPressed: () async {
+                        await loadLocalFont();
+                        readAllFont().then((value) {
+                          fonts = value;
+                          fonts.insert(0, "Sarasa-UI-SC");
+                          setFontState(() {});
+                        });
+                      },
+                      icon: const Icon(Icons.add_outlined),
+                      label: const Text("导入字体"),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("取消"),
+              ),
+            ],
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 0,
+              vertical: 12,
+            ),
+            scrollable: true,
+          );
+        });
       },
     );
   }
