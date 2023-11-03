@@ -204,7 +204,8 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                             "葡萄牙语",
                             "繁体中文",
                           ];
-                  Map<String, List<String>> unabledLanguages = allLanguages();
+                  Map<String, List<String>> unabledLanguages =
+                      allTranslationLanguages();
                   unabledLanguages.removeWhere(
                       (key, value) => enabledLanguages.contains(key));
                   List<String> enableTemp = [];
@@ -246,8 +247,8 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
             "葡萄牙语",
             "繁体中文",
           ];
-      _allLanguages = allLanguages();
-      _unabledLanguages = allLanguages();
+      _allLanguages = allTranslationLanguages();
+      _unabledLanguages = allTranslationLanguages();
       _unabledLanguages
           .removeWhere((key, value) => _enabledLanguages.contains(key));
     });

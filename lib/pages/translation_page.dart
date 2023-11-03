@@ -46,9 +46,9 @@ class _TranslationPageState extends State<TranslationPage> {
   // 翻译服务
   late List<String> _enabledTranslationServices;
   // 原文语言
-  String _fromLanguage = initFromLanguage();
+  String _fromLanguage = initTranslationFrom();
   // 目标语言
-  String _toLanguage = initToLanguage();
+  String _toLanguage = initTranslationTo();
   // 翻译结果
   final Map<String, String> _result = {};
 

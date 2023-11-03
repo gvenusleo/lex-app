@@ -1,4 +1,6 @@
 import "package:lex/global.dart";
+import 'package:lex/services/ocr/baidu.dart';
+import 'package:lex/services/ocr/tesseract.dart';
 import 'package:lex/services/translation/baidu.dart';
 import 'package:lex/services/translation/bing.dart';
 import 'package:lex/services/translation/caiyun.dart';
@@ -11,17 +13,17 @@ import 'package:lex/services/translation/yandex.dart';
 import 'package:lex/services/translation/youdao.dart';
 
 /// 初始化模型原语言
-String initFromLanguage() {
+String initTranslationFrom() {
   return prefs.getString("fromLanguage") ?? "自动";
 }
 
 /// 初始化模型目标语言
-String initToLanguage() {
+String initTranslationTo() {
   return prefs.getString("toLanguage") ?? "中文";
 }
 
 /// 获取所有受支持语言及其受支持翻译服务
-Map<String, List<String>> allLanguages() {
+Map<String, List<String>> allTranslationLanguages() {
   Map<String, List<String>> result = {};
   for (String language in BingTranslation.languages().keys) {
     if (result[language] == null) {
@@ -92,4 +94,15 @@ Map<String, List<String>> allLanguages() {
 
   result.remove("自动");
   return result;
+}
+
+/// 获取 OCR 服务支持的语言
+Future<Map<String, String>> ocrLanguages(String service) async {
+  switch (service) {
+    case "tesseract":
+      return await TesseractOcr.languages();
+    case "baidu":
+      return BaiduOcr.languages();
+  }
+  return {};
 }

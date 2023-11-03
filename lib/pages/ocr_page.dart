@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lex/global.dart';
+import 'package:lex/services/ocr/baidu.dart';
 import 'package:lex/services/ocr/tesseract.dart';
+import 'package:lex/utils/languages.dart';
 import 'package:lex/utils/service_map.dart';
 import 'package:lex/widgets/selected_button.dart';
 
@@ -29,12 +31,31 @@ class _OcrPageState extends State<OcrPage> {
   final List<String> _enabledOcrServices =
       prefs.getStringList("enabledOcrServices") ?? [];
 
-  /// 识别语言
-  String _language = "中文";
+  // 当前使用的 OCR 服务
+  String _currentOcrService = "";
+  // 所有语言
+  Map<String, String> _allLanguages = {};
+  // 识别语言
+  String _language = "";
+  // 是否正在识别
+  bool _isOcring = true;
+  // 是否出现错误
+  bool _isError = false;
+
+  Future<void> initData() async {
+    final Map<String, String> allLanguages =
+        await ocrLanguages(_currentOcrService);
+    setState(() {
+      _allLanguages = allLanguages;
+      _language = allLanguages.keys.first;
+    });
+    await ocr();
+  }
 
   @override
   void initState() {
-    ocr();
+    _currentOcrService = _enabledOcrServices.first;
+    initData();
     super.initState();
   }
 
@@ -67,14 +88,19 @@ class _OcrPageState extends State<OcrPage> {
                               .map(
                                 (e) => PopupMenuItem(
                                   child: Text(ocrServiceMap()[e]!),
+                                  onTap: () {
+                                    setState(() {
+                                      _currentOcrService = e;
+                                    });
+                                    initData();
+                                  },
                                 ),
                               )
                               .toList(),
-                          child:
-                              Text(ocrServiceMap()[_enabledOcrServices.first]!),
+                          child: Text(ocrServiceMap()[_currentOcrService]!),
                         ),
                         SelectedButton(
-                          items: ["中文", "英语"]
+                          items: _allLanguages.keys
                               .map(
                                 (e) => PopupMenuItem(
                                   child: Text(e),
@@ -105,16 +131,42 @@ class _OcrPageState extends State<OcrPage> {
                   child: Column(
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: _controller,
-                          maxLines: null,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.all(8),
-                            isDense: true,
-                          ),
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
+                        child: _isError
+                            ? const Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.error_outline_outlined,
+                                      color: Colors.red,
+                                    ),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "识别失败，请检查网络或重试！",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : (_isOcring
+                                ? const Center(
+                                    child: CircularProgressIndicator())
+                                : TextField(
+                                    controller: _controller,
+                                    maxLines: null,
+                                    decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      contentPadding: EdgeInsets.all(8),
+                                      isDense: true,
+                                    ),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  )),
                       ),
                       Row(
                         children: [
@@ -162,15 +214,42 @@ class _OcrPageState extends State<OcrPage> {
 
   /// 文字识别
   Future<void> ocr() async {
-    TesseractOcr.ocr(widget.imagePath, language: _language).then((value) {
-      if (prefs.getBool("deleteOcrLineBreak") ?? false) {
-        _controller.text = value.replaceAll("\n", "");
-      } else {
-        _controller.text = value;
-      }
+    setState(() {
+      _isError = false;
+      _isOcring = true;
     });
+    String result = "";
+    try {
+      switch (_currentOcrService) {
+        case "tesseract":
+          result = await TesseractOcr.ocr(
+            widget.imagePath,
+            language: _allLanguages[_language]!,
+          );
+          break;
+        case "baidu":
+          result = await BaiduOcr.ocr(
+            widget.imagePath,
+            _allLanguages[_language]!,
+          );
+      }
+    } catch (e) {
+      setState(() {
+        _isError = true;
+        _isOcring = false;
+      });
+      return;
+    }
+    if (prefs.getBool("deleteOcrLineBreak") ?? false) {
+      _controller.text = result.replaceAll("\n", "");
+    } else {
+      _controller.text = result;
+    }
     if (prefs.getBool("autoCopyOcrResult") ?? false) {
       Clipboard.setData(ClipboardData(text: _controller.text));
     }
+    setState(() {
+      _isOcring = false;
+    });
   }
 }
