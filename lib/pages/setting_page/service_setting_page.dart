@@ -1,14 +1,15 @@
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
-import "package:lex/pages/setting_page/service_setting_utils/set_zhipuai.dart";
-import "package:lex/pages/setting_page/service_setting_utils/set_baidu.dart";
-import "package:lex/pages/setting_page/service_setting_utils/set_caiyun.dart";
-import "package:lex/pages/setting_page/service_setting_utils/set_minimax.dart";
-import "package:lex/pages/setting_page/service_setting_utils/set_niutrans.dart";
-import "package:lex/pages/setting_page/service_setting_utils/set_volcengine.dart";
-import "package:lex/pages/setting_page/service_setting_utils/set_youdao.dart";
+import "package:lex/services/ocr/tesseract.dart";
+import "package:lex/services/translation/baidu.dart";
+import "package:lex/services/translation/caiyun.dart";
+import "package:lex/services/translation/minimax.dart";
+import "package:lex/services/translation/niutrans.dart";
+import "package:lex/services/translation/volcengine.dart";
+import "package:lex/services/translation/youdao.dart";
+import "package:lex/services/translation/zhipuai.dart";
+import "package:lex/utils/service_map.dart";
 import "package:lex/widgets/list_tile_group_title.dart";
-import "package:process_run/process_run.dart";
 
 /// 翻译模型设置页面
 class ServiceSettingPage extends StatefulWidget {
@@ -80,7 +81,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
         // Bing 翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/bing.png",
+            translationServiceLogoMap()["bing"]!,
             width: 40,
             height: 40,
           ),
@@ -106,7 +107,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
         // Deepl 翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/deepl.png",
+            translationServiceLogoMap()["deeplFree"]!,
             width: 40,
             height: 40,
           ),
@@ -132,7 +133,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
         // Google 翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/google.png",
+            translationServiceLogoMap()["google"]!,
             width: 40,
             height: 40,
           ),
@@ -158,7 +159,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
         // Yandex 翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/yandex.png",
+            translationServiceLogoMap()["yandex"]!,
             width: 40,
             height: 40,
           ),
@@ -184,7 +185,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
         // 火山翻译 Free
         ListTile(
           leading: Image.asset(
-            "assets/service/volcengine.png",
+            translationServiceLogoMap()["volcengineFree"]!,
             width: 40,
             height: 40,
           ),
@@ -207,10 +208,10 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
         ),
-        // 火山翻译 Free
+        // 剑桥词典
         ListTile(
           leading: Image.asset(
-            "assets/service/cambridge_dict.png",
+            translationServiceLogoMap()["cambridgeDict"]!,
             width: 40,
             height: 40,
           ),
@@ -237,7 +238,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
         // 百度翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/baidu.png",
+            translationServiceLogoMap()["baidu"]!,
             width: 40,
             height: 40,
           ),
@@ -273,13 +274,13 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
           onTap: () async {
-            setBaidu(context);
+            BaiduTranslation.setApi(context);
           },
         ),
         // 彩云小译
         ListTile(
           leading: Image.asset(
-            "assets/service/caiyun.png",
+            translationServiceLogoMap()["caiyun"]!,
             width: 40,
             height: 40,
           ),
@@ -314,13 +315,13 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
           onTap: () async {
-            setCaiyun(context);
+            CaiyunTranslation.setApi(context);
           },
         ),
         // 火山翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/volcengine.png",
+            translationServiceLogoMap()["volcengine"]!,
             width: 40,
             height: 40,
           ),
@@ -357,13 +358,13 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
           onTap: () async {
-            setVolcengine(context);
+            VolcengineTranslation.setApi(context);
           },
         ),
         // 小牛翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/niutrans.png",
+            translationServiceLogoMap()["niutrans"]!,
             width: 40,
             height: 40,
           ),
@@ -398,13 +399,13 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
           onTap: () async {
-            setNiutrans(context);
+            NiutransTranslation.setApi(context);
           },
         ),
         // 有道翻译
         ListTile(
           leading: Image.asset(
-            "assets/service/youdao.png",
+            translationServiceLogoMap()["youdao"]!,
             width: 40,
             height: 40,
           ),
@@ -440,14 +441,14 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
           onTap: () async {
-            setYoudao(context);
+            YoudaoTranslation.setApi(context);
           },
         ),
         const ListTileGroupTitle(title: "AI 大模型"),
         // MiniMax
         ListTile(
           leading: Image.asset(
-            "assets/service/minimax.png",
+            translationServiceLogoMap()["minimax"]!,
             width: 40,
             height: 40,
           ),
@@ -483,13 +484,13 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
           onTap: () async {
-            setMiniMax(context);
+            MiniMaxTranslation.setApi(context);
           },
         ),
         // 智谱 AI
         ListTile(
           leading: Image.asset(
-            "assets/service/zhipuai.png",
+            translationServiceLogoMap()["zhipuai"]!,
             width: 40,
             height: 40,
           ),
@@ -524,7 +525,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             },
           ),
           onTap: () async {
-            setZhipuai(context);
+            ZhipuaiTranslation.setApi(context);
           },
         ),
       ],
@@ -539,7 +540,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
         const ListTileGroupTitle(title: "本地服务"),
         ListTile(
           leading: Image.asset(
-            "assets/service/tesseract.png",
+            ocrServiceLogoMap()["tesseract"]!,
             width: 40,
             height: 40,
           ),
@@ -553,17 +554,13 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
                   _enabledOcrServices.remove("tesseract");
                 });
               } else {
-                try {
-                  var shell = Shell();
-                  await shell.run(
-                    "tesseract --version",
-                  );
+                if (await Tesseract.isInstalled()) {
                   setState(() {
                     _enabledOcrServices.add("tesseract");
                   });
                   prefs.setStringList(
                       "enabledOcrServices", _enabledOcrServices);
-                } catch (_) {
+                } else {
                   if (!mounted) return;
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(context).showSnackBar(

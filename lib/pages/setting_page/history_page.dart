@@ -17,7 +17,7 @@ class _HistoryPageState extends State<HistoryPage>
     with TickerProviderStateMixin {
   Map<String, List<HistoryItem>> _history = {};
   late TabController _tabController;
-  final Map<String, String> serviceName = serviceMap();
+  final Map<String, String> serviceName = translationServiceMap();
 
   @override
   void initState() {

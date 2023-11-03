@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lex/global.dart';
-import 'package:lex/utils/ocr_service/tesseract.dart';
+import 'package:lex/services/ocr/tesseract.dart';
 import 'package:lex/utils/service_map.dart';
 import 'package:lex/widgets/selected_button.dart';
 
@@ -66,11 +66,12 @@ class _OcrPageState extends State<OcrPage> {
                           items: _enabledOcrServices
                               .map(
                                 (e) => PopupMenuItem(
-                                  child: Text(serviceMap()[e]!),
+                                  child: Text(ocrServiceMap()[e]!),
                                 ),
                               )
                               .toList(),
-                          child: Text(serviceMap()[_enabledOcrServices.first]!),
+                          child:
+                              Text(ocrServiceMap()[_enabledOcrServices.first]!),
                         ),
                         SelectedButton(
                           items: ["中文", "英语"]
@@ -161,7 +162,7 @@ class _OcrPageState extends State<OcrPage> {
 
   /// 文字识别
   Future<void> ocr() async {
-    ocrByTesseract(widget.imagePath, language: _language).then((value) {
+    Tesseract.ocr(widget.imagePath, language: _language).then((value) {
       if (prefs.getBool("deleteOcrLineBreak") ?? false) {
         _controller.text = value.replaceAll("\n", "");
       } else {

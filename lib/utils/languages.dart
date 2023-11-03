@@ -1,14 +1,14 @@
 import "package:lex/global.dart";
-import 'package:lex/utils/translation_service/baidu.dart';
-import 'package:lex/utils/translation_service/bing.dart';
-import 'package:lex/utils/translation_service/caiyun.dart';
-import 'package:lex/utils/translation_service/cambridge_dict.dart';
-import 'package:lex/utils/translation_service/deepl_free.dart';
-import 'package:lex/utils/translation_service/google.dart';
-import 'package:lex/utils/translation_service/niutrans.dart';
-import 'package:lex/utils/translation_service/volcengine.dart';
-import 'package:lex/utils/translation_service/yandex.dart';
-import 'package:lex/utils/translation_service/youdao.dart';
+import 'package:lex/services/translation/baidu.dart';
+import 'package:lex/services/translation/bing.dart';
+import 'package:lex/services/translation/caiyun.dart';
+import 'package:lex/services/translation/cambridge_dict.dart';
+import 'package:lex/services/translation/deepl_free.dart';
+import 'package:lex/services/translation/google.dart';
+import 'package:lex/services/translation/niutrans.dart';
+import 'package:lex/services/translation/volcengine.dart';
+import 'package:lex/services/translation/yandex.dart';
+import 'package:lex/services/translation/youdao.dart';
 
 /// 初始化模型原语言
 String initFromLanguage() {
@@ -23,66 +23,66 @@ String initToLanguage() {
 /// 获取所有受支持语言及其受支持翻译服务
 Map<String, List<String>> allLanguages() {
   Map<String, List<String>> result = {};
-  for (String language in bingSupportLanguage().keys) {
+  for (String language in BingTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["Bing 翻译"];
     } else {
       result[language]!.add("Bing 翻译");
     }
   }
-  for (String language in deeplFreeSupportLanguage().keys) {
+  for (String language in DeeplFreeTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["DeepL 翻译"];
     } else {
       result[language]!.add("DeepL 翻译");
     }
   }
-  for (String language in googleSupportLanguage().keys) {
+  for (String language in GoogleTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["Google 翻译"];
     } else {
       result[language]!.add("Google 翻译");
     }
   }
-  for (String language in yandexSupportLanguage().keys) {
+  for (String language in YandexTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["Yandex 翻译"];
     } else {
       result[language]!.add("Yandex 翻译");
     }
   }
-  for (String language in volcengineSupportLanguage().keys) {
+  for (String language in VolcengineTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["火山翻译", "火山翻译 Free"];
     } else {
       result[language]!.addAll(["火山翻译", "火山翻译 Free"]);
     }
   }
-  for (String language in cambridgeDictSupportLanguage().keys) {
+  for (String language in CambridgeDict.languages().keys) {
     if (result[language] == null) {
       result[language] = ["剑桥词典"];
     } else {
       result[language]!.add("剑桥词典");
     }
   }
-  for (String language in baiduSupportLanguage().keys) {
+  for (String language in BaiduTranslation.languages().keys) {
     result[language] = ["百度翻译"];
   }
-  for (String language in caiyunSupportLanguage().keys) {
+  for (String language in CaiyunTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["彩云小译"];
     } else {
       result[language]!.add("彩云小译");
     }
   }
-  for (String language in niutransSupportLanguage().keys) {
+  for (String language in NiutransTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["小牛翻译"];
     } else {
       result[language]!.add("小牛翻译");
     }
   }
-  for (String language in youdaoSupportLanguage().keys) {
+  for (String language in YoudaoTranslation.languages().keys) {
     if (result[language] == null) {
       result[language] = ["有道翻译"];
     } else {

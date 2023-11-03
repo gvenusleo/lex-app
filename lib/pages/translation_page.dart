@@ -3,24 +3,24 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:lex/global.dart";
 import "package:lex/modules/history_item.dart";
+import 'package:lex/services/ocr/tesseract.dart';
+import 'package:lex/services/translation/baidu.dart';
 import "package:lex/utils/capture.dart";
 import "package:lex/utils/check_api.dart";
 import "package:lex/utils/languages.dart";
-import "package:lex/utils/ocr_service/tesseract.dart";
 import "package:lex/utils/service_map.dart";
-import 'package:lex/utils/translation_service/baidu.dart';
-import 'package:lex/utils/translation_service/bing.dart';
-import 'package:lex/utils/translation_service/caiyun.dart';
-import 'package:lex/utils/translation_service/cambridge_dict.dart';
-import 'package:lex/utils/translation_service/deepl_free.dart';
-import 'package:lex/utils/translation_service/google.dart';
-import 'package:lex/utils/translation_service/minimax.dart';
-import 'package:lex/utils/translation_service/niutrans.dart';
-import 'package:lex/utils/translation_service/volcengine.dart';
-import 'package:lex/utils/translation_service/volcengine_free.dart';
-import 'package:lex/utils/translation_service/yandex.dart';
-import 'package:lex/utils/translation_service/youdao.dart';
-import 'package:lex/utils/translation_service/zhipuai.dart';
+import 'package:lex/services/translation/bing.dart';
+import 'package:lex/services/translation/caiyun.dart';
+import 'package:lex/services/translation/cambridge_dict.dart';
+import 'package:lex/services/translation/deepl_free.dart';
+import 'package:lex/services/translation/google.dart';
+import 'package:lex/services/translation/minimax.dart';
+import 'package:lex/services/translation/niutrans.dart';
+import 'package:lex/services/translation/volcengine.dart';
+import 'package:lex/services/translation/volcengine_free.dart';
+import 'package:lex/services/translation/yandex.dart';
+import 'package:lex/services/translation/youdao.dart';
+import 'package:lex/services/translation/zhipuai.dart';
 import "package:lex/widgets/loading_skeleton.dart";
 import "package:lex/widgets/selected_button.dart";
 
@@ -119,7 +119,7 @@ class _TranslationPageState extends State<TranslationPage> {
                           try {
                             String? imgPath = await capture();
                             if (imgPath != null) {
-                              String ocrResult = await ocrByTesseract(imgPath);
+                              String ocrResult = await Tesseract.ocr(imgPath);
                               _inputController.text = ocrResult;
                             }
                           } catch (_) {
@@ -263,12 +263,14 @@ class _TranslationPageState extends State<TranslationPage> {
                       children: [
                         const SizedBox(width: 8),
                         Image.asset(
-                          serviceLogoMap()[_enabledTranslationServices[index]]!,
+                          translationServiceLogoMap()[
+                              _enabledTranslationServices[index]]!,
                           width: 18,
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          serviceMap()[_enabledTranslationServices[index]]!,
+                          translationServiceMap()[
+                              _enabledTranslationServices[index]]!,
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
@@ -344,7 +346,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["bing"] = const LoadingSkeleton();
           });
-          String result = await translateByBing(
+          String result = await BingTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -405,7 +407,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["deeplFree"] = const LoadingSkeleton();
           });
-          String result = await translateByDeeplFree(
+          String result = await DeeplFreeTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -464,7 +466,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["google"] = const LoadingSkeleton();
           });
-          String result = await translateByGoogle(
+          String result = await GoogleTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -523,7 +525,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["yandex"] = const LoadingSkeleton();
           });
-          final String result = await translateByYandex(
+          final String result = await YandexTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -582,7 +584,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["volcengineFree"] = const LoadingSkeleton();
           });
-          final String result = await translateByVolcengineFree(
+          final String result = await VolcengineFreeTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -644,7 +646,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["cambridgeDict"] = const LoadingSkeleton();
           });
-          final Map result = await translateByCambridgeDict(
+          final Map result = await CambridgeDict.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -806,7 +808,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["baidu"] = const LoadingSkeleton();
           });
-          String result = await translateByBaidu(
+          String result = await BaiduTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -866,8 +868,8 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["caiyun"] = const LoadingSkeleton();
           });
-          String result =
-              await translateByCaiyun(text, _fromLanguage, _toLanguage);
+          String result = await CaiyunTranslation.translate(
+              text, _fromLanguage, _toLanguage);
           if (result.isNotEmpty) {
             if (result.startsWith("error:")) {
               setState(() {
@@ -923,7 +925,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["niutrans"] = const LoadingSkeleton();
           });
-          final String result = await translateByNiutrans(
+          final String result = await NiutransTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -982,7 +984,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["volcengine"] = const LoadingSkeleton();
           });
-          final String result = await translateByVolcengine(
+          final String result = await VolcengineTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -1041,7 +1043,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["youdao"] = const LoadingSkeleton();
           });
-          final String result = await translateByYoudao(
+          final String result = await YoudaoTranslation.translate(
             text,
             _fromLanguage,
             _toLanguage,
@@ -1100,7 +1102,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["minimax"] = const LoadingSkeleton();
           });
-          String result = await translateByMiniMax(
+          String result = await MiniMaxTranslation.translate(
             text,
             _toLanguage,
           );
@@ -1142,7 +1144,7 @@ class _TranslationPageState extends State<TranslationPage> {
           setState(() {
             _outputs["zhipu"] = const LoadingSkeleton();
           });
-          String result = await translateByZhipuai(
+          String result = await ZhipuaiTranslation.translate(
             text,
             _toLanguage,
           );
@@ -1224,7 +1226,8 @@ class _TranslationPageState extends State<TranslationPage> {
         String result = "";
         for (String service in _enabledTranslationServices) {
           if (_result[service] != null) {
-            result += "${serviceMap()[service]!}：${_result[service]!}\n\n";
+            result +=
+                "${translationServiceMap()[service]!}：${_result[service]!}\n\n";
           }
         }
         Clipboard.setData(
@@ -1235,7 +1238,8 @@ class _TranslationPageState extends State<TranslationPage> {
         String result = "原文：${_inputController.text}\n\n";
         for (String service in _enabledTranslationServices) {
           if (_result[service] != null) {
-            result += "${serviceMap()[service]!}：${_result[service]!}\n\n";
+            result +=
+                "${translationServiceMap()[service]!}：${_result[service]!}\n\n";
           }
         }
         Clipboard.setData(

@@ -53,7 +53,9 @@ flutter:
   assets:
     - assets/logo.png
     - assets/logo.ico
-    - assets/service/
+    - assets/service/translation/
+    - assets/service/ocr/
+
   fonts:
     - family: Sarasa-UI-SC
       fonts:
