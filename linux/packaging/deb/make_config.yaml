@@ -12,6 +12,7 @@ icon: assets/logo.png
 dependencies:
   - libkeybinder-3.0-0
   - libayatana-appindicator3-dev
+  - libnotify-dev
 
 postinstall_scripts:
   - echo "------------------- Welcom to Lex -------------------\n  @website   https://pot-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"

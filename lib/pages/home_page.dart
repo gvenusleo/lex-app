@@ -6,6 +6,7 @@ import "package:lex/pages/setting_page/settings_page.dart";
 import 'package:lex/pages/translation_page.dart';
 import "package:lex/providers/window_provider.dart";
 import "package:lex/utils/capture.dart";
+import "package:local_notifier/local_notifier.dart";
 import "package:provider/provider.dart";
 import "package:screen_retriever/screen_retriever.dart";
 import "package:screen_text_extractor/screen_text_extractor.dart";
@@ -236,14 +237,26 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
   /// 截图文字识别
   Future<void> ocrFunc() async {
     if ((prefs.getStringList("enabledOcrServices") ?? []).isEmpty) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("文字识别服务未启用"),
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ),
+      LocalNotification notification = LocalNotification(
+        title: "Lex",
+        body: "文字识别服务未启用！",
+        actions: [
+          LocalNotificationAction(
+            text: "现在启用",
+          ),
+        ],
       );
+      notification.onClickAction = (actionIndex) async {
+        await _saveTranslateWindow();
+        setState(() {
+          _selectedPage = SettingsPage(
+            key: UniqueKey(),
+            focusedItem: "服务设置",
+          );
+        });
+        await _setSettingWindow();
+      };
+      notification.show();
       return;
     }
     try {

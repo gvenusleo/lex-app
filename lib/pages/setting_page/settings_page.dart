@@ -11,15 +11,45 @@ import "package:lex/widgets/setting_group_card.dart";
 
 /// 设置页面主体
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  final String focusedItem;
+
+  const SettingsPage({
+    Key? key,
+    this.focusedItem = "应用设置",
+  }) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String _selectedItem = "应用设置";
-  Widget _selectedPage = const AppSettingPage();
+  late String _selectedItem;
+  final Map<String, Widget> _pages = {
+    "应用设置": const AppSettingPage(),
+    "服务设置": const ServiceSettingPage(),
+    "翻译设置": const TranslationSettingPage(),
+    "文字识别": const OcrSettingPage(),
+    "内置语言": const LanguageSettingPage(),
+    "热键设置": const HotKeySettingPage(),
+    "历史记录": const HistoryPage(),
+    "关于应用": const AboutPage(),
+  };
+  final Map<String, Icon> _icons = {
+    "应用设置": const Icon(Icons.laptop_windows_outlined),
+    "服务设置": const Icon(Icons.dashboard_outlined),
+    "翻译设置": const Icon(Icons.translate_outlined),
+    "文字识别": const Icon(Icons.crop_free_outlined),
+    "内置语言": const Icon(Icons.language_outlined),
+    "热键设置": const Icon(Icons.keyboard_outlined),
+    "历史记录": const Icon(Icons.history_outlined),
+    "关于应用": const Icon(Icons.info_outline),
+  };
+
+  @override
+  void initState() {
+    _selectedItem = widget.focusedItem;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 180,
                   child: ListView(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 18,
+                      vertical: 24,
                       horizontal: 12,
                     ),
                     children: [
@@ -43,108 +73,25 @@ class _SettingsPageState extends State<SettingsPage> {
                         width: 64,
                         height: 64,
                       ),
-                      const SizedBox(height: 18),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.laptop_windows_outlined),
-                        title: "应用设置",
-                        selected: _selectedItem == "应用设置",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "应用设置";
-                            _selectedPage = const AppSettingPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.dashboard_outlined),
-                        title: "服务设置",
-                        selected: _selectedItem == "服务设置",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "服务设置";
-                            _selectedPage = const ServiceSettingPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.translate_outlined),
-                        title: "翻译设置",
-                        selected: _selectedItem == "翻译设置",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "翻译设置";
-                            _selectedPage = const TranslationSettingPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.crop_free_outlined),
-                        title: "文字识别",
-                        selected: _selectedItem == "文字识别",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "文字识别";
-                            _selectedPage = const OcrSettingPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.language_outlined),
-                        title: "内置语言",
-                        selected: _selectedItem == "内置语言",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "内置语言";
-                            _selectedPage = const LanguageSettingPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.keyboard_outlined),
-                        title: "热键设置",
-                        selected: _selectedItem == "热键设置",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "热键设置";
-                            _selectedPage = const HotKeySettingPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.history_outlined),
-                        title: "历史记录",
-                        selected: _selectedItem == "历史记录",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "历史记录";
-                            _selectedPage = const HistoryPage();
-                          });
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      SettingGroupCard(
-                        icon: const Icon(Icons.info_outline),
-                        title: "关于应用",
-                        selected: _selectedItem == "关于应用",
-                        onTap: () {
-                          setState(() {
-                            _selectedItem = "关于应用";
-                            _selectedPage = const AboutPage();
-                          });
-                        },
-                      ),
+                      const SizedBox(height: 24),
+                      ..._pages.cast<String, Widget>().keys.map(
+                            (e) => SettingGroupCard(
+                              icon: _icons[e]!,
+                              title: e,
+                              selected: _selectedItem == e,
+                              onTap: () {
+                                setState(() {
+                                  _selectedItem = e;
+                                });
+                              },
+                            ),
+                          ),
                     ],
                   ),
                 ),
                 const VerticalDivider(width: 1),
                 Expanded(
-                  child: _selectedPage,
+                  child: _pages[_selectedItem]!,
                 ),
               ],
             ),

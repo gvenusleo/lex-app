@@ -7,6 +7,7 @@ import "package:launch_at_startup/launch_at_startup.dart";
 import "package:lex/modules/history_item.dart";
 import "package:lex/utils/dir_utils.dart";
 import "package:lex/utils/font_utils.dart";
+import "package:local_notifier/local_notifier.dart";
 import "package:package_info_plus/package_info_plus.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "package:tray_manager/tray_manager.dart";
@@ -133,4 +134,11 @@ Future<void> init() async {
     Platform.isWindows ? "assets/logo.ico" : "assets/logo.png",
   );
   await trayManager.setContextMenu(menu);
+
+  // 初始化系统通知
+  await localNotifier.setup(
+    appName: 'Lex',
+    // 参数 shortcutPolicy 仅适用于 Windows
+    shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
 }

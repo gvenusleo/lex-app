@@ -11,6 +11,8 @@ import "package:lex/services/translation/youdao.dart";
 import "package:lex/services/translation/zhipuai.dart";
 import "package:lex/utils/service_map.dart";
 import "package:lex/widgets/list_tile_group_title.dart";
+import "package:local_notifier/local_notifier.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 /// 翻译模型设置页面
 class ServiceSettingPage extends StatefulWidget {
@@ -249,15 +251,19 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             value: _enabledTranslationServices.contains("baidu"),
             onChanged: (value) {
               if (!BaiduTranslation.checkApi()) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("请先设置百度翻译接口"),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "百度翻译接口未设置！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "现在设置",
+                    ),
+                  ],
                 );
-                return;
+                notification.onClickAction = (actionIndex) {
+                  BaiduTranslation.setApi(context);
+                };
+                notification.show();
               } else {
                 if (_enabledTranslationServices.contains("baidu")) {
                   setState(() {
@@ -290,15 +296,19 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             value: _enabledTranslationServices.contains("caiyun"),
             onChanged: (value) {
               if (!CaiyunTranslation.checkApi()) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("请先设置彩云小译接口"),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "彩云小译接口未设置！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "现在设置",
+                    ),
+                  ],
                 );
-                return;
+                notification.onClickAction = (actionIndex) {
+                  CaiyunTranslation.setApi(context);
+                };
+                notification.show();
               } else {
                 if (_enabledTranslationServices.contains("caiyun")) {
                   setState(() {
@@ -331,15 +341,19 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             value: _enabledTranslationServices.contains("volcengine"),
             onChanged: (value) {
               if (!VolcengineTranslation.checkApi()) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("请先设置火山翻译接口"),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "火山翻译接口未设置！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "现在设置",
+                    ),
+                  ],
                 );
-                return;
+                notification.onClickAction = (actionIndex) {
+                  VolcengineTranslation.setApi(context);
+                };
+                notification.show();
               } else {
                 if (_enabledTranslationServices.contains("volcengine")) {
                   setState(() {
@@ -372,15 +386,19 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             value: _enabledTranslationServices.contains("niutrans"),
             onChanged: (value) {
               if (!NiutransTranslation.checkApi()) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("请先设置小牛翻译接口"),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "小牛翻译接口未设置！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "现在设置",
+                    ),
+                  ],
                 );
-                return;
+                notification.onClickAction = (actionIndex) {
+                  NiutransTranslation.setApi(context);
+                };
+                notification.show();
               } else {
                 if (_enabledTranslationServices.contains("niutrans")) {
                   setState(() {
@@ -413,15 +431,19 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             value: _enabledTranslationServices.contains("youdao"),
             onChanged: (value) {
               if (!YoudaoTranslation.checkApi()) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("请先设置有道翻译接口"),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "有道翻译接口未设置！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "现在设置",
+                    ),
+                  ],
                 );
-                return;
+                notification.onClickAction = (actionIndex) {
+                  YoudaoTranslation.setApi(context);
+                };
+                notification.show();
               } else {
                 if (_enabledTranslationServices.contains("youdao")) {
                   setState(() {
@@ -455,15 +477,19 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             value: _enabledTranslationServices.contains("minimax"),
             onChanged: (value) {
               if (!MiniMaxTranslation.checkApi()) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("请先设置 MiniMax 接口"),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "MiniMax 接口未设置！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "现在设置",
+                    ),
+                  ],
                 );
-                return;
+                notification.onClickAction = (actionIndex) {
+                  MiniMaxTranslation.setApi(context);
+                };
+                notification.show();
               } else {
                 if (_enabledTranslationServices.contains("minimax")) {
                   setState(() {
@@ -494,17 +520,21 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           subtitle: const Text("设置智谱 AI 接口"),
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("zhipuai"),
-            onChanged: (value) {
+            onChanged: (value) async {
               if (!ZhipuaiTranslation.checkApi()) {
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("请先设置智谱 AI 接口"),
-                    behavior: SnackBarBehavior.floating,
-                    duration: Duration(seconds: 2),
-                  ),
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "智谱 AI 接口未设置！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "现在设置",
+                    ),
+                  ],
                 );
-                return;
+                notification.onClickAction = (actionIndex) {
+                  ZhipuaiTranslation.setApi(context);
+                };
+                notification.show();
               } else {
                 if (_enabledTranslationServices.contains("zhipuai")) {
                   setState(() {
@@ -562,14 +592,22 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
                       "enabledOcrServices", _enabledOcrServices);
                 } else {
                   if (!mounted) return;
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("请先安装 Tesseract"),
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ),
+                  LocalNotification notification = LocalNotification(
+                    title: "Lex",
+                    body: "Tesseract 未安装！",
+                    actions: [
+                      LocalNotificationAction(
+                        text: "现在安装",
+                      ),
+                    ],
                   );
+                  notification.onClickAction = (actionIndex) {
+                    launchUrlString(
+                      "https://tesseract-ocr.github.io/tessdoc/Installation.html",
+                      mode: LaunchMode.externalApplication,
+                    );
+                  };
+                  notification.show();
                 }
               }
             },
@@ -597,15 +635,19 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
                 );
               } else {
                 if (!BaiduOcr.checkApi()) {
-                  if (!mounted) return;
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("请先设置百度文字识别接口"),
-                      behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
-                    ),
+                  LocalNotification notification = LocalNotification(
+                    title: "Lex",
+                    body: "百度文字识别接口未设置！",
+                    actions: [
+                      LocalNotificationAction(
+                        text: "现在设置",
+                      ),
+                    ],
                   );
+                  notification.onClickAction = (actionIndex) {
+                    BaiduOcr.setApi(context);
+                  };
+                  notification.show();
                 } else {
                   setState(() {
                     _enabledOcrServices.add("baidu");
