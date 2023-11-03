@@ -2,6 +2,7 @@ import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
 import "package:lex/utils/init_dio.dart";
+import "package:lex/utils/service_map.dart";
 import "package:url_launcher/url_launcher_string.dart";
 
 /// MiniMax 大模型翻译
@@ -92,7 +93,7 @@ class MiniMaxTranslation {
         return StatefulBuilder(builder: (BuildContext context, setState) {
           return AlertDialog(
             icon: Image.asset(
-              "assets/service/minimax.png",
+              translationServiceLogoMap()["minimax"]!,
               width: 40,
               height: 40,
             ),

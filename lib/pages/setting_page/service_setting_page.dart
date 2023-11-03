@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
+import "package:lex/services/ocr/baidu.dart";
 import "package:lex/services/ocr/tesseract.dart";
 import "package:lex/services/translation/baidu.dart";
 import "package:lex/services/translation/caiyun.dart";
@@ -553,8 +554,12 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
                 setState(() {
                   _enabledOcrServices.remove("tesseract");
                 });
+                prefs.setStringList(
+                  "enabledOcrServices",
+                  _enabledOcrServices,
+                );
               } else {
-                if (await Tesseract.isInstalled()) {
+                if (await TesseractOcr.isInstalled()) {
                   setState(() {
                     _enabledOcrServices.add("tesseract");
                   });
@@ -574,6 +579,54 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
               }
             },
           ),
+        ),
+        const ListTileGroupTitle(title: "联网服务"),
+        ListTile(
+          leading: Image.asset(
+            ocrServiceLogoMap()["baidu"]!,
+            width: 40,
+            height: 40,
+          ),
+          title: const Text("百度文字识别"),
+          subtitle: const Text("百度通用高精度文字识别"),
+          trailing: Checkbox(
+            value: _enabledOcrServices.contains("baidu"),
+            onChanged: (value) async {
+              if (_enabledOcrServices.contains("baidu")) {
+                setState(() {
+                  _enabledOcrServices.remove("baidu");
+                });
+                prefs.setStringList(
+                  "enabledOcrServices",
+                  _enabledOcrServices,
+                );
+              } else {
+                if ((prefs.getString("baiduOcrApiKey") ?? "").isEmpty ||
+                    (prefs.getString("baiduOcrSecretKey") ?? "").isEmpty) {
+                  if (!mounted) return;
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("请先设置百度文字识别接口"),
+                      behavior: SnackBarBehavior.floating,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                } else {
+                  setState(() {
+                    _enabledOcrServices.add("baidu");
+                  });
+                  prefs.setStringList(
+                    "enabledOcrServices",
+                    _enabledOcrServices,
+                  );
+                }
+              }
+            },
+          ),
+          onTap: () async {
+            BaiduOcr.setApi(context);
+          },
         ),
       ],
     );

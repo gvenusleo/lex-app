@@ -162,7 +162,7 @@ class _OcrPageState extends State<OcrPage> {
 
   /// 文字识别
   Future<void> ocr() async {
-    Tesseract.ocr(widget.imagePath, language: _language).then((value) {
+    TesseractOcr.ocr(widget.imagePath, language: _language).then((value) {
       if (prefs.getBool("deleteOcrLineBreak") ?? false) {
         _controller.text = value.replaceAll("\n", "");
       } else {

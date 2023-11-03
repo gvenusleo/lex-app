@@ -5,6 +5,7 @@ import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
 import "package:lex/utils/init_dio.dart";
+import "package:lex/utils/service_map.dart";
 import "package:url_launcher/url_launcher_string.dart";
 
 /// 火山翻译
@@ -188,7 +189,7 @@ class VolcengineTranslation {
       builder: (context) {
         return AlertDialog(
           icon: Image.asset(
-            "assets/service/volcengine.png",
+            translationServiceLogoMap()["volcengine"]!,
             width: 40,
             height: 40,
           ),

@@ -5,6 +5,7 @@ import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
 import "package:lex/utils/init_dio.dart";
+import "package:lex/utils/service_map.dart";
 import "package:url_launcher/url_launcher_string.dart";
 
 /// 智谱 AI 大模型翻译
@@ -90,7 +91,7 @@ class ZhipuaiTranslation {
           builder: (BuildContext context, StateSetter setState) {
             return AlertDialog(
               icon: Image.asset(
-                "assets/service/zhipuai.png",
+                translationServiceLogoMap()["zhipuai"]!,
                 width: 40,
                 height: 40,
               ),

@@ -119,7 +119,8 @@ class _TranslationPageState extends State<TranslationPage> {
                           try {
                             String? imgPath = await capture();
                             if (imgPath != null) {
-                              String ocrResult = await Tesseract.ocr(imgPath);
+                              String ocrResult =
+                                  await TesseractOcr.ocr(imgPath);
                               _inputController.text = ocrResult;
                             }
                           } catch (_) {

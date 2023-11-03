@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:process_run/process_run.dart';
 
 /// Tesseract OCR
-class Tesseract {
+class TesseractOcr {
   /// 使用 Tesseract 进行文字识别
   static Future<String> ocr(String imgPath, {String language = "中文"}) async {
     try {
-      language = supportLanguage()[language]!;
+      language = languages()[language]!;
     } catch (_) {
       return "error:不支持的语言";
     }
@@ -19,7 +19,7 @@ class Tesseract {
   }
 
   /// Tesseract 支持的语言
-  static Map<String, String> supportLanguage() {
+  static Map<String, String> languages() {
     return {
       "中文": "chi_sim",
       "英语": "eng",

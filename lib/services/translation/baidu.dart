@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lex/global.dart';
 import 'package:lex/utils/init_dio.dart';
+import 'package:lex/utils/service_map.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 /// 百度翻译
@@ -90,7 +91,7 @@ class BaiduTranslation {
       builder: (context) {
         return AlertDialog(
           icon: Image.asset(
-            "assets/service/baidu.png",
+            translationServiceLogoMap()["baidu"]!,
             width: 40,
             height: 40,
           ),
@@ -122,8 +123,8 @@ class BaiduTranslation {
                 controller: appIDController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: "APP ID",
-                  hintText: "输入百度翻译 APP ID",
+                  labelText: "App ID",
+                  hintText: "输入百度翻译 App ID",
                 ),
               ),
               const SizedBox(height: 18),

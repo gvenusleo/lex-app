@@ -4,6 +4,7 @@ import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
 import "package:lex/utils/init_dio.dart";
+import "package:lex/utils/service_map.dart";
 import "package:url_launcher/url_launcher_string.dart";
 
 /// 小牛翻译
@@ -501,7 +502,7 @@ class NiutransTranslation {
       builder: (context) {
         return AlertDialog(
           icon: Image.asset(
-            "assets/service/niutrans.png",
+            translationServiceLogoMap()["niutrans"]!,
             width: 40,
             height: 40,
           ),
