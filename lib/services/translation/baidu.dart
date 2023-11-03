@@ -80,6 +80,15 @@ class BaiduTranslation {
     };
   }
 
+  /// 检查百度翻译 API 是否设置
+  static bool checkApi() {
+    if ((prefs.getString("baiduAppID") ?? "").isEmpty ||
+        (prefs.getString("baiduAppKey") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置百度翻译 AppID 和 AppKey
   static Future<void> setApi(BuildContext context) async {
     final appIDController = TextEditingController();

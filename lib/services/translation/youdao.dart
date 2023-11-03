@@ -161,6 +161,15 @@ class YoudaoTranslation {
     };
   }
 
+  /// 检查有道翻译 API 是否设置
+  static bool checkApi() {
+    if ((prefs.getString("youdaoAppID") ?? "").isEmpty ||
+        (prefs.getString("youdaoAppKey") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置有道翻译 AppID 和 AppKey
   static Future<void> setApi(BuildContext context) async {
     final appIDController = TextEditingController();

@@ -325,7 +325,7 @@ class _TranslationPageState extends State<TranslationPage> {
     if (text.isEmpty) {
       return;
     }
-    if (!checkAPI(service)) {
+    if (!checkTranslationAPI(service)) {
       setState(
         () {
           _outputs[service] = SelectableText.rich(

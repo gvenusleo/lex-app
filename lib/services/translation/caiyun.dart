@@ -50,6 +50,14 @@ class CaiyunTranslation {
     };
   }
 
+  /// 检查彩云小译 API 是否设置
+  static bool checkApi() {
+    if ((prefs.getString("caiyunToken") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置彩云小译 Token
   static Future<void> setApi(BuildContext context) async {
     final tokenController = TextEditingController();

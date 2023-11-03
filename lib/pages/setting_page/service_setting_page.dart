@@ -248,8 +248,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("baidu"),
             onChanged: (value) {
-              if ((prefs.getString("baiduAppID") ?? "").isEmpty ||
-                  (prefs.getString("baiduAppKey") ?? "").isEmpty) {
+              if (!BaiduTranslation.checkApi()) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -290,7 +289,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("caiyun"),
             onChanged: (value) {
-              if ((prefs.getString("caiyunToken") ?? "").isEmpty) {
+              if (!CaiyunTranslation.checkApi()) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -331,9 +330,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("volcengine"),
             onChanged: (value) {
-              if ((prefs.getString("volcengineAccessKeyID") ?? "").isEmpty ||
-                  (prefs.getString("volcengineSecretAccessKey") ?? "")
-                      .isEmpty) {
+              if (!VolcengineTranslation.checkApi()) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -374,7 +371,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("niutrans"),
             onChanged: (value) {
-              if ((prefs.getString("niutransApiKey") ?? "").isEmpty) {
+              if (!NiutransTranslation.checkApi()) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -415,8 +412,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("youdao"),
             onChanged: (value) {
-              if ((prefs.getString("youdaoAppKey") ?? "").isEmpty ||
-                  (prefs.getString("youdaoAppID") ?? "").isEmpty) {
+              if (!YoudaoTranslation.checkApi()) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -458,8 +454,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("minimax"),
             onChanged: (value) {
-              if ((prefs.getString("minimaxGroupID") ?? "").isEmpty ||
-                  (prefs.getString("minimaxApiKey") ?? "").isEmpty) {
+              if (!MiniMaxTranslation.checkApi()) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -500,7 +495,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
           trailing: Checkbox(
             value: _enabledTranslationServices.contains("zhipuai"),
             onChanged: (value) {
-              if ((prefs.getString("zhipuaiApiKey") ?? "").isEmpty) {
+              if (!ZhipuaiTranslation.checkApi()) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -601,8 +596,7 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
                   _enabledOcrServices,
                 );
               } else {
-                if ((prefs.getString("baiduOcrApiKey") ?? "").isEmpty ||
-                    (prefs.getString("baiduOcrSecretKey") ?? "").isEmpty) {
+                if (!BaiduOcr.checkApi()) {
                   if (!mounted) return;
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(context).showSnackBar(

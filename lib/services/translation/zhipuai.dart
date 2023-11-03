@@ -61,6 +61,14 @@ class ZhipuaiTranslation {
     return result;
   }
 
+  /// 检查智谱 AI API 是否设置
+  static bool checkApi() {
+    if ((prefs.getString("zhipuaiApiKey") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置智谱 AI API Key
   static Future<void> setApi(BuildContext context) async {
     final zhipuaiApiKeyController = TextEditingController();

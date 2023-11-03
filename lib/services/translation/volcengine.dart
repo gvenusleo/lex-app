@@ -177,6 +177,15 @@ class VolcengineTranslation {
     };
   }
 
+  /// 检查火山翻译 API 是否设置
+  static bool checkApi() {
+    if ((prefs.getString("volcengineAccessKeyID") ?? "").isEmpty ||
+        (prefs.getString("volcengineSecretAccessKey") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置火山翻译 AccessKeyID 和 SecretAccessKey
   static Future<void> setApi(BuildContext context) async {
     final accessKeyIDController = TextEditingController();

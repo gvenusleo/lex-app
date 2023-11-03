@@ -493,6 +493,14 @@ class NiutransTranslation {
     };
   }
 
+  /// 检查小牛翻译 API 是否设置
+  static bool checkApi() {
+    if ((prefs.getString("niutransApiKey") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置小牛翻译 ApiKey
   static Future<void> setApi(BuildContext context) async {
     final apiKeyController = TextEditingController();

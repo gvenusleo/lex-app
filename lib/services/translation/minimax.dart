@@ -65,6 +65,15 @@ class MiniMaxTranslation {
     return response.data["reply"];
   }
 
+  /// 检查 MiniMax API 是否设置
+  static bool checkApi() {
+    if ((prefs.getString("minimaxGroupID") ?? "").isEmpty ||
+        (prefs.getString("minimaxApiKey") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置 MiniMax groupID 和 ApiKey
   static Future<void> setApi(BuildContext context) async {
     final groupIDController = TextEditingController();

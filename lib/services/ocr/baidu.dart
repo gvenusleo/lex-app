@@ -5,6 +5,15 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 /// 百度 OCR
 class BaiduOcr {
+  /// 判断是否设置了百度 OCR App Key 和 Secret Key
+  static bool checkApi() {
+    if ((prefs.getString("baiduOcrApiKey") ?? "").isEmpty ||
+        (prefs.getString("baiduOcrSecretKey") ?? "").isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   /// 设置百度 OCR App Key 和 Secret Key
   static Future<void> setApi(BuildContext context) async {
     final apikeyController = TextEditingController();
