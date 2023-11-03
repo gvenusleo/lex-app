@@ -3,9 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:lex/global.dart";
 import "package:lex/modules/history_item.dart";
-import 'package:lex/services/ocr/tesseract.dart';
 import 'package:lex/services/translation/baidu.dart';
-import "package:lex/utils/capture.dart";
 import "package:lex/utils/check_api.dart";
 import "package:lex/utils/languages.dart";
 import "package:lex/utils/service_map.dart";
@@ -112,25 +110,6 @@ class _TranslationPageState extends State<TranslationPage> {
                 Row(
                   children: [
                     const SizedBox(width: 4),
-                    if ((prefs.getStringList("enabledOcrServices") ?? [])
-                        .isNotEmpty)
-                      IconButton(
-                        onPressed: () async {
-                          try {
-                            String? imgPath = await capture();
-                            if (imgPath != null) {
-                              String ocrResult =
-                                  await TesseractOcr.ocr(imgPath);
-                              _inputController.text = ocrResult;
-                            }
-                          } catch (_) {
-                            return;
-                          }
-                        },
-                        icon: const Icon(Icons.crop_free_outlined, size: 20),
-                        padding: const EdgeInsets.all(0),
-                        visualDensity: VisualDensity.compact,
-                      ),
                     IconButton(
                       onPressed: () {
                         Clipboard.getData("text/plain").then((value) {
