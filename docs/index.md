@@ -5,29 +5,29 @@ titleTemplate: 快速、方便的跨平台划词翻译软件
 
 hero:
   name: "Lex"
-  # text: "v0.1.0"
-  tagline: 快速、方便的跨平台划词翻译软件</br>支持多个翻译服务和 AI 大模型
+  # text: "快速方便的跨平台划词翻译 & OCR 软件"
+  tagline: 快速方便的跨平台划词翻译 & OCR 软件<br>支持多个翻译服务和 AI 大模型
   actions:
-    - theme: alt
+    - theme: brand
       text: 快速开始
       link: /guide/intro
-    - theme: brand
+    - theme: alt
       text: 立即下载
       link: /guide/install
   image:
-    src: /logo.svg
-    alt: Lex-logo
+    src: /app.png
+    alt: Lex-app
 features:
   - icon: 💻
     title: 跨平台
-    details: 使用 Flutter 框架开发，支持 Windows、Linux、macOS 平台
+    details: 使用 Flutter 框架开发和 Material You 设计，支持 Windows、Linux、macOS 平台
     # link:
     # linkText:
     # rel:
   - icon: 🔎
     title: 多服务
-    details: 支持 DeepL、Google、百度等翻译服务和 MiniMax 等 AI 大模型
+    details: 支持 DeepL、Google、Tesseract、百度、有道、火山等服务以及 MiniMax 等 AI 大模型
   - icon: 🪄
     title: 易上手
-    details: 快捷键翻译、自动复制、跟随窗口、开机自启、代理设置、历史记录
+    details: 自定义快捷键、全局字体，支自动复制、跟随窗口、开机自启、代理设置、历史记录
 ---
