@@ -32,8 +32,6 @@ dependencies:
   path_provider: ^2.1.1
   process_run: ^0.13.2
   provider: ^6.0.5
-  screen_capturer:
-    path: ./package/screen_capturer
   screen_retriever: ^0.1.9
   screen_text_extractor: ^0.1.3
   shared_preferences: ^2.2.1
@@ -54,6 +52,7 @@ flutter:
   assets:
     - assets/logo.png
     - assets/logo.ico
+    - assets/capture/
     - assets/service/translation/
     - assets/service/ocr/
 

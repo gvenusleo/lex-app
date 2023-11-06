@@ -50,3 +50,7 @@ app.*.map.json
 /docs/.vitepress/dist
 /docs/.vitepress/cache
 /node_modules
+
+# python ffi
+build/
+dist/

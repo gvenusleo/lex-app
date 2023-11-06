@@ -725,13 +725,6 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "1.2.3"
-  screen_capturer:
-    dependency: "direct main"
-    description:
-      path: "package/screen_capturer"
-      relative: true
-    source: path
-    version: "0.1.7"
   screen_retriever:
     dependency: "direct main"
     description:
@@ -820,14 +813,6 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "1.0.4"
-  shell_executor:
-    dependency: transitive
-    description:
-      name: shell_executor
-      sha256: f89eb17bb2660568a255bb5612f2773ba9295792d7bb6b96e3ef87985a9457fa
-      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
-    source: hosted
-    version: "0.1.4"
   shortid:
     dependency: transitive
     description:

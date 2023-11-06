@@ -1,4 +1,5 @@
-VERSION := `sed -n 's/^version: \([^ ]*\).*/\1/p' pubspec.yaml`
+VERSION := `sed -n 's/^version: \([^+ ]*\).*/\1/p' pubspec.yaml`
+VERSION_FULL := `sed -n 's/^version: \([^ ]*\).*/\1/p' pubspec.yaml`
 
 # Build generated files
 build-isar:
@@ -6,18 +7,23 @@ build-isar:
     @echo "Build Isar......."
     @flutter pub run build_runner build
 
+# Build capture file
+build-capture:
+    @cd capture_py && pipenv install && pyinstaller --onefile --clean --strip capture.py
+    @cp capture_py/dist/capture assets/capture/capture-{{VERSION}}
+    
 # Build Linux deb package
-build-linux-deb:
+build-deb: build-isar build-capture
     @echo "------------------------------"
     @echo "Building for Linux......"
     @dart pub global activate flutter_distributor
     @export PATH="$PATH":"$HOME/.pub-cache/bin" && flutter_distributor package --platform linux --targets deb
 
 # Install Linux deb package
-install-linux-deb: build-linux-deb
+install-deb: build-deb
     @echo "------------------------------"
     @echo "Installing for Linux......"
-    @sudo dpkg -i ./dist/{{VERSION}}/lex-{{VERSION}}-linux.deb
+    @sudo dpkg -i ./dist/{{VERSION_FULL}}/lex-{{VERSION_FULL}}-linux.deb
 
 # Update yarn packages
 update-yarn:

@@ -6,6 +6,7 @@ import "package:lex/pages/setting_page/settings_page.dart";
 import 'package:lex/pages/translation_page.dart';
 import "package:lex/providers/window_provider.dart";
 import "package:lex/utils/capture.dart";
+import "package:lex/utils/dir_utils.dart";
 import "package:local_notifier/local_notifier.dart";
 import "package:provider/provider.dart";
 import "package:screen_retriever/screen_retriever.dart";
@@ -22,6 +23,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
+  // 当前页面
   Widget? _selectedPage;
 
   @override
@@ -82,7 +84,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
                   Expanded(
                     child: DragToMoveArea(
                       child: Text(
-                        version,
+                        "v$version",
                         textAlign: TextAlign.center,
                         style: const TextStyle(color: Colors.transparent),
                       ),
@@ -166,6 +168,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
 
   /// 注册系统快捷键
   Future<void> _initHotKey() async {
+    // 划词翻译
     List<String> translationHotKeyList =
         prefs.getStringList("translationHotKeyList") ?? ["alt", "keyZ"];
     HotKey hotKey = HotKey.fromJson(
@@ -217,6 +220,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         }
       },
     );
+    // 文字识别
     List<String> ocrHotKeyList =
         prefs.getStringList("ocrHotKeyList") ?? ["alt", "keyX"];
     hotKey = HotKey.fromJson(
@@ -260,18 +264,19 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
       return;
     }
     try {
+      Color color = Theme.of(context).colorScheme.primary;
+      String colorStr = color.value.toRadixString(16).substring(2);
       await windowManager.hide();
-      String? imgPath = await capture();
-      if (imgPath != null) {
-        await _setTranslateWindow(
+      if (await capture(colorStr)) {
+        final String captureImgPath = await getOcrCaptureImgPath();
+        await _setOcrWindow(
           () => setState(() {
             _selectedPage = OcrPage(
               key: UniqueKey(),
-              imagePath: imgPath,
+              imagePath: captureImgPath,
             );
           }),
         );
-        await _setOcrWindow();
       }
     } catch (e) {
       return;
@@ -327,8 +332,8 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
   }
 
   /// 设置文字识别窗口
-  Future<void> _setOcrWindow() async {
-    await windowManager.hide();
+  Future<void> _setOcrWindow(Function() setPage) async {
+    setPage();
     await Future.delayed(const Duration(milliseconds: 100));
     await windowManager.setSize(const Size(800, 400));
     await Future.delayed(const Duration(milliseconds: 100));

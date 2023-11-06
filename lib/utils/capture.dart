@@ -1,20 +1,18 @@
-import 'dart:io';
-
 import 'package:lex/utils/dir_utils.dart';
-import 'package:screen_capturer/screen_capturer.dart';
+import 'package:process_run/process_run.dart';
 
-/// 屏幕截图，返回图片路径
-Future<String?> capture() async {
-  Directory ocrDir = await getOcrDir();
-  String name = DateTime.now().toIso8601String();
-  String imgPath = "${ocrDir.path}${getDirSeparator()}$name.png";
-  final captureData = await screenCapturer.capture(
-    mode: CaptureMode.region, // screen, window
-    imagePath: imgPath,
-    copyToClipboard: false,
-  );
-  if (captureData != null) {
-    return captureData.imagePath;
+/// 屏幕截图
+Future<bool> capture(String color) async {
+  try {
+    String fullscreenPath = await getOcrFullScreenImgPath();
+    String capturePath = await getOcrCaptureImgPath();
+    String captureFilePath = await getCaptureFilePath();
+    var shell = Shell();
+    await shell.run(
+      "$captureFilePath --color '#$color' --fullscreen '$fullscreenPath' --capture '$capturePath'",
+    );
+    return true;
+  } catch (_) {
+    return false;
   }
-  return null;
 }
