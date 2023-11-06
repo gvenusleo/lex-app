@@ -31,7 +31,7 @@ Future<Directory> getFontDir() async {
 /// 获取 OCR 截图文件目录
 Future<Directory> getOcrDir() async {
   final Directory appWorkDir = await getWorkDir();
-  final String ocrPath = "${appWorkDir.path}${getDirSeparator()}capture";
+  final String ocrPath = "${appWorkDir.path}${getDirSeparator()}images";
   final Directory ocrDir = Directory(ocrPath);
   if (!ocrDir.existsSync()) {
     ocrDir.createSync(recursive: true);
@@ -48,15 +48,19 @@ Future<String> getOcrFullScreenImgPath() async {
 /// 获取 OCR 区域截图图像文件路径
 Future<String> getOcrCaptureImgPath() async {
   final Directory ocrDir = await getOcrDir();
-  return "${ocrDir.path}${getDirSeparator()}capture.png";
+  return "${ocrDir.path}${getDirSeparator()}${DateTime.now().toIso8601String()}.png";
 }
 
 /// 获取 capture 可执行文件路径，不存在则复制
 Future<String> getCaptureFilePath() async {
-  final String ocrDirPath = (await getOcrDir()).path;
+  final String workDir = (await getWorkDir()).path;
   final String fileName =
       Platform.isWindows ? "capture-$version.exe" : "capture-$version";
-  final String capturePath = "$ocrDirPath${getDirSeparator()}$fileName";
+  String capturePath = "$workDir${getDirSeparator()}capture";
+  if (!Directory(capturePath).existsSync()) {
+    Directory(capturePath).createSync(recursive: true);
+  }
+  capturePath = "$capturePath${getDirSeparator()}$fileName";
   if (!File(capturePath).existsSync()) {
     final String captureExePath = Platform.isWindows
         ? "assets/capture/capture-$version.exe"

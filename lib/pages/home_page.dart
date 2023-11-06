@@ -6,7 +6,6 @@ import "package:lex/pages/setting_page/settings_page.dart";
 import 'package:lex/pages/translation_page.dart';
 import "package:lex/providers/window_provider.dart";
 import "package:lex/utils/capture.dart";
-import "package:lex/utils/dir_utils.dart";
 import "package:local_notifier/local_notifier.dart";
 import "package:provider/provider.dart";
 import "package:screen_retriever/screen_retriever.dart";
@@ -267,8 +266,8 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
       Color color = Theme.of(context).colorScheme.primary;
       String colorStr = color.value.toRadixString(16).substring(2);
       await windowManager.hide();
-      if (await capture(colorStr)) {
-        final String captureImgPath = await getOcrCaptureImgPath();
+      String? captureImgPath = await capture(colorStr);
+      if (captureImgPath != null) {
         await _setOcrWindow(
           () => setState(() {
             _selectedPage = OcrPage(

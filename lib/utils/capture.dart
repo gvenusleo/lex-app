@@ -2,17 +2,17 @@ import 'package:lex/utils/dir_utils.dart';
 import 'package:process_run/process_run.dart';
 
 /// 屏幕截图
-Future<bool> capture(String color) async {
+Future<String?> capture(String color) async {
   try {
     String fullscreenPath = await getOcrFullScreenImgPath();
-    String capturePath = await getOcrCaptureImgPath();
+    String imgPath = await getOcrCaptureImgPath();
     String captureFilePath = await getCaptureFilePath();
     var shell = Shell();
     await shell.run(
-      "$captureFilePath --color '#$color' --fullscreen '$fullscreenPath' --capture '$capturePath'",
+      "$captureFilePath --color '#$color' --fullscreen '$fullscreenPath' --capture '$imgPath'",
     );
-    return true;
+    return imgPath;
   } catch (_) {
-    return false;
+    return null;
   }
 }
