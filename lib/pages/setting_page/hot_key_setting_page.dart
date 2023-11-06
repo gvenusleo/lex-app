@@ -4,7 +4,7 @@ import "package:lex/global.dart";
 import "package:lex/widgets/virtual_key_view.dart";
 
 class HotKeySettingPage extends StatefulWidget {
-  const HotKeySettingPage({Key? key}) : super(key: key);
+  const HotKeySettingPage({super.key});
 
   @override
   State<HotKeySettingPage> createState() => _HotKeySettingPageState();

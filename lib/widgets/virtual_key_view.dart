@@ -4,9 +4,9 @@ import "package:flutter/material.dart";
 /// 来自：package:hotkey_manager/hotkey_manager.dart
 class VirtualKeyView extends StatelessWidget {
   const VirtualKeyView({
-    Key? key,
+    super.key,
     required this.keyLabel,
-  }) : super(key: key);
+  });
 
   final String keyLabel;
 

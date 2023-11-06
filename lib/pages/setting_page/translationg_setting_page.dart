@@ -4,7 +4,7 @@ import "package:lex/widgets/list_tile_group_title.dart";
 
 /// 翻译设置页面
 class TranslationSettingPage extends StatefulWidget {
-  const TranslationSettingPage({Key? key}) : super(key: key);
+  const TranslationSettingPage({super.key});
 
   @override
   State<TranslationSettingPage> createState() => _TranslationSettingPageState();

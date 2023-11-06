@@ -7,7 +7,7 @@ import "package:lex/utils/service_map.dart";
 
 /// 历史记录页面
 class HistoryPage extends StatefulWidget {
-  const HistoryPage({Key? key}) : super(key: key);
+  const HistoryPage({super.key});
 
   @override
   State<HistoryPage> createState() => _HistoryPageState();

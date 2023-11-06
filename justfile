@@ -9,7 +9,7 @@ build-isar:
 
 # Build capture file
 build-capture:
-    @cd capture_py && pipenv install && pyinstaller --onefile --clean --strip capture.py
+    @cd capture_py && python3 -m pipenv install && python3 -m pipenv run pyinstaller --onefile --clean --strip capture.py
     @cp capture_py/dist/capture assets/capture/capture-{{VERSION}}
     
 # Build Linux deb package

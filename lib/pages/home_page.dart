@@ -15,7 +15,7 @@ import "package:window_manager/window_manager.dart";
 
 /// 应用主窗口
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

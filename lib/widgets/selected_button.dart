@@ -6,10 +6,10 @@ class SelectedButton extends StatefulWidget {
   final List<PopupMenuEntry> items;
 
   const SelectedButton({
-    Key? key,
+    super.key,
     required this.child,
     required this.items,
-  }) : super(key: key);
+  });
 
   @override
   State<SelectedButton> createState() => _SelectedButtonState();

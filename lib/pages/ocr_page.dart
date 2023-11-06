@@ -15,9 +15,9 @@ class OcrPage extends StatefulWidget {
   final String imagePath;
 
   const OcrPage({
-    Key? key,
+    super.key,
     required this.imagePath,
-  }) : super(key: key);
+  });
 
   @override
   State<OcrPage> createState() => _OcrPageState();

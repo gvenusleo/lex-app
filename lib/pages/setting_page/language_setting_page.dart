@@ -4,7 +4,7 @@ import "package:lex/utils/languages.dart";
 import "package:lex/widgets/list_tile_group_title.dart";
 
 class LanguageSettingPage extends StatefulWidget {
-  const LanguageSettingPage({Key? key}) : super(key: key);
+  const LanguageSettingPage({super.key});
 
   @override
   State<LanguageSettingPage> createState() => _LanguageSettingPageState();

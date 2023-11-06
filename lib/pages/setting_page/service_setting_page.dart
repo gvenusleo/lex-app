@@ -16,7 +16,7 @@ import "package:url_launcher/url_launcher_string.dart";
 
 /// 翻译模型设置页面
 class ServiceSettingPage extends StatefulWidget {
-  const ServiceSettingPage({Key? key}) : super(key: key);
+  const ServiceSettingPage({super.key});
 
   @override
   State<ServiceSettingPage> createState() => _ServiceSettingPageState();

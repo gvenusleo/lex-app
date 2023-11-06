@@ -25,9 +25,9 @@ import "package:lex/widgets/selected_button.dart";
 /// 翻译页面
 class TranslationPage extends StatefulWidget {
   const TranslationPage({
-    Key? key,
+    super.key,
     this.selectedText,
-  }) : super(key: key);
+  });
 
   // 选中的文本
   final String? selectedText;

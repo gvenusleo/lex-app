@@ -14,9 +14,9 @@ class SettingsPage extends StatefulWidget {
   final String focusedItem;
 
   const SettingsPage({
-    Key? key,
+    super.key,
     this.focusedItem = "应用设置",
-  }) : super(key: key);
+  });
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();

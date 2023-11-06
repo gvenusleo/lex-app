@@ -4,7 +4,7 @@ import "package:url_launcher/url_launcher_string.dart";
 
 /// 关于页面
 class AboutPage extends StatelessWidget {
-  const AboutPage({Key? key}) : super(key: key);
+  const AboutPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lex/global.dart';
 
 class OcrSettingPage extends StatefulWidget {
-  const OcrSettingPage({Key? key}) : super(key: key);
+  const OcrSettingPage({super.key});
 
   @override
   State<OcrSettingPage> createState() => _OcrSettingPageState();

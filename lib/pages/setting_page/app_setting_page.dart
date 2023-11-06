@@ -9,7 +9,7 @@ import "package:window_manager/window_manager.dart";
 
 /// 应用设置页面
 class AppSettingPage extends StatefulWidget {
-  const AppSettingPage({Key? key}) : super(key: key);
+  const AppSettingPage({super.key});
 
   @override
   State<AppSettingPage> createState() => _AppSettingPageState();
@@ -273,7 +273,7 @@ class _AppSettingPageState extends State<AppSettingPage> {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
                 SizedBox(
                   width: double.infinity,
                   child: Padding(
