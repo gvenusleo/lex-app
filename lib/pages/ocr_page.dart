@@ -185,6 +185,10 @@ class _OcrPageState extends State<OcrPage> {
                             onPressed: () {
                               _controller.text =
                                   _controller.text.replaceAll("\n", "");
+                              if (prefs.getBool("autoCopyOcrResult") ?? false) {
+                                Clipboard.setData(
+                                    ClipboardData(text: _controller.text));
+                              }
                             },
                             icon:
                                 const Icon(Icons.wrap_text_outlined, size: 20),
