@@ -122,7 +122,7 @@ class _HistoryPageState extends State<HistoryPage>
                     style: const TextStyle(
                       fontSize: 14,
                     ),
-                    maxLines: 3,
+                    maxLines: 50,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -142,7 +142,7 @@ class _HistoryPageState extends State<HistoryPage>
                     style: const TextStyle(
                       fontSize: 14,
                     ),
-                    maxLines: 3,
+                    maxLines: 50,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -203,7 +203,7 @@ class _HistoryPageState extends State<HistoryPage>
                     style: const TextStyle(
                       fontSize: 14,
                     ),
-                    maxLines: 3,
+                    maxLines: 50,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
