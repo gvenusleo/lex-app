@@ -15,9 +15,9 @@ dependencies:
   - libnotify-dev
 
 postinstall_scripts:
-  - echo "------------------- Welcom to Lex -------------------\n  @website   https://pot-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"
+  - echo "------------------- Welcom to Lex -------------------\n  @website   https://lex-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"
 postuninstall_scripts:
-  - echo "------------------------ Lex ------------------------\n  @website   https://pot-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"
+  - echo "------------------------ Lex ------------------------\n  @website   https://lex-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"
 
 keywords:
   - Translatiion
