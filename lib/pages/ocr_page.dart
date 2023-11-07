@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lex/global.dart';
+import 'package:lex/modules/ocr_item.dart';
 import 'package:lex/services/ocr/baidu.dart';
 import 'package:lex/services/ocr/tesseract.dart';
 import 'package:lex/utils/languages.dart';
@@ -255,5 +256,17 @@ class _OcrPageState extends State<OcrPage> {
     setState(() {
       _isOcring = false;
     });
+    if (result.isNotEmpty) {
+      // 保存识别记录
+      final OcrItem item = OcrItem()
+        ..image = widget.imagePath
+        ..result = result
+        ..language = _language
+        ..service = _currentOcrService
+        ..time = DateTime.now();
+      await isar.writeTxn(() async {
+        await isar.ocrItems.put(item);
+      });
+    }
   }
 }

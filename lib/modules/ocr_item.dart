@@ -1,16 +1,15 @@
 import "package:isar/isar.dart";
 
-part "history_item.g.dart";
+part "ocr_item.g.dart";
 
-/// 翻译历史记录数据模型
+/// OCR 历史记录数据模型
 @collection
-class HistoryItem {
+class OcrItem {
   Id? id = Isar.autoIncrement;
 
-  late String text;
+  late String image;
   late String result;
-  late String from;
-  late String to;
+  late String language;
   late String service;
   late DateTime time;
 }

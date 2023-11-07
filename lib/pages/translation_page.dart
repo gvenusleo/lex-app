@@ -2,7 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:lex/global.dart";
-import "package:lex/modules/history_item.dart";
+import 'package:lex/modules/translation_item.dart';
 import 'package:lex/services/translation/baidu.dart';
 import "package:lex/utils/check_api.dart";
 import "package:lex/utils/languages.dart";
@@ -357,7 +357,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["bing"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -365,7 +365,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "bing"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -416,7 +416,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["deeplFree"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -424,7 +424,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "deeplFree"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -475,7 +475,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["google"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -483,7 +483,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "google"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -534,7 +534,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["yandex"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -542,7 +542,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "yandex"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -593,7 +593,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["volcengineFree"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -601,7 +601,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "volcengineFree"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -758,7 +758,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["cambridgeDict"] = translationString;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = translationString
                 ..from = _fromLanguage
@@ -766,7 +766,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "cambridgeDict"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -817,7 +817,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["baidu"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -825,7 +825,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "baidu"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -874,7 +874,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["caiyun"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -882,7 +882,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "caiyun"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -934,7 +934,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["niutrans"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -942,7 +942,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "niutrans"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -993,7 +993,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["volcengine"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -1001,7 +1001,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "volcengine"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -1052,7 +1052,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 _result["youdao"] = result;
               });
               // 保存历史记录
-              final HistoryItem item = HistoryItem()
+              final TranslationItem item = TranslationItem()
                 ..text = text
                 ..result = result
                 ..from = _fromLanguage
@@ -1060,7 +1060,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 ..service = "youdao"
                 ..time = DateTime.now();
               await isar.writeTxn(() async {
-                await isar.historyItems.put(item);
+                await isar.translationItems.put(item);
               });
             }
           }
@@ -1096,7 +1096,7 @@ class _TranslationPageState extends State<TranslationPage> {
             _result["minimax"] = result;
           });
           // 保存历史记录
-          final HistoryItem item = HistoryItem()
+          final TranslationItem item = TranslationItem()
             ..text = text
             ..result = result
             ..from = _fromLanguage
@@ -1104,7 +1104,7 @@ class _TranslationPageState extends State<TranslationPage> {
             ..service = "minimax"
             ..time = DateTime.now();
           await isar.writeTxn(() async {
-            await isar.historyItems.put(item);
+            await isar.translationItems.put(item);
           });
         } catch (e) {
           setState(() {
@@ -1138,7 +1138,7 @@ class _TranslationPageState extends State<TranslationPage> {
             _result["zhipuai"] = result;
           });
           // 保存历史记录
-          final HistoryItem item = HistoryItem()
+          final TranslationItem item = TranslationItem()
             ..text = text
             ..result = result
             ..from = _fromLanguage
@@ -1146,7 +1146,7 @@ class _TranslationPageState extends State<TranslationPage> {
             ..service = "zhipuai"
             ..time = DateTime.now();
           await isar.writeTxn(() async {
-            await isar.historyItems.put(item);
+            await isar.translationItems.put(item);
           });
         } catch (e) {
           setState(() {

@@ -4,7 +4,8 @@ import "package:flutter/material.dart";
 import "package:hotkey_manager/hotkey_manager.dart";
 import "package:isar/isar.dart";
 import "package:launch_at_startup/launch_at_startup.dart";
-import "package:lex/modules/history_item.dart";
+import "package:lex/modules/ocr_item.dart";
+import 'package:lex/modules/translation_item.dart';
 import "package:lex/utils/dir_utils.dart";
 import "package:lex/utils/font_utils.dart";
 import "package:local_notifier/local_notifier.dart";
@@ -90,7 +91,7 @@ Future<void> init() async {
 
   final Directory workDir = await getWorkDir();
   isar = await Isar.open(
-    [HistoryItemSchema],
+    [TranslationItemSchema, OcrItemSchema],
     directory: workDir.path,
   );
 
