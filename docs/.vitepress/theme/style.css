@@ -56,7 +56,7 @@
   --vp-c-brand-1: #0788ff;
   --vp-c-brand-2: #0788ff;
   --vp-c-brand-3: #0788ff;
-  --vp-c-brand-soft: #0787ff60;
+  --vp-c-brand-soft: #0787ff2d;
 
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
@@ -142,5 +142,5 @@
 }
 
 .VPImage.image-src {
-  max-width: 640px;
+  max-width: 400px;
 }
