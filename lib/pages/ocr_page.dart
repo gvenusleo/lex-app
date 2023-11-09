@@ -85,6 +85,7 @@ class _OcrPageState extends State<OcrPage> {
                       spacing: 12,
                       children: [
                         SelectedButton(
+                          outlined: true,
                           items: _enabledOcrServices
                               .map(
                                 (e) => PopupMenuItem(
@@ -101,6 +102,7 @@ class _OcrPageState extends State<OcrPage> {
                           child: Text(ocrServiceMap()[_currentOcrService]!),
                         ),
                         SelectedButton(
+                          outlined: true,
                           items: _allLanguages.keys
                               .map(
                                 (e) => PopupMenuItem(
