@@ -18,7 +18,8 @@ class AboutPage extends StatelessWidget {
             children: [
               Image.asset(
                 "assets/logo.png",
-                width: 84,
+                width: 64,
+                height: 64,
               ),
               const SizedBox(width: 12),
               Text(
@@ -34,7 +35,7 @@ class AboutPage extends StatelessWidget {
             title: const Text("软件官网"),
             onTap: () {
               launchUrlString(
-                "https://metranslate.top",
+                "https://lex-app.cn",
                 mode: LaunchMode.externalApplication,
               );
             },
@@ -44,7 +45,7 @@ class AboutPage extends StatelessWidget {
             title: const Text("使用指南"),
             onTap: () {
               launchUrlString(
-                "https://metranslate.top/guide/intro.html",
+                "https://lex-app.cn/guide/intro.html",
                 mode: LaunchMode.externalApplication,
               );
             },
@@ -54,7 +55,7 @@ class AboutPage extends StatelessWidget {
             title: const Text("更新日志"),
             onTap: () {
               launchUrlString(
-                "https://metranslate.top/changelog.html",
+                "https://lex-app.cn/changelog.html",
                 mode: LaunchMode.externalApplication,
               );
             },

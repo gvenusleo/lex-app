@@ -70,8 +70,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     children: [
                       Image.asset(
                         "assets/logo.png",
-                        width: 64,
-                        height: 64,
+                        width: 52,
+                        height: 52,
                       ),
                       const SizedBox(height: 24),
                       ..._pages.cast<String, Widget>().keys.map(
