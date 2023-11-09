@@ -20,7 +20,7 @@ import "package:lex/services/translation/yandex.dart";
 import "package:lex/services/translation/youdao.dart";
 import "package:lex/services/translation/zhipuai.dart";
 import "package:lex/widgets/loading_skeleton.dart";
-import "package:lex/widgets/selected_button.dart";
+import 'package:lex/widgets/selected_text_button.dart';
 
 /// 翻译页面
 class TranslationPage extends StatefulWidget {
@@ -155,7 +155,7 @@ class _TranslationPageState extends State<TranslationPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SelectedButton(
+              SelectedTextButton(
                 items: [
                   for (String lan in prefs.getStringList("enabledLanguages") ??
                       [
@@ -189,7 +189,7 @@ class _TranslationPageState extends State<TranslationPage> {
                 visualDensity: VisualDensity.compact,
                 // tooltip: "交换语言",
               ),
-              SelectedButton(
+              SelectedTextButton(
                 items: [
                   for (String lan in prefs.getStringList("enabledLanguages") ??
                       [

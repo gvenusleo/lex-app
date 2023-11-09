@@ -8,7 +8,7 @@ import "package:lex/services/ocr/baidu.dart";
 import "package:lex/services/ocr/tesseract.dart";
 import "package:lex/utils/languages.dart";
 import "package:lex/utils/service_map.dart";
-import "package:lex/widgets/selected_button.dart";
+import "package:lex/widgets/selected_outlined_button.dart";
 
 /// 文字识别页面
 class OcrPage extends StatefulWidget {
@@ -84,8 +84,7 @@ class _OcrPageState extends State<OcrPage> {
                     Wrap(
                       spacing: 12,
                       children: [
-                        SelectedButton(
-                          outlined: true,
+                        SelectedOutlinedButton(
                           items: _enabledOcrServices
                               .map(
                                 (e) => PopupMenuItem(
@@ -101,8 +100,7 @@ class _OcrPageState extends State<OcrPage> {
                               .toList(),
                           child: Text(ocrServiceMap()[_currentOcrService]!),
                         ),
-                        SelectedButton(
-                          outlined: true,
+                        SelectedOutlinedButton(
                           items: _allLanguages.keys
                               .map(
                                 (e) => PopupMenuItem(
