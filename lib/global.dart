@@ -5,7 +5,7 @@ import "package:hotkey_manager/hotkey_manager.dart";
 import "package:isar/isar.dart";
 import "package:launch_at_startup/launch_at_startup.dart";
 import "package:lex/modules/ocr_item.dart";
-import 'package:lex/modules/translation_item.dart';
+import "package:lex/modules/translation_item.dart";
 import "package:lex/utils/dir_utils.dart";
 import "package:lex/utils/font_utils.dart";
 import "package:local_notifier/local_notifier.dart";
@@ -138,7 +138,7 @@ Future<void> init() async {
 
   // 初始化系统通知
   await localNotifier.setup(
-    appName: 'Lex',
+    appName: "Lex",
     // 参数 shortcutPolicy 仅适用于 Windows
     shortcutPolicy: ShortcutPolicy.requireCreate,
   );

@@ -1,12 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
+import "dart:convert";
+import "dart:io";
 
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:lex/global.dart';
-import 'package:lex/utils/init_dio.dart';
-import 'package:lex/utils/service_map.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import "package:dio/dio.dart";
+import "package:flutter/material.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/init_dio.dart";
+import "package:lex/utils/service_map.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 /// 百度 OCR
 class BaiduOcr {
@@ -16,7 +16,7 @@ class BaiduOcr {
     const String url =
         "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic";
     const Map<String, String> headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      "Content-Type": "application/x-www-form-urlencoded",
     };
     final Map<String, String> query = {
       "access_token": await _getAccessToken(),
@@ -36,7 +36,7 @@ class BaiduOcr {
     List words = response.data["words_result"];
     String result = "";
     for (var word in words) {
-      result += "${word['words']}\n";
+      result += "${word["words"]}\n";
     }
     return result;
   }
@@ -168,8 +168,8 @@ class BaiduOcr {
     final secretKey = prefs.getString("baiduOcrSecretKey") ?? "";
     const String url = "https://aip.baidubce.com/oauth/2.0/token";
     const Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      "Content-Type": "application/json",
+      "Accept": "application/json"
     };
     final Map<String, String> query = {
       "grant_type": "client_credentials",

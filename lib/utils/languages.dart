@@ -1,16 +1,16 @@
 import "package:lex/global.dart";
-import 'package:lex/services/ocr/baidu.dart';
-import 'package:lex/services/ocr/tesseract.dart';
-import 'package:lex/services/translation/baidu.dart';
-import 'package:lex/services/translation/bing.dart';
-import 'package:lex/services/translation/caiyun.dart';
-import 'package:lex/services/translation/cambridge_dict.dart';
-import 'package:lex/services/translation/deepl_free.dart';
-import 'package:lex/services/translation/google.dart';
-import 'package:lex/services/translation/niutrans.dart';
-import 'package:lex/services/translation/volcengine.dart';
-import 'package:lex/services/translation/yandex.dart';
-import 'package:lex/services/translation/youdao.dart';
+import "package:lex/services/ocr/baidu.dart";
+import "package:lex/services/ocr/tesseract.dart";
+import "package:lex/services/translation/baidu.dart";
+import "package:lex/services/translation/bing.dart";
+import "package:lex/services/translation/caiyun.dart";
+import "package:lex/services/translation/cambridge_dict.dart";
+import "package:lex/services/translation/deepl_free.dart";
+import "package:lex/services/translation/google.dart";
+import "package:lex/services/translation/niutrans.dart";
+import "package:lex/services/translation/volcengine.dart";
+import "package:lex/services/translation/yandex.dart";
+import "package:lex/services/translation/youdao.dart";
 
 /// 初始化模型原语言
 String initTranslationFrom() {

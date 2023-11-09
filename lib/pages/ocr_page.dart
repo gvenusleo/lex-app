@@ -1,14 +1,14 @@
-import 'dart:io';
+import "dart:io";
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lex/global.dart';
-import 'package:lex/modules/ocr_item.dart';
-import 'package:lex/services/ocr/baidu.dart';
-import 'package:lex/services/ocr/tesseract.dart';
-import 'package:lex/utils/languages.dart';
-import 'package:lex/utils/service_map.dart';
-import 'package:lex/widgets/selected_button.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:lex/global.dart";
+import "package:lex/modules/ocr_item.dart";
+import "package:lex/services/ocr/baidu.dart";
+import "package:lex/services/ocr/tesseract.dart";
+import "package:lex/utils/languages.dart";
+import "package:lex/utils/service_map.dart";
+import "package:lex/widgets/selected_button.dart";
 
 /// 文字识别页面
 class OcrPage extends StatefulWidget {

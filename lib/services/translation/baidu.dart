@@ -1,12 +1,12 @@
-import 'dart:convert';
+import "dart:convert";
 
-import 'package:crypto/crypto.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:lex/global.dart';
-import 'package:lex/utils/init_dio.dart';
-import 'package:lex/utils/service_map.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import "package:crypto/crypto.dart";
+import "package:dio/dio.dart";
+import "package:flutter/material.dart";
+import "package:lex/global.dart";
+import "package:lex/utils/init_dio.dart";
+import "package:lex/utils/service_map.dart";
+import "package:url_launcher/url_launcher_string.dart";
 
 /// 百度翻译
 class BaiduTranslation {

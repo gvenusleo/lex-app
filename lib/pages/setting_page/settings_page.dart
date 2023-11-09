@@ -6,7 +6,7 @@ import "package:lex/pages/setting_page/hot_key_setting_page.dart";
 import "package:lex/pages/setting_page/language_setting_page.dart";
 import "package:lex/pages/setting_page/ocr_setting.dart";
 import "package:lex/pages/setting_page/service_setting_page.dart";
-import 'package:lex/pages/setting_page/translationg_setting_page.dart';
+import "package:lex/pages/setting_page/translationg_setting_page.dart";
 import "package:lex/widgets/setting_group_card.dart";
 
 /// 设置页面主体

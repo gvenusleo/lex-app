@@ -3,7 +3,7 @@ import "package:hotkey_manager/hotkey_manager.dart";
 import "package:lex/global.dart";
 import "package:lex/pages/ocr_page.dart";
 import "package:lex/pages/setting_page/settings_page.dart";
-import 'package:lex/pages/translation_page.dart';
+import "package:lex/pages/translation_page.dart";
 import "package:lex/providers/window_provider.dart";
 import "package:lex/utils/capture.dart";
 import "package:local_notifier/local_notifier.dart";

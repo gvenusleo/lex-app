@@ -1,6 +1,6 @@
 import "package:dio/dio.dart";
 import "package:lex/utils/init_dio.dart";
-import 'package:lex/services/translation/volcengine.dart';
+import "package:lex/services/translation/volcengine.dart";
 
 /// 火山翻译 Free
 class VolcengineFreeTranslation {

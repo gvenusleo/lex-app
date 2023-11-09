@@ -40,8 +40,8 @@ class CambridgeDict {
 
     Map result = {
       "pronunciation": {
-        "uk": _getPronunciation(html, 'uk'),
-        "us": _getPronunciation(html, 'us'),
+        "uk": _getPronunciation(html, "uk"),
+        "us": _getPronunciation(html, "us"),
       },
       "translation": _getTextResult(html, to),
     };
@@ -68,19 +68,19 @@ class CambridgeDict {
       "ipa": "",
       "mp3": "",
     };
-    final List<Element> usAudio = html.querySelectorAll('.$type.dpron-i');
+    final List<Element> usAudio = html.querySelectorAll(".$type.dpron-i");
     if (usAudio.isNotEmpty) {
-      Element? ipa = usAudio[0].querySelector('.ipa');
+      Element? ipa = usAudio[0].querySelector(".ipa");
       if (ipa != null) {
-        result['ipa'] = '/${ipa.text}/';
+        result["ipa"] = "/${ipa.text}/";
       }
-      List<Element> audio = usAudio[0].querySelectorAll('source');
+      List<Element> audio = usAudio[0].querySelectorAll("source");
       if (audio.isNotEmpty) {
         for (Element i in audio) {
-          if (i.attributes['type'] == 'audio/mpeg') {
+          if (i.attributes["type"] == "audio/mpeg") {
             String mp3Url =
-                'https://dictionary.cambridge.org${i.attributes['src']!}';
-            result['mp3'] = mp3Url;
+                "https://dictionary.cambridge.org${i.attributes["src"]!}";
+            result["mp3"] = mp3Url;
           }
         }
       }
@@ -91,24 +91,24 @@ class CambridgeDict {
   /// 获取翻译结果, 按照词性分类
   static List<Map<String, dynamic>> _getTextResult(Document html, String to) {
     List<Map<String, dynamic>> result = [];
-    final List<Element> entryBodys = html.querySelectorAll('.entry-body__el');
+    final List<Element> entryBodys = html.querySelectorAll(".entry-body__el");
     for (Element entryBody in entryBodys) {
       Map<String, dynamic> item = {
         "pos": "",
         "tran": [],
       };
-      List<Element> pos = entryBody.querySelectorAll('.posgram');
+      List<Element> pos = entryBody.querySelectorAll(".posgram");
       if (pos.isNotEmpty) {
-        item['pos'] = pos[0].text;
+        item["pos"] = pos[0].text;
       }
-      List<Element> tranBody = entryBody.querySelectorAll('.def-body');
+      List<Element> tranBody = entryBody.querySelectorAll(".def-body");
       if (tranBody.isNotEmpty) {
         for (Element tranItem in tranBody) {
           List<Element> children = tranItem.children;
           if (children.isNotEmpty) {
             for (Element tran in children) {
               if (tran.localName == "span") {
-                item['tran']!.add(
+                item["tran"]!.add(
                   to == "chinese-simplified"
                       ? tran.text.replaceAll(";", "；")
                       : tran.text,

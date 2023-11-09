@@ -1,5 +1,5 @@
-import 'package:lex/utils/dir_utils.dart';
-import 'package:process_run/process_run.dart';
+import "package:lex/utils/dir_utils.dart";
+import "package:process_run/process_run.dart";
 
 /// 屏幕截图
 Future<String?> capture(String color) async {

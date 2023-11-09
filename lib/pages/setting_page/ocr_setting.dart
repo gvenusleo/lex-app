@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:lex/global.dart';
+import "package:flutter/material.dart";
+import "package:lex/global.dart";
 
 class OcrSettingPage extends StatefulWidget {
   const OcrSettingPage({super.key});
