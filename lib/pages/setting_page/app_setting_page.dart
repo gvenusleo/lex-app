@@ -4,6 +4,7 @@ import "package:lex/global.dart";
 import "package:lex/providers/theme_provider.dart";
 import "package:lex/utils/font_utils.dart";
 import "package:lex/widgets/list_tile_group_title.dart";
+import "package:local_notifier/local_notifier.dart";
 import "package:provider/provider.dart";
 import "package:window_manager/window_manager.dart";
 
@@ -30,6 +31,12 @@ class _AppSettingPageState extends State<AppSettingPage> {
   bool _launchAtStartup = false;
   // 启动时隐藏窗口
   late bool _hideWindowAtStartup;
+  // 使用代理
+  bool _useProxy = prefs.getBool("useProxy") ?? false;
+  // 代理地址
+  final String _proxyAddress = prefs.getString("proxyAddress") ?? "";
+
+  final TextEditingController _proxyAddressController = TextEditingController();
 
   @override
   void initState() {
@@ -42,6 +49,7 @@ class _AppSettingPageState extends State<AppSettingPage> {
     _windowFllowCursor = prefs.getBool("windowFollowCursor") ?? false;
     _useRoundedWindow = prefs.getBool("useRoundedWindow") ?? true;
     _hideWindowAtStartup = prefs.getBool("hideWindowAtStartup") ?? false;
+    _proxyAddressController.text = _proxyAddress;
     super.initState();
   }
 
@@ -160,6 +168,47 @@ class _AppSettingPageState extends State<AppSettingPage> {
             secondary: const Icon(Icons.visibility_off_outlined),
             title: const Text("启动时隐藏窗口"),
             subtitle: const Text("启动应用时自动隐藏到系统托盘"),
+          ),
+          const ListTileGroupTitle(title: "网络设置"),
+          SwitchListTile(
+            value: _useProxy,
+            onChanged: (value) async {
+              if (value == true &&
+                  (prefs.getString("proxyAddress") ?? "").isEmpty) {
+                LocalNotification notification = LocalNotification(
+                  title: "Lex",
+                  body: "请先设置代理地址！",
+                  actions: [
+                    LocalNotificationAction(
+                      text: "确定",
+                    ),
+                  ],
+                );
+                notification.show();
+                return;
+              }
+              setState(() {
+                _useProxy = value;
+              });
+              await prefs.setBool("useProxy", value);
+            },
+            secondary: const Icon(Icons.travel_explore_outlined),
+            title: const Text("使用代理"),
+            subtitle: const Text("使用代理服务器进行翻译"),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 54, right: 28),
+            child: TextField(
+              controller: _proxyAddressController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "代理地址",
+                prefixText: "http://",
+              ),
+              onChanged: (value) {
+                prefs.setString("proxyAddress", value);
+              },
+            ),
           ),
         ],
       ),

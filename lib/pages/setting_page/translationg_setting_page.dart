@@ -46,18 +46,6 @@ class _TranslationSettingPageState extends State<TranslationSettingPage> {
   // 删除换行
   bool _deleteTranslationLineBreak =
       prefs.getBool("deleteTranslationLineBreak") ?? false;
-  // 使用代理
-  bool _useProxy = prefs.getBool("useProxy") ?? false;
-  // 代理地址
-  final String _proxyAddress = prefs.getString("proxyAddress") ?? "";
-
-  final TextEditingController _proxyAddressController = TextEditingController();
-
-  @override
-  void initState() {
-    _proxyAddressController.text = _proxyAddress;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,32 +112,6 @@ class _TranslationSettingPageState extends State<TranslationSettingPage> {
             secondary: const Icon(Icons.keyboard_return_outlined),
             title: const Text("删除换行"),
             subtitle: const Text("删除文本换行符"),
-          ),
-          SwitchListTile(
-            value: _useProxy,
-            onChanged: (value) async {
-              setState(() {
-                _useProxy = value;
-              });
-              await prefs.setBool("useProxy", value);
-            },
-            secondary: const Icon(Icons.travel_explore_outlined),
-            title: const Text("使用代理"),
-            subtitle: const Text("使用代理服务器进行翻译"),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 54, right: 28),
-            child: TextField(
-              controller: _proxyAddressController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "代理地址",
-                prefixText: "http://",
-              ),
-              onChanged: (value) {
-                prefs.setString("proxyAddress", value);
-              },
-            ),
           ),
         ],
       ),
