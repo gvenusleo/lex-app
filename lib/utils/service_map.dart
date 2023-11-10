@@ -22,6 +22,7 @@ Map<String, String> ocrServiceMap() {
   return {
     "tesseract": "Tesseract",
     "baidu": "百度文字识别",
+    "youdao": "有道文字识别",
   };
 }
 
@@ -49,5 +50,6 @@ Map<String, String> ocrServiceLogoMap() {
   return {
     "tesseract": "assets/service/ocr/tesseract.png",
     "baidu": "assets/service/ocr/baidu.png",
+    "youdao": "assets/service/ocr/youdao.png",
   };
 }

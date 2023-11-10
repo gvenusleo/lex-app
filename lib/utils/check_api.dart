@@ -1,5 +1,6 @@
 import "package:lex/services/ocr/baidu.dart";
 import "package:lex/services/ocr/tesseract.dart";
+import "package:lex/services/ocr/youdao.dart";
 import "package:lex/services/translation/baidu.dart";
 import "package:lex/services/translation/caiyun.dart";
 import "package:lex/services/translation/minimax.dart";
@@ -36,6 +37,8 @@ Future<bool> checkOcrApi(String service) async {
       return await TesseractOcr.isInstalled();
     case "baidu":
       return BaiduOcr.checkApi();
+    case "youdao":
+      return YoudaoOcr.checkApi();
   }
   return false;
 }

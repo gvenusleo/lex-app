@@ -1,6 +1,7 @@
 import "package:lex/global.dart";
 import "package:lex/services/ocr/baidu.dart";
 import "package:lex/services/ocr/tesseract.dart";
+import "package:lex/services/ocr/youdao.dart";
 import "package:lex/services/translation/baidu.dart";
 import "package:lex/services/translation/bing.dart";
 import "package:lex/services/translation/caiyun.dart";
@@ -103,6 +104,8 @@ Future<Map<String, String>> ocrLanguages(String service) async {
       return await TesseractOcr.languages();
     case "baidu":
       return BaiduOcr.languages();
+    case "youdao":
+      return YoudaoOcr.languages();
   }
   return {};
 }
