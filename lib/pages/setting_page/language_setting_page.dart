@@ -12,19 +12,18 @@ class LanguageSettingPage extends StatefulWidget {
 
 class _LanguageSettingPageState extends State<LanguageSettingPage> {
   // 已启用的语言
-  late List<String> _enabledLanguages;
+  List<String> _enabledLanguages = [];
   // 全部受支持语言
-  late Map<String, List<String>> _allLanguages;
+  Map<String, List<String>> _allLanguages = {};
   // 列表显示的语言
-  late Map<String, List<String>> _unabledLanguages;
-  // late Map<String, List<String>>
+  Map<String, List<String>> _unabledLanguages = {};
   // 是否正在搜索
   bool _onSearch = false;
 
   @override
   void initState() {
-    initData();
     super.initState();
+    initData();
   }
 
   @override
@@ -48,91 +47,105 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
           const SizedBox(width: 8),
         ],
       ),
-      body: Column(
-        children: [
-          buildSearchWidget(),
-          Expanded(
-            child: ListView(
+      body: FutureBuilder(
+        future: initData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            _enabledLanguages = snapshot.data!["enabledLanguages"];
+            _allLanguages = snapshot.data!["allLanguages"];
+            _unabledLanguages = snapshot.data!["unabledLanguages"];
+            return Column(
               children: [
-                const ListTileGroupTitle(title: "已启用"),
-                ReorderableListView.builder(
-                  shrinkWrap: true,
-                  buildDefaultDragHandles: false,
-                  itemCount: _enabledLanguages.length,
-                  itemBuilder: (context, index) {
-                    return CheckboxListTile(
-                      key: UniqueKey(),
-                      value: true,
-                      title: Text(_enabledLanguages[index]),
-                      subtitle: Text(
-                        _allLanguages[_enabledLanguages[index]]!.join("、"),
-                      ),
-                      secondary: ReorderableDragStartListener(
-                        index: index,
-                        child: const Icon(Icons.drag_handle_outlined),
-                      ),
-                      onChanged: (value) {
-                        if (value == null) return;
-                        if (!value) {
+                buildSearchWidget(),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      const ListTileGroupTitle(title: "已启用"),
+                      ReorderableListView.builder(
+                        shrinkWrap: true,
+                        buildDefaultDragHandles: false,
+                        itemCount: _enabledLanguages.length,
+                        itemBuilder: (context, index) {
+                          return CheckboxListTile(
+                            key: ValueKey(_enabledLanguages[index]),
+                            value: true,
+                            title: Text(_enabledLanguages[index]),
+                            subtitle: Text(
+                              _allLanguages[_enabledLanguages[index]]!
+                                  .join("、"),
+                            ),
+                            secondary: ReorderableDragStartListener(
+                              index: index,
+                              child: const Icon(Icons.drag_handle_outlined),
+                            ),
+                            onChanged: (value) {
+                              if (value == null) return;
+                              if (!value) {
+                                setState(() {
+                                  _unabledLanguages[_enabledLanguages[index]] =
+                                      _allLanguages[_enabledLanguages[index]]!;
+                                  _enabledLanguages.removeAt(index);
+                                  prefs.setStringList(
+                                      "enabledLanguages", _enabledLanguages);
+                                });
+                              }
+                            },
+                          );
+                        },
+                        onReorder: (oldIndex, newIndex) {
                           setState(() {
-                            _unabledLanguages[_enabledLanguages[index]] =
-                                _allLanguages[_enabledLanguages[index]]!;
-                            _enabledLanguages.removeAt(index);
+                            if (oldIndex < newIndex) {
+                              newIndex -= 1;
+                            }
+                            final String item =
+                                _enabledLanguages.removeAt(oldIndex);
+                            _enabledLanguages.insert(newIndex, item);
                             prefs.setStringList(
                                 "enabledLanguages", _enabledLanguages);
                           });
-                        }
-                      },
-                    );
-                  },
-                  onReorder: (oldIndex, newIndex) {
-                    setState(() {
-                      if (oldIndex < newIndex) {
-                        newIndex -= 1;
-                      }
-                      final String item = _enabledLanguages.removeAt(oldIndex);
-                      _enabledLanguages.insert(newIndex, item);
-                      prefs.setStringList(
-                          "enabledLanguages", _enabledLanguages);
-                    });
-                  },
-                ),
-                const ListTileGroupTitle(title: "未启用"),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _unabledLanguages.length,
-                  itemBuilder: (context, index) {
-                    return CheckboxListTile(
-                      value: false,
-                      title: Text(_unabledLanguages.keys.toList()[index]),
-                      subtitle: Text(
-                        _unabledLanguages.values
-                            .toList()[index]
-                            .join("、")
-                            .toString(),
+                        },
                       ),
-                      onChanged: (value) {
-                        if (value == null) return;
-                        setState(
-                          () {
-                            if (value) {
-                              _enabledLanguages
-                                  .add(_unabledLanguages.keys.toList()[index]);
-                              _unabledLanguages.remove(
-                                  _unabledLanguages.keys.toList()[index]);
-                              prefs.setStringList(
-                                  "enabledLanguages", _enabledLanguages);
-                            }
-                          },
-                        );
-                      },
-                    );
-                  },
+                      const ListTileGroupTitle(title: "未启用"),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _unabledLanguages.length,
+                        itemBuilder: (context, index) {
+                          return CheckboxListTile(
+                            value: false,
+                            title: Text(_unabledLanguages.keys.toList()[index]),
+                            subtitle: Text(
+                              _unabledLanguages.values
+                                  .toList()[index]
+                                  .join("、")
+                                  .toString(),
+                            ),
+                            onChanged: (value) {
+                              if (value == null) return;
+                              setState(
+                                () {
+                                  if (value) {
+                                    _enabledLanguages.add(
+                                        _unabledLanguages.keys.toList()[index]);
+                                    _unabledLanguages.remove(
+                                        _unabledLanguages.keys.toList()[index]);
+                                    prefs.setStringList(
+                                        "enabledLanguages", _enabledLanguages);
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
       ),
     );
   }
@@ -232,25 +245,28 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
   }
 
   /// 初始化数据
-  void initData() {
-    setState(() {
-      _enabledLanguages = prefs.getStringList("enabledLanguages") ??
-          [
-            "中文",
-            "英语",
-            "日语",
-            "韩语",
-            "法语",
-            "德语",
-            "俄语",
-            "意大利语",
-            "葡萄牙语",
-            "繁体中文",
-          ];
-      _allLanguages = allTranslationLanguages();
-      _unabledLanguages = allTranslationLanguages();
-      _unabledLanguages
-          .removeWhere((key, value) => _enabledLanguages.contains(key));
-    });
+  Future<Map<String, dynamic>> initData() async {
+    List<String> enabledLanguages = prefs.getStringList("enabledLanguages") ??
+        [
+          "中文",
+          "英语",
+          "日语",
+          "韩语",
+          "法语",
+          "德语",
+          "俄语",
+          "意大利语",
+          "葡萄牙语",
+          "繁体中文",
+        ];
+    Map<String, List<String>> allLanguages = allTranslationLanguages();
+    Map<String, List<String>> unabledLanguages = allTranslationLanguages();
+    unabledLanguages
+        .removeWhere((key, value) => _enabledLanguages.contains(key));
+    return {
+      "enabledLanguages": enabledLanguages,
+      "allLanguages": allLanguages,
+      "unabledLanguages": unabledLanguages,
+    };
   }
 }
