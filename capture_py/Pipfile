@@ -7,6 +7,7 @@ name = "pip_conf_index_global"
 pyautogui = "*"
 argparse = "*"
 pyinstaller = "*"
+shell = "*"
 
 [dev-packages]
 
