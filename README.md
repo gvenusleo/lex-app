@@ -29,15 +29,15 @@
 
 ## 翻译服务
 
-| 分类      | 翻译服务                                                       |
-| --------- | -------------------------------------------------------------- |
-| 无需配置  | Bing 翻译、DeepL 翻译、Google 翻译、Yandex 翻译、火山翻译 Free |
-| 需要 API  | 百度翻译、彩云小译、小牛翻译、火山翻译、有道翻译               |
-| AI 大模型 | MiniMax、智谱 AI                                               |
+| 分类      | 翻译服务                                                                 |
+| --------- | ------------------------------------------------------------------------ |
+| 无需配置  | Bing 翻译、DeepL 翻译、Google 翻译、Yandex 翻译、火山翻译 Free、剑桥词典 |
+| 需要 API  | 百度翻译、彩云小译、小牛翻译、火山翻译、有道翻译                         |
+| AI 大模型 | MiniMax、智谱 AI                                                         |
 
 ## 致谢
 
-- 质感翻译的灵感来源于：[pot](https://github.com/pot-app/pot-desktop)
+- Lex 的灵感来源于：[pot](https://github.com/pot-app/pot-desktop)
 - 感谢 [LeanFlutter](https://github.com/leanflutter) 提供的一系列桌面端 Flutter packages
 
 ## 更新日志
