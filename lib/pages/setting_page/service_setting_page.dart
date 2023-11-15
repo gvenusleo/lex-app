@@ -1,8 +1,5 @@
 import "package:flutter/material.dart";
 import "package:lex/global.dart";
-import "package:lex/services/ocr/baidu.dart";
-import "package:lex/services/ocr/tesseract.dart";
-import "package:lex/services/ocr/youdao.dart";
 import "package:lex/services/translation/baidu.dart";
 import "package:lex/services/translation/caiyun.dart";
 import "package:lex/services/translation/minimax.dart";
@@ -13,7 +10,6 @@ import "package:lex/services/translation/zhipuai.dart";
 import "package:lex/utils/service_map.dart";
 import "package:lex/widgets/list_tile_group_title.dart";
 import "package:local_notifier/local_notifier.dart";
-import "package:url_launcher/url_launcher_string.dart";
 
 /// 翻译模型设置页面
 class ServiceSettingPage extends StatefulWidget {
@@ -23,8 +19,8 @@ class ServiceSettingPage extends StatefulWidget {
   State<ServiceSettingPage> createState() => _ServiceSettingPageState();
 }
 
-class _ServiceSettingPageState extends State<ServiceSettingPage>
-    with TickerProviderStateMixin {
+class _ServiceSettingPageState extends State<ServiceSettingPage> {
+  // with TickerProviderStateMixin {
   final List<String> _enabledTranslationServices =
       prefs.getStringList("enabledTranslationServices") ??
           [
@@ -34,45 +30,45 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
             "yandex",
             "volcengineFree",
           ];
-  final List<String> _enabledOcrServices =
-      prefs.getStringList("enabledOcrServices") ?? [];
-  late TabController _tabController;
+  // final List<String> _enabledOcrServices =
+  //     prefs.getStringList("enabledOcrServices") ?? [];
+  // late TabController _tabController;
 
-  @override
-  void initState() {
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-    );
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _tabController = TabController(
+  //     length: 2,
+  //     vsync: this,
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("服务设置"),
-        bottom: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          splashBorderRadius: BorderRadius.circular(8),
-          tabs: const [
-            Tab(
-              text: "翻译服务",
-            ),
-            Tab(
-              text: "文字识别",
-            ),
-          ],
-        ),
+        // bottom: TabBar(
+        //   controller: _tabController,
+        //   isScrollable: true,
+        //   splashBorderRadius: BorderRadius.circular(8),
+        //   tabs: const [
+        //     Tab(
+        //       text: "翻译服务",
+        //     ),
+        //     Tab(
+        //       text: "文字识别",
+        //     ),
+        //   ],
+        // ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
+      body: // TabBarView(
+          // controller: _tabController,
+          // children: [
           buildTranslationServices(),
-          buildOcrServices(),
-        ],
-      ),
+      // buildOcrServices(),
+      // ],
+      // ),
     );
   }
 
@@ -560,162 +556,162 @@ class _ServiceSettingPageState extends State<ServiceSettingPage>
   }
 
   /// 文字识别服务列表
-  Widget buildOcrServices() {
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 18),
-      children: [
-        const ListTileGroupTitle(title: "本地服务"),
-        ListTile(
-          leading: Image.asset(
-            ocrServiceLogoMap()["tesseract"]!,
-            width: 40,
-            height: 40,
-          ),
-          title: const Text("Teseract"),
-          subtitle: const Text("基于本地的 OCR 服务"),
-          trailing: Checkbox(
-            value: _enabledOcrServices.contains("tesseract"),
-            onChanged: (value) async {
-              if (_enabledOcrServices.contains("tesseract")) {
-                setState(() {
-                  _enabledOcrServices.remove("tesseract");
-                });
-                prefs.setStringList(
-                  "enabledOcrServices",
-                  _enabledOcrServices,
-                );
-              } else {
-                if (await TesseractOcr.isInstalled()) {
-                  setState(() {
-                    _enabledOcrServices.add("tesseract");
-                  });
-                  prefs.setStringList(
-                      "enabledOcrServices", _enabledOcrServices);
-                } else {
-                  if (!mounted) return;
-                  LocalNotification notification = LocalNotification(
-                    title: "Lex",
-                    body: "Tesseract 未安装！",
-                    actions: [
-                      LocalNotificationAction(
-                        text: "现在安装",
-                      ),
-                    ],
-                  );
-                  notification.onClickAction = (actionIndex) {
-                    launchUrlString(
-                      "https://tesseract-ocr.github.io/tessdoc/Installation.html",
-                      mode: LaunchMode.externalApplication,
-                    );
-                  };
-                  notification.show();
-                }
-              }
-            },
-          ),
-        ),
-        const ListTileGroupTitle(title: "联网服务"),
-        ListTile(
-          leading: Image.asset(
-            ocrServiceLogoMap()["baidu"]!,
-            width: 40,
-            height: 40,
-          ),
-          title: const Text("百度文字识别"),
-          subtitle: const Text("百度通用高精度文字识别"),
-          trailing: Checkbox(
-            value: _enabledOcrServices.contains("baidu"),
-            onChanged: (value) async {
-              if (_enabledOcrServices.contains("baidu")) {
-                setState(() {
-                  _enabledOcrServices.remove("baidu");
-                });
-                prefs.setStringList(
-                  "enabledOcrServices",
-                  _enabledOcrServices,
-                );
-              } else {
-                if (!BaiduOcr.checkApi()) {
-                  LocalNotification notification = LocalNotification(
-                    title: "Lex",
-                    body: "百度文字识别接口未设置！",
-                    actions: [
-                      LocalNotificationAction(
-                        text: "现在设置",
-                      ),
-                    ],
-                  );
-                  notification.onClickAction = (actionIndex) {
-                    BaiduOcr.setApi(context);
-                  };
-                  notification.show();
-                } else {
-                  setState(() {
-                    _enabledOcrServices.add("baidu");
-                  });
-                  prefs.setStringList(
-                    "enabledOcrServices",
-                    _enabledOcrServices,
-                  );
-                }
-              }
-            },
-          ),
-          onTap: () async {
-            BaiduOcr.setApi(context);
-          },
-        ),
-        ListTile(
-          leading: Image.asset(
-            ocrServiceLogoMap()["youdao"]!,
-            width: 40,
-            height: 40,
-          ),
-          title: const Text("有道文字识别"),
-          subtitle: const Text("有道通用文字识别"),
-          trailing: Checkbox(
-            value: _enabledOcrServices.contains("youdao"),
-            onChanged: (value) async {
-              if (_enabledOcrServices.contains("youdao")) {
-                setState(() {
-                  _enabledOcrServices.remove("youdao");
-                });
-                prefs.setStringList(
-                  "enabledOcrServices",
-                  _enabledOcrServices,
-                );
-              } else {
-                if (!YoudaoOcr.checkApi()) {
-                  LocalNotification notification = LocalNotification(
-                    title: "Lex",
-                    body: "有道文字识别接口未设置！",
-                    actions: [
-                      LocalNotificationAction(
-                        text: "现在设置",
-                      ),
-                    ],
-                  );
-                  notification.onClickAction = (actionIndex) {
-                    YoudaoOcr.setApi(context);
-                  };
-                  notification.show();
-                } else {
-                  setState(() {
-                    _enabledOcrServices.add("youdao");
-                  });
-                  prefs.setStringList(
-                    "enabledOcrServices",
-                    _enabledOcrServices,
-                  );
-                }
-              }
-            },
-          ),
-          onTap: () async {
-            YoudaoOcr.setApi(context);
-          },
-        ),
-      ],
-    );
-  }
+  // Widget buildOcrServices() {
+  //   return ListView(
+  //     padding: const EdgeInsets.only(bottom: 18),
+  //     children: [
+  //       const ListTileGroupTitle(title: "本地服务"),
+  //       ListTile(
+  //         leading: Image.asset(
+  //           ocrServiceLogoMap()["tesseract"]!,
+  //           width: 40,
+  //           height: 40,
+  //         ),
+  //         title: const Text("Teseract"),
+  //         subtitle: const Text("基于本地的 OCR 服务"),
+  //         trailing: Checkbox(
+  //           value: _enabledOcrServices.contains("tesseract"),
+  //           onChanged: (value) async {
+  //             if (_enabledOcrServices.contains("tesseract")) {
+  //               setState(() {
+  //                 _enabledOcrServices.remove("tesseract");
+  //               });
+  //               prefs.setStringList(
+  //                 "enabledOcrServices",
+  //                 _enabledOcrServices,
+  //               );
+  //             } else {
+  //               if (await TesseractOcr.isInstalled()) {
+  //                 setState(() {
+  //                   _enabledOcrServices.add("tesseract");
+  //                 });
+  //                 prefs.setStringList(
+  //                     "enabledOcrServices", _enabledOcrServices);
+  //               } else {
+  //                 if (!mounted) return;
+  //                 LocalNotification notification = LocalNotification(
+  //                   title: "Lex",
+  //                   body: "Tesseract 未安装！",
+  //                   actions: [
+  //                     LocalNotificationAction(
+  //                       text: "现在安装",
+  //                     ),
+  //                   ],
+  //                 );
+  //                 notification.onClickAction = (actionIndex) {
+  //                   launchUrlString(
+  //                     "https://tesseract-ocr.github.io/tessdoc/Installation.html",
+  //                     mode: LaunchMode.externalApplication,
+  //                   );
+  //                 };
+  //                 notification.show();
+  //               }
+  //             }
+  //           },
+  //         ),
+  //       ),
+  //       const ListTileGroupTitle(title: "联网服务"),
+  //       ListTile(
+  //         leading: Image.asset(
+  //           ocrServiceLogoMap()["baidu"]!,
+  //           width: 40,
+  //           height: 40,
+  //         ),
+  //         title: const Text("百度文字识别"),
+  //         subtitle: const Text("百度通用高精度文字识别"),
+  //         trailing: Checkbox(
+  //           value: _enabledOcrServices.contains("baidu"),
+  //           onChanged: (value) async {
+  //             if (_enabledOcrServices.contains("baidu")) {
+  //               setState(() {
+  //                 _enabledOcrServices.remove("baidu");
+  //               });
+  //               prefs.setStringList(
+  //                 "enabledOcrServices",
+  //                 _enabledOcrServices,
+  //               );
+  //             } else {
+  //               if (!BaiduOcr.checkApi()) {
+  //                 LocalNotification notification = LocalNotification(
+  //                   title: "Lex",
+  //                   body: "百度文字识别接口未设置！",
+  //                   actions: [
+  //                     LocalNotificationAction(
+  //                       text: "现在设置",
+  //                     ),
+  //                   ],
+  //                 );
+  //                 notification.onClickAction = (actionIndex) {
+  //                   BaiduOcr.setApi(context);
+  //                 };
+  //                 notification.show();
+  //               } else {
+  //                 setState(() {
+  //                   _enabledOcrServices.add("baidu");
+  //                 });
+  //                 prefs.setStringList(
+  //                   "enabledOcrServices",
+  //                   _enabledOcrServices,
+  //                 );
+  //               }
+  //             }
+  //           },
+  //         ),
+  //         onTap: () async {
+  //           BaiduOcr.setApi(context);
+  //         },
+  //       ),
+  //       ListTile(
+  //         leading: Image.asset(
+  //           ocrServiceLogoMap()["youdao"]!,
+  //           width: 40,
+  //           height: 40,
+  //         ),
+  //         title: const Text("有道文字识别"),
+  //         subtitle: const Text("有道通用文字识别"),
+  //         trailing: Checkbox(
+  //           value: _enabledOcrServices.contains("youdao"),
+  //           onChanged: (value) async {
+  //             if (_enabledOcrServices.contains("youdao")) {
+  //               setState(() {
+  //                 _enabledOcrServices.remove("youdao");
+  //               });
+  //               prefs.setStringList(
+  //                 "enabledOcrServices",
+  //                 _enabledOcrServices,
+  //               );
+  //             } else {
+  //               if (!YoudaoOcr.checkApi()) {
+  //                 LocalNotification notification = LocalNotification(
+  //                   title: "Lex",
+  //                   body: "有道文字识别接口未设置！",
+  //                   actions: [
+  //                     LocalNotificationAction(
+  //                       text: "现在设置",
+  //                     ),
+  //                   ],
+  //                 );
+  //                 notification.onClickAction = (actionIndex) {
+  //                   YoudaoOcr.setApi(context);
+  //                 };
+  //                 notification.show();
+  //               } else {
+  //                 setState(() {
+  //                   _enabledOcrServices.add("youdao");
+  //                 });
+  //                 prefs.setStringList(
+  //                   "enabledOcrServices",
+  //                   _enabledOcrServices,
+  //                 );
+  //               }
+  //             }
+  //           },
+  //         ),
+  //         onTap: () async {
+  //           YoudaoOcr.setApi(context);
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 }

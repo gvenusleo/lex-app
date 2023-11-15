@@ -52,7 +52,7 @@ flutter:
   assets:
     - assets/logo.png
     - assets/logo.ico
-    - assets/capture/
+    # - assets/capture/
     - assets/service/translation/
     - assets/service/ocr/
 

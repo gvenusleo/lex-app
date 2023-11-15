@@ -1,12 +1,9 @@
 import "package:flutter/material.dart";
 import "package:hotkey_manager/hotkey_manager.dart";
 import "package:lex/global.dart";
-import "package:lex/pages/ocr_page.dart";
 import "package:lex/pages/setting_page/settings_page.dart";
 import "package:lex/pages/translation_page.dart";
 import "package:lex/providers/window_provider.dart";
-import "package:lex/utils/capture.dart";
-import "package:local_notifier/local_notifier.dart";
 import "package:provider/provider.dart";
 import "package:screen_retriever/screen_retriever.dart";
 import "package:screen_text_extractor/screen_text_extractor.dart";
@@ -147,9 +144,9 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         );
         break;
       // 截图文字识别
-      case "ocr":
-        await ocrFunc();
-        break;
+      // case "ocr":
+      //   await ocrFunc();
+      //   break;
       // 显示设置页面
       case "show_settings":
         await _saveTranslateWindow();
@@ -220,66 +217,66 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
       },
     );
     // 文字识别
-    List<String> ocrHotKeyList =
-        prefs.getStringList("ocrHotKeyList") ?? ["alt", "keyX"];
-    hotKey = HotKey.fromJson(
-      {
-        "keyCode": ocrHotKeyList[1],
-        "modifiers": ocrHotKeyList[0].split("-"),
-      },
-    );
-    hotKey.scope = HotKeyScope.system;
-    await hotKeyManager.register(
-      hotKey,
-      keyDownHandler: (hotKey) async {
-        await ocrFunc();
-      },
-    );
-  }
+    //   List<String> ocrHotKeyList =
+    //       prefs.getStringList("ocrHotKeyList") ?? ["alt", "keyX"];
+    //   hotKey = HotKey.fromJson(
+    //     {
+    //       "keyCode": ocrHotKeyList[1],
+    //       "modifiers": ocrHotKeyList[0].split("-"),
+    //     },
+    //   );
+    //   hotKey.scope = HotKeyScope.system;
+    //   await hotKeyManager.register(
+    //     hotKey,
+    //     keyDownHandler: (hotKey) async {
+    //       await ocrFunc();
+    //     },
+    //   );
+    // }
 
-  /// 截图文字识别
-  Future<void> ocrFunc() async {
-    if ((prefs.getStringList("enabledOcrServices") ?? []).isEmpty) {
-      LocalNotification notification = LocalNotification(
-        title: "Lex",
-        body: "文字识别服务未启用！",
-        actions: [
-          LocalNotificationAction(
-            text: "现在启用",
-          ),
-        ],
-      );
-      notification.onClickAction = (actionIndex) async {
-        await _saveTranslateWindow();
-        setState(() {
-          _selectedPage = SettingsPage(
-            key: UniqueKey(),
-            focusedItem: "服务设置",
-          );
-        });
-        await _setSettingWindow();
-      };
-      notification.show();
-      return;
-    }
-    try {
-      Color color = Theme.of(context).colorScheme.primary;
-      String colorStr = color.value.toRadixString(16).substring(2);
-      await windowManager.hide();
-      String? captureImgPath = await capture(colorStr);
-      if (captureImgPath != null) {
-        await _setOcrWindow(
-          () => setState(() {
-            _selectedPage = OcrPage(
-              key: UniqueKey(),
-              imagePath: captureImgPath,
-            );
-          }),
-        );
-      }
-    } catch (e) {
-      return;
-    }
+    // /// 截图文字识别
+    // Future<void> ocrFunc() async {
+    //   if ((prefs.getStringList("enabledOcrServices") ?? []).isEmpty) {
+    //     LocalNotification notification = LocalNotification(
+    //       title: "Lex",
+    //       body: "文字识别服务未启用！",
+    //       actions: [
+    //         LocalNotificationAction(
+    //           text: "现在启用",
+    //         ),
+    //       ],
+    //     );
+    //     notification.onClickAction = (actionIndex) async {
+    //       await _saveTranslateWindow();
+    //       setState(() {
+    //         _selectedPage = SettingsPage(
+    //           key: UniqueKey(),
+    //           focusedItem: "服务设置",
+    //         );
+    //       });
+    //       await _setSettingWindow();
+    //     };
+    //     notification.show();
+    //     return;
+    //   }
+    //   try {
+    //     Color color = Theme.of(context).colorScheme.primary;
+    //     String colorStr = color.value.toRadixString(16).substring(2);
+    //     await windowManager.hide();
+    //     String? captureImgPath = await capture(colorStr);
+    //     if (captureImgPath != null) {
+    //       await _setOcrWindow(
+    //         () => setState(() {
+    //           _selectedPage = OcrPage(
+    //             key: UniqueKey(),
+    //             imagePath: captureImgPath,
+    //           );
+    //         }),
+    //       );
+    //     }
+    //   } catch (e) {
+    //     return;
+    //   }
   }
 
   /// 设置翻译窗口
@@ -331,17 +328,17 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
   }
 
   /// 设置文字识别窗口
-  Future<void> _setOcrWindow(Function() setPage) async {
-    setPage();
-    await Future.delayed(const Duration(milliseconds: 100));
-    await windowManager.setSize(const Size(800, 400));
-    await Future.delayed(const Duration(milliseconds: 100));
-    await windowManager.center(animate: true);
-    await Future.delayed(const Duration(milliseconds: 100));
-    await windowManager.show();
-    if (!mounted) return;
-    await context.read<WindowProvider>().changeAlwaysOnTop(true);
-  }
+  // Future<void> _setOcrWindow(Function() setPage) async {
+  //   setPage();
+  //   await Future.delayed(const Duration(milliseconds: 100));
+  //   await windowManager.setSize(const Size(800, 400));
+  //   await Future.delayed(const Duration(milliseconds: 100));
+  //   await windowManager.center(animate: true);
+  //   await Future.delayed(const Duration(milliseconds: 100));
+  //   await windowManager.show();
+  //   if (!mounted) return;
+  //   await context.read<WindowProvider>().changeAlwaysOnTop(true);
+  // }
 
   /// 保存当前窗口状态
   Future<void> _saveTranslateWindow() async {

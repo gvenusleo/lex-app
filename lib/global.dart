@@ -28,10 +28,10 @@ Menu menu = Menu(
       key: "show_translate",
       label: "输入翻译",
     ),
-    MenuItem(
-      key: "ocr",
-      label: "文字识别",
-    ),
+    // MenuItem(
+    //   key: "ocr",
+    //   label: "文字识别",
+    // ),
     MenuItem.separator(),
     MenuItem.submenu(
       key: "autoCopy",

@@ -23,7 +23,7 @@ class AboutPage extends StatelessWidget {
               ),
               const SizedBox(width: 12),
               Text(
-                "质感翻译\nv$version",
+                "Lex\nv$version",
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 20),
               ),

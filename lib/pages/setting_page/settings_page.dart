@@ -4,7 +4,6 @@ import "package:lex/pages/setting_page/about_page.dart";
 import "package:lex/pages/setting_page/app_setting_page.dart";
 import "package:lex/pages/setting_page/hot_key_setting_page.dart";
 import "package:lex/pages/setting_page/language_setting_page.dart";
-import "package:lex/pages/setting_page/ocr_setting.dart";
 import "package:lex/pages/setting_page/service_setting_page.dart";
 import "package:lex/pages/setting_page/translationg_setting_page.dart";
 import "package:lex/widgets/setting_group_card.dart";
@@ -28,7 +27,7 @@ class _SettingsPageState extends State<SettingsPage> {
     "应用设置": const AppSettingPage(),
     "服务设置": const ServiceSettingPage(),
     "翻译设置": const TranslationSettingPage(),
-    "文字识别": const OcrSettingPage(),
+    // "文字识别": const OcrSettingPage(),
     "内置语言": const LanguageSettingPage(),
     "热键设置": const HotKeySettingPage(),
     "历史记录": const HistoryPage(),
@@ -38,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
     "应用设置": const Icon(Icons.laptop_windows_outlined),
     "服务设置": const Icon(Icons.dashboard_outlined),
     "翻译设置": const Icon(Icons.translate_outlined),
-    "文字识别": const Icon(Icons.crop_free_outlined),
+    // "文字识别": const Icon(Icons.crop_free_outlined),
     "内置语言": const Icon(Icons.language_outlined),
     "热键设置": const Icon(Icons.keyboard_outlined),
     "历史记录": const Icon(Icons.history_outlined),
@@ -75,15 +74,18 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       const SizedBox(height: 24),
                       ..._pages.cast<String, Widget>().keys.map(
-                            (e) => SettingGroupCard(
-                              icon: _icons[e]!,
-                              title: e,
-                              selected: _selectedItem == e,
-                              onTap: () {
-                                setState(() {
-                                  _selectedItem = e;
-                                });
-                              },
+                            (e) => Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: SettingGroupCard(
+                                icon: _icons[e]!,
+                                title: e,
+                                selected: _selectedItem == e,
+                                onTap: () {
+                                  setState(() {
+                                    _selectedItem = e;
+                                  });
+                                },
+                              ),
                             ),
                           ),
                     ],
