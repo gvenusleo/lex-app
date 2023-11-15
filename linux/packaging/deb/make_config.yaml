@@ -16,8 +16,8 @@ dependencies:
   - libkeybinder-3.0-dev
   - gstreamer1.0-plugins-good
   - gstreamer1.0-plugins-bad
-  - python3-tk
-  - python3-dev
+  # - python3-tk
+  # - python3-dev
 
 postinstall_scripts:
   - echo "------------------- Welcom to Lex -------------------\n  @website   https://lex-app.cn\n  @github    https://github.com/gvenusleo/lex-app\n  @author    liuyuxin\n  @email     gvenusleo@gmail.com\n---------------------------------------------------"
