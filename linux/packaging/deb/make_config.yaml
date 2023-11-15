@@ -14,6 +14,8 @@ dependencies:
   - libayatana-appindicator3-dev
   - libnotify-dev
   - libkeybinder-3.0-dev
+  - libgstreamer1.0-dev
+  - libgstreamer-plugins-base1.0-dev
   - gstreamer1.0-plugins-good
   - gstreamer1.0-plugins-bad
   # - python3-tk
