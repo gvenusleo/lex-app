@@ -6,7 +6,7 @@ titleTemplate: 快速、方便的跨平台划词翻译软件
 hero:
   name: "Lex"
   # text: "快速方便的跨平台划词翻译 & OCR 软件"
-  tagline: 快速方便的跨平台划词翻译 & OCR 软件<br>支持多个翻译服务和 AI 大模型
+  tagline: 快速方便的跨平台划词翻译软件<br>支持多个翻译服务和 AI 大模型
   actions:
     - theme: brand
       text: 快速开始
