@@ -8,12 +8,12 @@ build-isar:
     @flutter pub run build_runner build
 
 # Build capture file
-build-capture:
-    @cd capture_py && python3 -m pipenv install && python3 -m pipenv run pyinstaller --onefile --clean --strip capture.py
-    @cp capture_py/dist/capture assets/capture/capture-{{VERSION}}
-    
+# build-capture:
+#     @cd capture_py && python3 -m pipenv install && python3 -m pipenv run pyinstaller --onefile --clean --strip capture.py
+#     @cp capture_py/dist/capture assets/capture/capture-{{VERSION}}
+
 # Build Linux deb package
-build-deb: build-isar build-capture
+build-deb: build-isar
     @echo "------------------------------"
     @echo "Building for Linux......"
     @dart pub global activate flutter_distributor
