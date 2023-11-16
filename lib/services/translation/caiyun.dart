@@ -86,7 +86,7 @@ class CaiyunTranslation {
                     ),
                     onTap: () {
                       launchUrlString(
-                        "https://www.metranslate.top/guide/caiyun.html",
+                        "https://www.lex-app.cn/guide/caiyun.html",
                         mode: LaunchMode.externalApplication,
                       );
                     },

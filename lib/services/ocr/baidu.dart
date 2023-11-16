@@ -111,7 +111,7 @@ class BaiduOcr {
                     ),
                     onTap: () {
                       launchUrlString(
-                        "https://www.metranslate.top/guide/baidu.html",
+                        "https://www.lex-app.cn/guide/baidu.html",
                         mode: LaunchMode.externalApplication,
                       );
                     },

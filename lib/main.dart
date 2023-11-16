@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     return DynamicColorBuilder(builder: (lightDynamic, darkDynamic) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: "质感翻译",
+        title: "Lex",
         localizationsDelegates: const [
           GlobalWidgetsLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,

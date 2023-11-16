@@ -118,7 +118,7 @@ class ZhipuaiTranslation {
                         ),
                         onTap: () {
                           launchUrlString(
-                            "https://www.metranslate.top/guide/zhipuai.html",
+                            "https://www.lex-app.cn/guide/zhipuai.html",
                             mode: LaunchMode.externalApplication,
                           );
                         },

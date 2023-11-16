@@ -121,7 +121,7 @@ class MiniMaxTranslation {
                       ),
                       onTap: () {
                         launchUrlString(
-                          "https://www.metranslate.top/guide/minimax.html",
+                          "https://www.lex-app.cn/guide/minimax.html",
                           mode: LaunchMode.externalApplication,
                         );
                       },

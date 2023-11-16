@@ -529,7 +529,7 @@ class NiutransTranslation {
                     ),
                     onTap: () {
                       launchUrlString(
-                        "https://www.metranslate.top/guide/niutrans.html",
+                        "https://www.lex-app.cn/guide/niutrans.html",
                         mode: LaunchMode.externalApplication,
                       );
                     },

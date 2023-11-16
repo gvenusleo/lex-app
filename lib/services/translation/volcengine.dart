@@ -217,7 +217,7 @@ class VolcengineTranslation {
                     ),
                     onTap: () {
                       launchUrlString(
-                        "https://www.metranslate.top/guide/volcengine.html",
+                        "https://www.lex-app.cn/guide/volcengine.html",
                         mode: LaunchMode.externalApplication,
                       );
                     },

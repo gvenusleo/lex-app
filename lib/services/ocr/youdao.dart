@@ -207,7 +207,7 @@ class YoudaoOcr {
                     ),
                     onTap: () {
                       launchUrlString(
-                        "https://www.metranslate.top/guide/youdao.html",
+                        "https://www.lex-app.cn/guide/youdao.html",
                         mode: LaunchMode.externalApplication,
                       );
                     },
