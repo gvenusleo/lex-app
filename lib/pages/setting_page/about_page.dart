@@ -38,14 +38,14 @@ class AboutPage extends StatelessWidget {
               ),
             ],
           ),
-          Card(
-            margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          const Card(
+            margin: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
             child: Padding(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               child: Column(
                 children: [
-                  const Text(
-                    "Lex 是一款开源划词翻译翻译软件，"
+                  Text(
+                    "Lex 是一款开源划词翻译软件，"
                     "目前已经接入 Deepl、Google、Bing、"
                     "百度翻译、彩云小译、有道翻译、MiniMax、"
                     "智谱 AI 等十余种翻译和 AI 大模型服务。"
@@ -54,86 +54,24 @@ class AboutPage extends StatelessWidget {
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 16),
                   ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      const Text(
-                        "软件主页：",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextButton(
-                        child: const Text(
-                          "https://lex-app.cn",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        onPressed: () {
-                          launchUrlString(
-                            "https://lex-app.cn",
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                      ),
-                    ],
+                  SizedBox(height: 12),
+                  LinkItem(
+                    text: "软件主页：",
+                    url: "https://lex-app.cn",
                   ),
-                  Row(
-                    children: [
-                      const Text(
-                        "开源地址：",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextButton(
-                        child: const Text(
-                          "https://github.com/gvenusleo/lex-app",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        onPressed: () {
-                          launchUrlString(
-                            "https://github.com/gvenusleo/lex-app",
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                      ),
-                    ],
+                  LinkItem(
+                    text: "开源地址：",
+                    url: "https://github.com/gvenusleo/lex-app",
                   ),
-                  Row(
-                    children: [
-                      const Text(
-                        "开源协议：",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextButton(
-                        child: const Text(
-                          "GUN GPL-3.0",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        onPressed: () {
-                          launchUrlString(
-                            "https://github.com/gvenusleo/lex-app/blob/main/LICENSE",
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                      ),
-                    ],
+                  LinkItem(
+                    text: "开源协议：",
+                    url:
+                        "https://github.com/gvenusleo/lex-app/blob/main/LICENSE",
+                    urlText: "GUN GPL-3.0",
                   ),
-                  Row(
-                    children: [
-                      const Text(
-                        "联系作者：",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextButton(
-                        child: const Text(
-                          "https://jike.city/gvenusleo",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        onPressed: () {
-                          launchUrlString(
-                            "https://jike.city/gvenusleo",
-                            mode: LaunchMode.externalApplication,
-                          );
-                        },
-                      ),
-                    ],
+                  LinkItem(
+                    text: "联系作者：",
+                    url: "https://jike.city/gvenusleo",
                   ),
                 ],
               ),
@@ -141,6 +79,40 @@ class AboutPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class LinkItem extends StatelessWidget {
+  final String text;
+  final String url;
+  final String? urlText;
+
+  const LinkItem({
+    super.key,
+    required this.text,
+    required this.url,
+    this.urlText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(text, style: const TextStyle(fontSize: 16)),
+        TextButton(
+          child: Text(
+            urlText ?? url,
+            style: const TextStyle(fontSize: 16),
+          ),
+          onPressed: () {
+            launchUrlString(
+              url,
+              mode: LaunchMode.externalApplication,
+            );
+          },
+        ),
+      ],
     );
   }
 }
