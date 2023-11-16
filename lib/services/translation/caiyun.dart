@@ -22,7 +22,7 @@ class CaiyunTranslation {
     final Map<String, String> query = {
       "source": text,
       "trans_type": direction,
-      "request_id": "metranslate",
+      "request_id": "lex",
       "detect": "true",
     };
     final Map<String, dynamic> headers = {
