@@ -89,6 +89,7 @@ class _OcrPageState extends State<OcrPage> {
                           items: _enabledOcrServices
                               .map(
                                 (e) => PopupMenuItem(
+                                  height: 32,
                                   child: Text(ocrServiceMap()[e]!),
                                   onTap: () {
                                     setState(() {
@@ -105,6 +106,7 @@ class _OcrPageState extends State<OcrPage> {
                           items: _allLanguages.keys
                               .map(
                                 (e) => PopupMenuItem(
+                                  height: 32,
                                   child: Text(e),
                                   onTap: () {
                                     if (e != _language) {

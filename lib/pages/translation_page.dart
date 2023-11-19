@@ -172,6 +172,7 @@ class _TranslationPageState extends State<TranslationPage> {
                       ]
                     ..insert(0, "自动"))
                     PopupMenuItem(
+                      height: 32,
                       child: Text(lan),
                       onTap: () {
                         setState(() {
@@ -205,7 +206,7 @@ class _TranslationPageState extends State<TranslationPage> {
                         "繁体中文",
                       ])
                     PopupMenuItem(
-                      value: lan,
+                      height: 32,
                       child: Text(lan),
                       onTap: () {
                         setState(() {
