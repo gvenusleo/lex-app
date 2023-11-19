@@ -22,9 +22,9 @@ class AboutPage extends StatelessWidget {
                 height: 64,
               ),
               const SizedBox(width: 12),
-              Column(
+              const Column(
                 children: [
-                  const Text(
+                  Text(
                     "Lex",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 28),
@@ -32,7 +32,7 @@ class AboutPage extends StatelessWidget {
                   Text(
                     version,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20),
                   ),
                 ],
               ),

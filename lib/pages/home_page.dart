@@ -4,6 +4,7 @@ import "package:lex/global.dart";
 import "package:lex/pages/setting_page/settings_page.dart";
 import "package:lex/pages/translation_page.dart";
 import "package:lex/providers/window_provider.dart";
+import "package:lex/utils/tray_help.dart";
 import "package:provider/provider.dart";
 import "package:screen_retriever/screen_retriever.dart";
 import "package:screen_text_extractor/screen_text_extractor.dart";
@@ -77,12 +78,12 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
                     //     ? "取消置顶"
                     //     : "置顶",
                   ),
-                  Expanded(
+                  const Expanded(
                     child: DragToMoveArea(
                       child: Text(
                         "v$version",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(color: Colors.transparent),
+                        style: TextStyle(color: Colors.transparent),
                       ),
                     ),
                   ),
@@ -96,8 +97,8 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
                     // tooltip: "最小化",
                   ),
                   IconButton(
-                    onPressed: () {
-                      windowManager.hide();
+                    onPressed: () async {
+                      windowManager.close();
                     },
                     icon: const Icon(Icons.close_outlined),
                     padding: const EdgeInsets.all(0),
@@ -115,6 +116,18 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         ),
       ),
     );
+  }
+
+  /// 窗口关闭事件
+  @override
+  void onWindowClose() async {
+    await _saveTranslateWindow();
+    await hideToTray();
+  }
+
+  @override
+  void onWindowFocus() {
+    setState(() {});
   }
 
   /// 系统托盘点击事件
@@ -135,6 +148,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
     switch (menuItem.key) {
       // 显示翻译页面
       case "show_translate":
+        await windowManager.setSkipTaskbar(false);
         await _setTranslateWindow(
           () => setState(() {
             _selectedPage = TranslationPage(
@@ -149,6 +163,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
       //   break;
       // 显示设置页面
       case "show_settings":
+        await windowManager.setSkipTaskbar(false);
         await _saveTranslateWindow();
         setState(() {
           _selectedPage = const SettingsPage();
@@ -157,6 +172,7 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         break;
       // 退出应用
       case "exit_app":
+        await windowManager.setPreventClose(false);
         windowManager.close();
         break;
     }
@@ -331,11 +347,11 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
   // Future<void> _setOcrWindow(Function() setPage) async {
   //   setPage();
   //   await Future.delayed(const Duration(milliseconds: 100));
-  //   await windowManager.setSize(const Size(800, 400));
+  //   await lexwindowManager.setSize(const Size(800, 400));
   //   await Future.delayed(const Duration(milliseconds: 100));
-  //   await windowManager.center(animate: true);
+  //   await lexwindowManager.center(animate: true);
   //   await Future.delayed(const Duration(milliseconds: 100));
-  //   await windowManager.show();
+  //   await lexwindowManager.show();
   //   if (!mounted) return;
   //   await context.read<WindowProvider>().changeAlwaysOnTop(true);
   // }

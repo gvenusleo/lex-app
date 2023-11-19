@@ -8,79 +8,18 @@ import "package:lex/modules/ocr_item.dart";
 import "package:lex/modules/translation_item.dart";
 import "package:lex/utils/dir_utils.dart";
 import "package:lex/utils/font_utils.dart";
+import "package:lex/utils/tray_help.dart";
 import "package:local_notifier/local_notifier.dart";
 import "package:package_info_plus/package_info_plus.dart";
 import "package:shared_preferences/shared_preferences.dart";
-import "package:tray_manager/tray_manager.dart";
 import "package:window_manager/window_manager.dart";
 
 /// 应用版本号
-String version = "1.0.0-beta.1";
+const String version = "1.0.0-beta.1";
 
 /// 持久化存储
 late SharedPreferences prefs;
 late Isar isar;
-
-/// 系统托盘菜单
-Menu menu = Menu(
-  items: [
-    MenuItem(
-      key: "show_translate",
-      label: "输入翻译",
-    ),
-    // MenuItem(
-    //   key: "ocr",
-    //   label: "文字识别",
-    // ),
-    MenuItem.separator(),
-    MenuItem.submenu(
-      key: "autoCopy",
-      label: "自动复制",
-      submenu: Menu(
-        items: [
-          MenuItem(
-            key: "closeAutoCopy",
-            label: "关闭",
-            onClick: (_) async {
-              await prefs.setString("autoCopy", "close");
-            },
-          ),
-          MenuItem.separator(),
-          MenuItem(
-            key: "autoCopySource",
-            label: "原文",
-            onClick: (_) async {
-              await prefs.setString("autoCopy", "source");
-            },
-          ),
-          MenuItem(
-            key: "autoCopyResult",
-            label: "译文",
-            onClick: (_) async {
-              await prefs.setString("autoCopy", "result");
-            },
-          ),
-          MenuItem(
-            key: "autoCopyBoth",
-            label: "原文+译文",
-            onClick: (_) async {
-              await prefs.setString("autoCopy", "both");
-            },
-          ),
-        ],
-      ),
-    ),
-    MenuItem(
-      key: "show_settings",
-      label: "应用设置",
-    ),
-    MenuItem.separator(),
-    MenuItem(
-      key: "exit_app",
-      label: "退出应用",
-    ),
-  ],
-);
 
 /// 全局初始化
 Future<void> init() async {
@@ -108,7 +47,7 @@ Future<void> init() async {
     minimumSize: const Size(280, 300),
     center: true,
     backgroundColor: Colors.transparent,
-    title: "质感翻译",
+    title: "Lex",
     titleBarStyle: TitleBarStyle.hidden,
     windowButtonVisibility: false,
   );
@@ -120,6 +59,7 @@ Future<void> init() async {
       await windowManager.show();
       await windowManager.focus();
     }
+    await windowManager.setPreventClose(true);
   });
 
   // 开机自启动
@@ -130,11 +70,7 @@ Future<void> init() async {
   );
 
   // 注册系统托盘
-  await trayManager.destroy();
-  await trayManager.setIcon(
-    Platform.isWindows ? "assets/logo.ico" : "assets/logo.png",
-  );
-  await trayManager.setContextMenu(menu);
+  await initTray();
 
   // 初始化系统通知
   await localNotifier.setup(
