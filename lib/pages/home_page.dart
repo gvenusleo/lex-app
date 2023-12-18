@@ -1,6 +1,11 @@
+import "package:clipboard_watcher/clipboard_watcher.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 import "package:hotkey_manager/hotkey_manager.dart";
+import "package:isar/isar.dart";
 import "package:lex/global.dart";
+import "package:lex/modules/clipboard_item.dart";
+import "package:lex/pages/clipboard_page.dart";
 import "package:lex/pages/setting_page/settings_page.dart";
 import "package:lex/pages/translation_page.dart";
 import "package:lex/providers/window_provider.dart";
@@ -19,7 +24,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
+class _HomePageState extends State<HomePage>
+    with WindowListener, TrayListener, ClipboardListener {
   // 当前页面
   Widget? _selectedPage;
 
@@ -27,6 +33,8 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
   void initState() {
     windowManager.addListener(this);
     trayManager.addListener(this);
+    clipboardWatcher.addListener(this);
+    clipboardWatcher.start();
     if (prefs.getBool("firstRun") ?? true) {
       _setSettingWindow();
       _selectedPage = const SettingsPage();
@@ -46,6 +54,8 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
   void dispose() {
     windowManager.removeListener(this);
     trayManager.removeListener(this);
+    clipboardWatcher.removeListener(this);
+    clipboardWatcher.stop();
     super.dispose();
   }
 
@@ -77,6 +87,10 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
                     // tooltip: context.watch<WindowProvider>().alwaysOnTop
                     //     ? "取消置顶"
                     //     : "置顶",
+                    focusNode: FocusNode(
+                      skipTraversal: true,
+                      canRequestFocus: false,
+                    ),
                   ),
                   const Expanded(
                     child: DragToMoveArea(
@@ -95,6 +109,10 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
                     padding: const EdgeInsets.all(0),
                     visualDensity: VisualDensity.compact,
                     // tooltip: "最小化",
+                    focusNode: FocusNode(
+                      skipTraversal: true,
+                      canRequestFocus: false,
+                    ),
                   ),
                   IconButton(
                     onPressed: () async {
@@ -104,6 +122,10 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
                     padding: const EdgeInsets.all(0),
                     visualDensity: VisualDensity.compact,
                     // tooltip: "关闭",
+                    focusNode: FocusNode(
+                      skipTraversal: true,
+                      canRequestFocus: false,
+                    ),
                   ),
                 ],
               ),
@@ -161,6 +183,14 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
       // case "ocr":
       //   await ocrFunc();
       //   break;
+      // 剪切板管理
+      case "clipboard":
+        await windowManager.setSkipTaskbar(false);
+        await _saveTranslateWindow();
+        setState(() {
+          _selectedPage = ClipboardPage(key: UniqueKey());
+        });
+        break;
       // 显示设置页面
       case "show_settings":
         await windowManager.setSkipTaskbar(false);
@@ -175,6 +205,29 @@ class _HomePageState extends State<HomePage> with WindowListener, TrayListener {
         await windowManager.setPreventClose(false);
         windowManager.close();
         break;
+    }
+  }
+
+  /// 剪切板监听
+  @override
+  Future<void> onClipboardChanged() async {
+    ClipboardData? newClipboardData =
+        await Clipboard.getData(Clipboard.kTextPlain);
+    String? text = newClipboardData?.text;
+    if (text == null || text == "") return;
+    // 判断是否与上一条纪录相同
+    ClipboardItem? lastItem =
+        isar.clipboardItems.where().sortByTimeDesc().findFirstSync();
+    if (lastItem == null || lastItem.text != text) {
+      ClipboardItem newItem = ClipboardItem()
+        ..text = text
+        ..time = DateTime.now();
+      isar.writeTxnSync(() => isar.clipboardItems.putSync(newItem));
+      if (_selectedPage is ClipboardPage) {
+        setState(() {
+          _selectedPage = ClipboardPage(key: UniqueKey());
+        });
+      }
     }
   }
 

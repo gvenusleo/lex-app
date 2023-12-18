@@ -4,6 +4,7 @@ import "package:flutter/material.dart";
 import "package:hotkey_manager/hotkey_manager.dart";
 import "package:isar/isar.dart";
 import "package:launch_at_startup/launch_at_startup.dart";
+import "package:lex/modules/clipboard_item.dart";
 import "package:lex/modules/ocr_item.dart";
 import "package:lex/modules/translation_item.dart";
 import "package:lex/utils/dir_utils.dart";
@@ -30,7 +31,7 @@ Future<void> init() async {
 
   final Directory workDir = await getWorkDir();
   isar = await Isar.open(
-    [TranslationItemSchema, OcrItemSchema],
+    [TranslationItemSchema, OcrItemSchema, ClipboardItemSchema],
     directory: workDir.path,
   );
 

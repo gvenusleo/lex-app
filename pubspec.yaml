@@ -14,6 +14,7 @@ dependencies:
   # 在 linux/my_application.cc 中使用
   # 作用是使窗口圆角处保持透明 (window_manager 无法实现)
   # 以及调整窗口大小 (window_manager DragToResizeArea 可实现)
+  clipboard_watcher: ^0.2.0
   crypto: ^3.0.3
   dio: ^5.3.2
   dynamic_color: ^1.6.7

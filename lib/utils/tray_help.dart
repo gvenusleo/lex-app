@@ -16,6 +16,10 @@ Future<void> initTray() async {
       //   key: "ocr",
       //   label: "文字识别",
       // ),
+      MenuItem(
+        key: "clipboard",
+        label: "剪切板管理",
+      ),
       MenuItem.separator(),
       MenuItem.submenu(
         key: "autoCopy",
