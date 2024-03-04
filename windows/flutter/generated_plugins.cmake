@@ -7,7 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   bitsdojo_window_windows
   clipboard_watcher
   dynamic_color
-  hotkey_manager
+  hotkey_manager_windows
   isar_flutter_libs
   local_notifier
   screen_retriever

@@ -30,3 +30,14 @@ update-yarn:
     @echo "------------------------------"
     @echo "Updating yarn packages......"
     @yarn upgrade-interactive --latest
+
+# Install Linux dev dependencies
+install-linux-dev:
+    @echo "------------------------------"
+    @echo "Installing Linux dev dependencies......"
+    @sudo apt-get install -y clang cmake \
+          pkg-config liblzma-dev libgtk-3-dev \
+          ninja-build libayatana-appindicator3-dev \
+          keybinder-3.0 libnotify-dev libkeybinder-3.0-dev \
+          libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+          gstreamer1.0-plugins-good gstreamer1.0-plugins-bad

@@ -35,13 +35,12 @@ class _ClipboardPageState extends State<ClipboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
+    return KeyboardListener(
       focusNode: FocusNode(),
-      onKey: (RawKeyEvent event) {
-        if (event is RawKeyDownEvent) {
-          RawKeyDownEvent rawKeyDownEvent = event;
-          RawKeyEventData rawKeyEventData = rawKeyDownEvent.data;
-          switch (rawKeyEventData.logicalKey) {
+      onKeyEvent: (KeyEvent event) {
+        if (event is KeyDownEvent) {
+          KeyDownEvent keyDownEvent = event;
+          switch (keyDownEvent.logicalKey) {
             case LogicalKeyboardKey.arrowUp:
               if (_selectedItemIndex > 0) {
                 setState(() {

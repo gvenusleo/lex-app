@@ -240,9 +240,9 @@ class _HomePageState extends State<HomePage>
       {
         "keyCode": translationHotKeyList[1],
         "modifiers": translationHotKeyList[0].split("-"),
+        "scope": "system",
       },
     );
-    hotKey.scope = HotKeyScope.system;
     await hotKeyManager.register(
       hotKey,
       keyDownHandler: (hotKey) async {

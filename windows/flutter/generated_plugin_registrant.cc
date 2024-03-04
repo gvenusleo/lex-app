@@ -10,7 +10,7 @@
 #include <bitsdojo_window_windows/bitsdojo_window_plugin.h>
 #include <clipboard_watcher/clipboard_watcher_plugin.h>
 #include <dynamic_color/dynamic_color_plugin_c_api.h>
-#include <hotkey_manager/hotkey_manager_plugin.h>
+#include <hotkey_manager_windows/hotkey_manager_windows_plugin_c_api.h>
 #include <isar_flutter_libs/isar_flutter_libs_plugin.h>
 #include <local_notifier/local_notifier_plugin.h>
 #include <screen_retriever/screen_retriever_plugin.h>
@@ -28,8 +28,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("ClipboardWatcherPlugin"));
   DynamicColorPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("DynamicColorPluginCApi"));
-  HotkeyManagerPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("HotkeyManagerPlugin"));
+  HotkeyManagerWindowsPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("HotkeyManagerWindowsPluginCApi"));
   IsarFlutterLibsPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("IsarFlutterLibsPlugin"));
   LocalNotifierPluginRegisterWithRegistrar(
